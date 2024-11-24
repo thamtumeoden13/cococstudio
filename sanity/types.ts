@@ -125,6 +125,108 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
+export type ProjectDetail = {
+  _id: string;
+  _type: "projectDetail";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  subtitle?: string;
+  slug?: Slug;
+  description?: string;
+  views?: number;
+  author?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "author";
+  };
+  project?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "project";
+  };
+  thumbnail?: string;
+  image?: string;
+  overview?: {
+    investor?: string;
+    address?: string;
+    scale?: string;
+    function?: string;
+    expense?: string;
+    designTeam?: string;
+    designYear?: string;
+    estimatedTime?: string;
+  };
+  tags?: string;
+  orderIndex?: number;
+  pitch?: string;
+  onlyShowRouter?: boolean;
+  isActived?: boolean;
+  isDeleted?: boolean;
+  createdAt?: string;
+};
+
+export type Project = {
+  _id: string;
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  subtitle?: string;
+  slug?: Slug;
+  description?: string;
+  author?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "author";
+  };
+  construction?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "construction";
+  };
+  thumbnail?: string;
+  image?: string;
+  tags?: string;
+  orderIndex?: number;
+  pitch?: string;
+  onlyShowRouter?: boolean;
+  isActived?: boolean;
+  isDeleted?: boolean;
+  createdAt?: string;
+};
+
+export type Construction = {
+  _id: string;
+  _type: "construction";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  subtitle?: string;
+  slug?: Slug;
+  author?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "author";
+  };
+  thumbnail?: string;
+  image?: string;
+  description?: string;
+  tags?: string;
+  pitch?: string;
+  isActived?: boolean;
+  isDeleted?: boolean;
+  createdAt?: string;
+};
+
 export type Playlist = {
   _id: string;
   _type: "playlist";
@@ -185,5 +287,5 @@ export type Author = {
 
 export type Markdown = string;
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | SanityAssetSourceData | Playlist | Startup | Slug | Author | Markdown;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | SanityAssetSourceData | ProjectDetail | Project | Construction | Playlist | Startup | Slug | Author | Markdown;
 export declare const internalGroqTypeReferenceTo: unique symbol;

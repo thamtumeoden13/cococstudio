@@ -1,8 +1,8 @@
 "use client"
 
-import {Link as LinkScroll} from "react-scroll";
-import {useEffect, useState} from "react";
-import {usePathname} from 'next/navigation'
+import { Link as LinkScroll } from "react-scroll";
+import { useEffect, useState } from "react";
+import { usePathname } from 'next/navigation'
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import Link from "next/link";
 const Header = () => {
 
   const pathname = usePathname()
-  console.log({pathname})
+  console.log({ pathname })
 
   const isScrolled = pathname.includes('/user/');
 
@@ -30,7 +30,7 @@ const Header = () => {
     };
   }, []);
   // eslint-disable-next-line react/prop-types
-  const NavLink = ({name, route,}: { name: string, route?: string, }) => {
+  const NavLink = ({ name, route, }: { name: string, route?: string, }) => {
     if (route) {
       return (
         <Link
@@ -70,7 +70,7 @@ const Header = () => {
     >
       <div className={"container flex h-14 items-center max-lg:px-5"}>
         <a className={"lg:hidden flex-1 cursor-pointer z-2"}>
-          <Image src="/logo-1.png" alt="logo" width={60} height={30}/>
+          <Image src="/logo-1.png" alt="logo" width={60} height={30} />
         </a>
 
         <div
@@ -87,16 +87,22 @@ const Header = () => {
             <nav className={"max-lg:relative max-lg:z-2 max-lg:my-auto"}>
               <ul className={"flex max-lg:block max-lg:px-12"}>
                 <li className={"nav-li"}>
-                  <NavLink name={"Home"} route={"/"}/>
-                  <div className={"dot"}/>
-                  <NavLink name={"Projects"} route={"/project"}/>
+                  <NavLink name={"Home"} route={"/"} />
+                  <div className={"dot"} />
+                  <NavLink name={"Projects"} route={"/project"} />
                 </li>
                 <li className={"nav-logo"}>
-                  <LinkScroll
+                  {/* <LinkScroll
                     to={"hero"}
                     offset={-250}
                     spy
                     smooth
+                    className={clsx(
+                      "max-lg:hidden transition-transform duration-500 cursor-pointer",
+                    )}
+                  > */}
+                  <Link
+                    href={`/`}
                     className={clsx(
                       "max-lg:hidden transition-transform duration-500 cursor-pointer",
                     )}
@@ -107,13 +113,14 @@ const Header = () => {
                       width={60}
                       height={30}
                     />
-                  </LinkScroll>
+                  </Link>
+                  {/* </LinkScroll> */}
                 </li>
 
                 <li className={"nav-li"}>
-                  <NavLink name={"Startup"} route={"startup"}/>
-                  <div className={"dot"}/>
-                  <NavLink name={"about"} route={"/about"}/>
+                  <NavLink name={"Startup"} route={"/startup"} />
+                  <div className={"dot"} />
+                  <NavLink name={"about"} route={"/about"} />
                 </li>
               </ul>
             </nav>

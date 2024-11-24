@@ -1,9 +1,11 @@
+import { ListIcon } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
 export const playlist = defineType({
   name: "playlist",
   title: "Playlists",
   type: "document",
+  icon: ListIcon,
   fields: [
     defineField({
       name: "title",

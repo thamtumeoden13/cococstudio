@@ -193,11 +193,19 @@
   }
 
   .card_grid {
+    @apply grid lg:grid-cols-3 md:grid-cols-2 gap-5;
+  }
+
+  .card_grid-md {
     @apply grid md:grid-cols-3 sm:grid-cols-2 gap-5;
   }
 
   .card_grid-sm {
     @apply grid sm:grid-cols-2 gap-5;
+  }
+
+  .card_grid-xs {
+    @apply grid sm:grid-cols-1 gap-5;
   }
 
   .no-result {
@@ -266,7 +274,7 @@
   }
 
   .startup-card_desc {
-    @apply font-normal text-[16px] line-clamp-2 my-3 text-black-100 break-all;
+    @apply font-normal text-[16px] line-clamp-2 my-3 text-black-100 break-all h-12;
   }
 
   .startup-card_img {
@@ -278,6 +286,31 @@
   }
 
   .startup-card_skeleton {
+    @apply w-full h-96 rounded-[22px] bg-zinc-400;
+  }
+
+  /* simplecard */
+  .simple-card {
+    @apply bg-white border-[5px] border-black py-6 px-5 rounded-[22px] shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100;
+  }
+
+  .simple-card_date {
+    @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-full group-hover:bg-white-100;
+  }
+
+  .simple-card_desc {
+    @apply font-normal text-[16px] line-clamp-2 my-3 text-black-100 break-all;
+  }
+
+  .simple-card_img {
+    @apply w-full h-[164px] rounded-[10px] object-cover;
+  }
+
+  .simple-card_btn {
+    @apply rounded-full bg-black-200 font-medium text-[16px] text-white px-5 py-3 !important;
+  }
+
+  .simple-card_skeleton {
     @apply w-full h-96 rounded-[22px] bg-zinc-400;
   }
 
