@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import {
   PLAYLIST_BY_SLUG_QUERY,
+  PROJECT_BY_ID_QUERY,
   STARTUP_BY_ID_QUERY
 } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
@@ -13,86 +14,54 @@ import markdownit from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
 import View from "@/components/View";
 import StartupCard, { StartupCardType } from "@/components/StartupCard";
+import ProjectList from '@/components/ProjectList';
 
-
-import ProjectAlbum from "@/components/ProjectAlbum"
-import ProjectGeneral from "@/components/ProjectGeneral"
-import SimpleCard from '@/components/SimpleCard';
-// import BreadcrumbComponent from "@/components/shared/Breadcrumb"
-// import Header from "@/components/shared/Header"
 const md = markdownit();
 
-const ProjectDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
+export const experimental_ppr = true;
+
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
 
-  const [post, { select: editorPosts }] = await Promise.all([
-    client.fetch(STARTUP_BY_ID_QUERY, { id }),
-    client.fetch(PLAYLIST_BY_SLUG_QUERY, { slug: "lorem-ipsum-1" },)
+  const [post] = await Promise.all([
+    client.fetch(PROJECT_BY_ID_QUERY, { id }),
   ])
 
   if (!post) return notFound();
 
+  const parsedContent = md.render(post?.pitch || '');
 
   return (
     <>
-      {/*<BreadcrumbComponent />*/}
+      <section className={"pink_container !min-h-[230px] mt-32"}>
+        <p className={"tag"}>{formatDate(post?._createdAt)}</p>
 
-      {/*<Header*/}
-      {/*  title="Thiết Kế Nhà Phố 3 Tầng Hiện Đại tại Biên Hòa"*/}
-      {/*  subtitle="Thông tin chi tiết dự án"*/}
-      {/*/>*/}
-      <section className={"section_container !py-0 !px-2 w-full mt-32 !min-h-[230px]"}>
-        <div className="h-[44rem] w-full">
-          <ProjectAlbum />
-        </div>
+        <h1 className={"heading"}>{post.title}</h1>
+        <p className={"sub-heading !max-w-5xl"}>{post.description}</p>
       </section>
 
-      <section className="section_container">
-        {/* <h1 className={"heading"}>
-          Pitch Your Startup, <br /> Connect With Entrepreneurs
-        </h1>
+      <section className={"section_container"}>
+        <img src={post.image} alt="thumbnail" className={"h-[44rem] w-full" +
+          " rounded-xl"} />
 
-        <p className={"sub-heading !max-w-3xl"}>
-          Submit Ideas, Vote on Pitches, and Get Noticed in Virtual
-          Competition
-        </p> */}
+        <ProjectList key={post?._id} post={post} />
 
-        <div className="flex justify-between items-start gap-1">
-          <ProjectGeneral post={post} />
-
-          <div className='hidden lg:flex flex-col min-w-[360px]'>
-            {editorPosts?.length > 0 && (
-              <div className={"flex flex-col"}>
-                <p className={"text-30-semibold"}>Editor Picks</p>
-
-                <ul className={"mt-7 card_grid-xs"}>
-                  {editorPosts.map((post: StartupCardType, index: number) => (
-                    <SimpleCard key={index} post={post} />
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+        <div className={"space-y-5 mt-10 max-w-7xl mx-auto"}>
+          <h3 className={"text-30-bold"}>Pitch Details</h3>
+          {parsedContent ? (
+            <article
+              className={"prose max-w-4xl font-work-sans break-all"}
+              dangerouslySetInnerHTML={{ __html: parsedContent }}
+            />
+          ) : (
+            <p className={"no-result"}>No details provided</p>
+          )}
         </div>
 
-        <hr className={"divider !max-w-7xl"} />
-
-        {editorPosts?.length > 0 && (
-          <div className={"max-w-7xl mx-auto"}>
-            <p className={"text-30-semibold"}>Editor Picks</p>
-
-            <ul className={"mt-7 card_grid"}>
-              {editorPosts.map((post: StartupCardType, index: number) => (
-                <StartupCard key={index} post={post} />
-              ))}
-            </ul>
-          </div>
-        )}
+        <hr className={"divider"} />
 
       </section>
-
     </>
   )
 }
-
-export default ProjectDetail
+export default Page

@@ -3,7 +3,7 @@ import { AxeIcon } from "lucide-react";
 
 export const projectDetail = defineType({
   name: 'projectDetail',
-  title: 'projectDetail',
+  title: 'ProjectDetail',
   type: 'document',
   icon: AxeIcon,
   fields: [

@@ -9,7 +9,7 @@ import Hero from "@/components/Hero";
 import StartupList from "@/components/StartupList";
 import ConstructionList from "@/components/ConstructionList";
 
-export default async function Home({ searchParams }: {
+export default async function Construction({ searchParams }: {
   searchParams: Promise<{ query?: string }>
 }) {
 
@@ -30,8 +30,7 @@ export default async function Home({ searchParams }: {
 
   return (
     <>
-      <Hero />
-      <section className={"pink_container"}>
+      <section className={"pink_container !mt-32"}>
         <h1 className={"heading"}>
           Pitch Your Startup, <br /> Connect With Entrepreneurs
         </h1>

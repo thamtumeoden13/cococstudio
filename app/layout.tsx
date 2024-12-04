@@ -1,8 +1,9 @@
-import type {Metadata} from "next";
+import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "easymde/dist/easymde.min.css"
-import {Toaster} from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "./provider";
 
 const workSans = localFont({
   src: [
@@ -56,24 +57,31 @@ const workSans = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "Cococ Studio",
+  title: "Coccoc Studio",
   description: "Make your's brand larger",
 };
 
 export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-    <body
-      className={`${workSans.variable}`}
-    >
-    {children}
+      <body
+        className={`${workSans.variable}`}
+      >
+        {/* <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+        </ThemeProvider> */}
+          {children}
 
-    <Toaster/>
-    </body>
+        <Toaster />
+      </body>
     </html>
   );
 }

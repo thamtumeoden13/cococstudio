@@ -43,7 +43,7 @@ const Page = async ({params}: { params: Promise<{ id: string }> }) => {
         <img src={post.image} alt="thumbnail" className={"h-[44rem] w-full" +
           " rounded-xl"}/>
 
-        <div className={"space-y-5 mt-10 max-w-4xl mx-auto"}>
+        <div className={"space-y-5 mt-10 max-w-7xl mx-auto"}>
           <div className={"flex-between gap-5"}>
             <Link
               href={`/app/(root)/user/${post.author._id}`}
@@ -87,7 +87,7 @@ const Page = async ({params}: { params: Promise<{ id: string }> }) => {
 
             <ul className={"mt-7 card_grid-sm"}>
               {editorPosts.map((post: StartupCardType, index: number) => (
-                <StartupCard key={index} post={post}/>
+                <StartupCard key={index} post={post} path='startup'/>
               ))}
             </ul>
           </div>

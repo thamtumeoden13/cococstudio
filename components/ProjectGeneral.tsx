@@ -60,7 +60,7 @@ const ProjectGeneral = ({ post }: { post: StartupCardType }) => {
 
             <p className={"category-tag"}>{post.category}</p>
           </div>
-          <div className="text-sm prose max-w-4xl dark:prose-invert">
+          <div className="text-sm prose max-w-7xl dark:prose-invert">
             {post?.image && (
               <Modal>
                 <ModalTrigger

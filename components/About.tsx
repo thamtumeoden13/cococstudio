@@ -5,16 +5,17 @@ import { InfiniteMovingCards } from './shared/InfiniteMovingCard'
 const About = () => {
   return (
     <section id="clients" className="py-10">
-      <h1 className="heading" style={{ textAlign: 'left' }}>
+      <h2 className="heading" style={{ textAlign: 'left' }}>
         Kind words {''}
         <span className="text-purple">satisfield clients</span>
-      </h1>
+      </h2>
 
       <div className="flex flex-col items-center max-lg:mt-10 mt-8">
         <InfiniteMovingCards
           items={testimonials}
           direction="right"
           speed="slow"
+          className='max-w-7xl'
         />
 
         {/* <div className="flex flex-wrap items-center justify-center gap-4 md:gap-16 max-lg:mt-10">

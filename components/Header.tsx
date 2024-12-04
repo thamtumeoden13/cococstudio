@@ -89,8 +89,8 @@ const Header = () => {
                 <li className={"nav-li"}>
                   <NavLink name={"Home"} route={"/"} />
                   <div className={"dot"} />
-                  <NavLink name={"Projects"} route={"/project"} />
-                </li>
+                  <NavLink name={"Contructions"} route={"/construction"} />
+                  </li>
                 <li className={"nav-logo"}>
                   {/* <LinkScroll
                     to={"hero"}
@@ -118,7 +118,7 @@ const Header = () => {
                 </li>
 
                 <li className={"nav-li"}>
-                  <NavLink name={"Startup"} route={"/startup"} />
+                  <NavLink name={"Projects"} route={"/project"} />
                   <div className={"dot"} />
                   <NavLink name={"about"} route={"/about"} />
                 </li>

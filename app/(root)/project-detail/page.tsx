@@ -2,15 +2,14 @@ import Image from "next/image";
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { StartupCardType } from "@/components/StartupCard";
 import { client } from "@/sanity/lib/client";
-import { PROJECTS_QUERY, STARTUPS_QUERY } from "@/sanity/lib/queries";
+import { PROJECTDETAILS_QUERY, PROJECTS_QUERY, STARTUPS_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { auth } from "@/auth";
 import Hero from "@/components/Hero";
 import ProjectList from "@/components/ProjectList";
-import ProjectDetailList from "@/components/ProjectDetailList";
 // import BreadcrumbComponent from "@/components/shared/Breadcrumb";
 
-export default async function Projects({ searchParams }: {
+export default async function Home({ searchParams }: {
   searchParams: Promise<{ query?: string }>
 }) {
 
@@ -20,10 +19,9 @@ export default async function Projects({ searchParams }: {
 
   const session = await auth();
 
-  console.log(`params -> ${JSON.stringify(params)}`);
+  console.log(`session -> ${session?.id}`);
 
-  const { data: searchForProjects } = await sanityFetch({ query: PROJECTS_QUERY, params });
-  console.log(`searchForProjects -> ${searchForProjects.length}`);
+  const { data: searchForProjects } = await sanityFetch({ query: PROJECTDETAILS_QUERY, params });
 
   return (
     <>
@@ -36,12 +34,12 @@ export default async function Projects({ searchParams }: {
           Submit Ideas, Vote on Pitches, and Get Noticed in Virtual
           Competition
         </p>
-        <SearchForm query={query} path="project" />
+        <SearchForm query={query} />
       </section>
 
       {searchForProjects?.length > 0 ? (
         searchForProjects.map((post: StartupCardType) => (
-          <ProjectDetailList key={post?._id} post={post} />
+          <ProjectList key={post?._id} post={post} />
         ))
       ) : (
         <section className={"section_container"}>
