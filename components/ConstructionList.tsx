@@ -16,14 +16,16 @@ const ConstructionList = async ({ post }: { post: StartupCardType }) => {
   const { _id: id, title } = post
 
   const params = { id }
-
+  console.log({params})
   const { data: searchForProjects } = await sanityFetch({ query: PROJECTS_BY_CONSTRUCTION_QUERY, params });
+  console.log(searchForProjects)
+  if (!searchForProjects?.length) return null;
 
   return (
-    <section className={"section_container"}>
+    <section className={"section_container !px-0"}>
       <Link href={`/construction/${id}`}>
         <h1 className="heading-half hover:underline" style={{ textAlign: 'left' }}>
-          Thiết kế{'  '}
+          Hạn Mục{'  '}
           <span className="text-purple">{title}</span>
         </h1>
       </Link>

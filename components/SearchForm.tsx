@@ -3,14 +3,10 @@ import Form from "next/form";
 import SearchFormReset from "@/components/SearchFormReset";
 import { Search } from "lucide-react";
 
-const SearchForm = ({ query, path }: { query?: string, path?: string }) => {
-
-  const reset = () => {
-    const form = document.querySelector('.search-form') as HTMLFormElement;
-    if (form) form.reset();
-  }
+const SearchForm = ({ query, path, search }: { query?: string, path?: string, search?: string }) => {
 
   const actionPath = path ? `/${path}` : "/";
+  const placeholder = search ? `Search ${search}` : "Search";
 
   return (
     <Form action={actionPath} scroll={false} className={"search-form"}>
@@ -18,7 +14,7 @@ const SearchForm = ({ query, path }: { query?: string, path?: string }) => {
         name={"query"}
         defaultValue={query}
         className={"search-input"}
-        placeholder={"Search Startups"}
+        placeholder={placeholder}
       />
 
       <div className={"flex gap-2"}>

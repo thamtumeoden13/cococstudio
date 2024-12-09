@@ -64,7 +64,7 @@ const ProjectDetail = async ({ params }: { params: Promise<{ id: string }> }) =>
           <div className='hidden lg:flex flex-col min-w-[360px]'>
             {editorPosts?.length > 0 && (
               <div className={"flex flex-col"}>
-                <p className={"text-30-semibold"}>Editor Picks</p>
+                <p className={"text-30-semibold"}>Liên Quan</p>
 
                 <ul className={"mt-7 card_grid-xs"}>
                   {editorPosts.map((post: StartupCardType, index: number) => (

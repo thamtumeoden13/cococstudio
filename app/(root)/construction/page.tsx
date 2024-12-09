@@ -23,10 +23,8 @@ export default async function Construction({ searchParams }: {
 
   // const posts = await client.fetch(STARTUPS_QUERY);
 
-  // const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
-  const { data: searchForProjectDetails } = await sanityFetch({ query: PROJECTDETAILS_QUERY, params });
-
-  const { data: searchForConstructions } = await sanityFetch({ query: CONSTRUCTIONS_QUERY, params });
+  const { data: searchForConstructions } = await sanityFetch({ query: CONSTRUCTIONS_QUERY });
+  console.log(`searchForConstructions -> ${params}: ${searchForConstructions}`)
 
   return (
     <>
@@ -40,22 +38,35 @@ export default async function Construction({ searchParams }: {
           Competition
         </p>
 
-        <SearchForm query={query} />
+        <SearchForm query={query} path="construction" search="Constructions" />
       </section>
 
+
+      {searchForConstructions?.length > 0 ? (
+        searchForConstructions.map((post: StartupCardType) => (
+          <ConstructionList key={post?._id} post={post} />
+        ))
+      ) : (
+        <section className={"section_container"}>
+          <p className={"no-result"}>
+            Không tìm thấy hạn m
+          </p>
+        </section>
+      )}
+{/* 
       {query ? (
         <section className={"section_container"}>
           <p className={"text-30-semibold"}>
             {`Tìm kiếm cho "${query}"`}
           </p>
           <ul className={"mt-7 card_grid"}>
-            {searchForProjectDetails?.length > 0 ? (
-              searchForProjectDetails.map((post: StartupCardType) => (
+            {searchForProjects?.length > 0 ? (
+              searchForProjects.map((post: StartupCardType) => (
                 <StartupCard key={post?._id} post={post} path="project" />
               ))
             ) : (
               <p className={"no-result"}>
-                Không tìm thấy dự án
+                Không tìm thấy hạn mục dự án phù hợp
               </p>
             )}
           </ul>
@@ -68,7 +79,7 @@ export default async function Construction({ searchParams }: {
             ))
           )}
         </>
-      )}
+      )} */}
 
       <SanityLive />
     </>

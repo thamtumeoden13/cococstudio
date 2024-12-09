@@ -36,7 +36,7 @@ export default async function Projects({ searchParams }: {
           Submit Ideas, Vote on Pitches, and Get Noticed in Virtual
           Competition
         </p>
-        <SearchForm query={query} path="project" />
+        <SearchForm query={query} path="project" search="Projects" />
       </section>
 
       {searchForProjects?.length > 0 ? (

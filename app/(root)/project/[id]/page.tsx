@@ -15,6 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import View from "@/components/View";
 import StartupCard, { StartupCardType } from "@/components/StartupCard";
 import ProjectList from '@/components/ProjectList';
+import ProjectDetailList from '@/components/ProjectDetailList';
 
 const md = markdownit();
 
@@ -44,7 +45,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <img src={post.image} alt="thumbnail" className={"h-[44rem] w-full" +
           " rounded-xl"} />
 
-        <ProjectList key={post?._id} post={post} />
+        <ProjectDetailList key={post?._id} post={post} />
 
         <div className={"space-y-5 mt-10 max-w-7xl mx-auto"}>
           <h3 className={"text-30-bold"}>Pitch Details</h3>

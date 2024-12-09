@@ -1,7 +1,7 @@
 import { defineQuery } from "next-sanity";
 
 export const STARTUPS_QUERY =
-  defineQuery(`*[_type == "startup" && defined(slug.current) && !defined($search) || title match $search || category match $search || author->name match $search] | order(_createdAt desc) {
+  defineQuery(`*[_type == "startup" && !defined($search) || title match $search || category match $search || author->name match $search] | order(_createdAt desc) {
   _id, 
   title, 
   slug,
@@ -103,7 +103,7 @@ export const PLAYLIST_BY_SLUG_QUERY =
 }`);
 
 export const CONSTRUCTIONS_QUERY =
-  defineQuery(`*[_type == "construction" && defined(slug.current) && !defined($search) || title match $search || author->name match $search] | order(_createdAt desc) {
+  defineQuery(`*[_type == "construction"] | order(_createdAt desc) {
   _id, 
   title, 
   slug,
@@ -136,7 +136,7 @@ export const CONSTRUCTION_BY_ID_QUERY =
 }`);
 
 export const PROJECTS_QUERY =
-  defineQuery(`*[_type == "project" && defined(slug.current) && !defined($search) || title match $search || author->name match $search] | order(_createdAt desc) {
+  defineQuery(`*[_type == "project" && !defined($search) || title match $search || author->name match $search] | order(_createdAt desc) {
   _id, 
   title, 
   subtitle,
@@ -196,7 +196,7 @@ export const PROJECTS_BY_CONSTRUCTION_QUERY =
 }`);
 
 export const PROJECTDETAILS_QUERY =
-  defineQuery(`*[_type == "projectDetail" && defined(slug.current) && !defined($search) || title match $search || author->name match $search] | order(_createdAt desc) {
+  defineQuery(`*[_type == "projectDetail" && !defined($search) || title match $search || author->name match $search] | order(_createdAt desc) {
   _id, 
   title, 
   subtitle,

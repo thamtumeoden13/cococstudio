@@ -41,7 +41,7 @@ export default async function Home({ searchParams }: {
           Competition
         </p>
 
-        <SearchForm query={query} />
+        <SearchForm query={query} search="Projects" />
       </section>
 
       {query ? (
