@@ -39,7 +39,7 @@ const SimpleCard = ({ post }: { post: SimpleCard }) => {
             </p>
           </Link> */}
           <Link href={`/startup/${_id}`}>
-            <h3 className={"text-26-semibold line-clamp-1"}>{title}</h3>
+            <h3 className={"text-20-medium !font-semibold line-clamp-2"}>{title}</h3>
           </Link>
         </div>
         {/* <Link href={`/user/${author?._id}`}>

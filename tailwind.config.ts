@@ -40,11 +40,12 @@ const config: Config = {
           100: "#333333",
           200: "#141413",
           300: "#7D8087",
-          DEFAULT: "#000000",
+          DEFAULT: "#1A232E",
         },
         white: {
           100: "#F7F7F7",
           200: '#05091D',
+          300: '#c7c7c7',
           DEFAULT: "#FFFFFF",
         },
         purple: "#CBACF9",

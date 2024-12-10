@@ -135,6 +135,23 @@ export const CONSTRUCTION_BY_ID_QUERY =
   pitch,
 }`);
 
+export const CONSTRUCTION_BY_SLUG_QUERY =
+  defineQuery(`*[_type == "construction" && slug.current == $slug][0]{
+  _id, 
+  title,
+  subtitle,
+  slug,
+  _createdAt,
+  author->{
+    _id, name, username, image, bio
+  }, 
+  views,
+  description,
+  image,
+  thumbnail,
+  pitch,
+}`);
+
 export const PROJECTS_QUERY =
   defineQuery(`*[_type == "project" && !defined($search) || title match $search || author->name match $search] | order(_createdAt desc) {
   _id, 
@@ -175,7 +192,27 @@ export const PROJECT_BY_ID_QUERY =
   pitch,
 }`);
 
-export const PROJECTS_BY_CONSTRUCTION_QUERY =
+export const PROJECT_BY_SLUG_QUERY =
+  defineQuery(`*[_type == "project" && slug.current == $slug][0]{
+  _id, 
+  title,
+  subtitle,
+  slug,
+  _createdAt,
+  author->{
+    _id, name, username, image, bio
+  }, 
+  construction->{
+    _id, title, subtitle, description, image, thumbnail, slug
+  }, 
+  views,
+  description,
+  image,
+  thumbnail,
+  pitch,
+}`);
+
+export const PROJECTS_BY_CONSTRUCTION_ID_QUERY =
   defineQuery(`*[_type == "project" && construction._ref == $id] | order(_createdAt desc) {
   _id, 
   title, 
@@ -195,7 +232,7 @@ export const PROJECTS_BY_CONSTRUCTION_QUERY =
   pitch,
 }`);
 
-export const PROJECTDETAILS_QUERY =
+export const PROJECT_DETAILS_BY_QUERY =
   defineQuery(`*[_type == "projectDetail" && !defined($search) || title match $search || author->name match $search] | order(_createdAt desc) {
   _id, 
   title, 
@@ -214,7 +251,6 @@ export const PROJECTDETAILS_QUERY =
   thumbnail,
   pitch,
 }`);
-
 
 export const PROJECT_DETAIL_BY_ID_QUERY =
   defineQuery(`*[_type == "projectDetail" && _id == $id][0]{
@@ -249,6 +285,26 @@ export const PROJECT_DETAILS_BY_PROJECT_QUERY =
   project->{
     _id, title, subtitle, description, image, thumbnail, slug
   }, 
+  views,
+  description,
+  image,
+  thumbnail,
+  pitch,
+}`);
+
+export const PROJECT_DETAIL_BY_SLUG_QUERY =
+  defineQuery(`*[_type == "projectDetail" && slug.current == $slug][0]{
+  _id, 
+  title,
+  subtitle,
+  slug,
+  _createdAt,
+  author->{
+    _id, name, username, image, bio
+  },
+  project->{
+    _id, title, subtitle, description, image, thumbnail, slug
+  },
   views,
   description,
   image,

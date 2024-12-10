@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
 const SearchForm = ({ query, path, search }: { query?: string, path?: string, search?: string }) => {
 
   const actionPath = path ? `/${path}` : "/";
-  const placeholder = search ? `Search ${search}` : "Search";
+  const placeholder = search ? `Tìm kiếm ${search}` : "Tìm kiếm";
 
   return (
     <Form action={actionPath} scroll={false} className={"search-form"}>

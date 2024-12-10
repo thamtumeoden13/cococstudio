@@ -64,7 +64,7 @@ const Header = () => {
     <header
       className={clsx(
         "fixed top-0 left-0 z-50 w-full py-10 transition-all duration-500" +
-        " max-lg:py-4 bg-black-100",
+        " max-lg:py-4 bg-black",
         (hasScrolled || isScrolled) && "py-2 bg-black-200" + " backdrop-blur-[8px]",
       )}
     >
@@ -87,9 +87,9 @@ const Header = () => {
             <nav className={"max-lg:relative max-lg:z-2 max-lg:my-auto"}>
               <ul className={"flex max-lg:block max-lg:px-12"}>
                 <li className={"nav-li"}>
-                  <NavLink name={"Home"} route={"/"} />
+                  <NavLink name={"Trang Chủ"} route={"/"} />
                   <div className={"dot"} />
-                  <NavLink name={"Contructions"} route={"/construction"} />
+                  <NavLink name={"Hạng Mục"} route={"/hang-muc"} />
                   </li>
                 <li className={"nav-logo"}>
                   {/* <LinkScroll
@@ -118,9 +118,9 @@ const Header = () => {
                 </li>
 
                 <li className={"nav-li"}>
-                  <NavLink name={"Projects"} route={"/project"} />
+                  <NavLink name={"Dự Án"} route={"/du-an"} />
                   <div className={"dot"} />
-                  <NavLink name={"about"} route={"/about"} />
+                  <NavLink name={"Thông Tin"} route={"/about"} />
                 </li>
               </ul>
             </nav>

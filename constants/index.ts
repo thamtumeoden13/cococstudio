@@ -1,28 +1,68 @@
 
+// export const socials = [
+//   {
+//     id: '0',
+//     title: 'x',
+//     icon: '/images/socials/x.svg',
+//     url: '#',
+//   },
+//   {
+//     id: '1',
+//     title: 'Threads',
+//     icon: '/images/socials/threads.svg',
+//     url: '#',
+//   },
+//   {
+//     id: '2',
+//     title: 'Instagram',
+//     icon: '/images/socials/instagram.svg',
+//     url: '#',
+//   },
+//   {
+//     id: '3',
+//     title: 'Discord',
+//     icon: '/images/socials/discord.svg',
+//     url: '#',
+//   },
+// ];
+
 export const socials = [
   {
-    id: '0',
-    title: 'x',
-    icon: '/images/socials/x.svg',
-    url: '#',
+    name: 'twitter',
+    url: '/twitter.svg',
   },
   {
-    id: '1',
-    title: 'Threads',
-    icon: '/images/socials/threads.svg',
-    url: '#',
+    name: 'linkedin',
+    url: '/linkedin.svg',
   },
   {
-    id: '2',
-    title: 'Instagram',
-    icon: '/images/socials/instagram.svg',
-    url: '#',
+    name: 'instagram',
+    url: '/instagram.svg',
   },
   {
-    id: '3',
-    title: 'Discord',
-    icon: '/images/socials/discord.svg',
-    url: '#',
+    name: 'facebook',
+    url: '/facebook.svg',
+  },
+];
+
+export const insights = [
+  {
+    imgUrl: '/planet-06.png',
+    title: 'The launch of the Metaverse makes Elon musk ketar-ketir',
+    subtitle:
+        'Magna etiam tempor orci eu lobortis elementum nibh tellus molestie. Diam maecenas sed enim ut sem viverra alique.',
+  },
+  {
+    imgUrl: '/planet-07.png',
+    title: '7 tips to easily master the madness of the Metaverse',
+    subtitle:
+        'Vitae congue eu consequat ac felis donec. Et magnis dis parturient montes nascetur ridiculus mus. Convallis tellus id interdum',
+  },
+  {
+    imgUrl: '/planet-08.png',
+    title: 'With one platform you can explore the whole world virtually',
+    subtitle:
+        'Quam quisque id diam vel quam elementum. Viverra nam libero justo laoreet sit amet cursus sit. Mauris in aliquam sem',
   },
 ];
 

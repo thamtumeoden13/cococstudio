@@ -8,6 +8,7 @@ import UserStartup, { StartupCardSkeleton } from "@/components/UserStartup";
 import Experience from '@/components/Experience';
 import Faq from '@/components/Faq';
 import About from '@/components/About';
+import Insights from '@/components/Insights';
 
 export const experimental_ppr = true;
 
@@ -24,6 +25,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <section className={"section_container"}>
           <Experience />
           <About />
+          <Insights />
         </section>
       </section>
     </>

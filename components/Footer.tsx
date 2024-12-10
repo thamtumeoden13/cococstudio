@@ -1,48 +1,65 @@
-import { socials } from "@/constants";
+'use client';
 
-const Footer = () => {
-  return (
-    <footer className={"container py-10"}>
-      <div className={"flex w-full max-md:flex-col"}>
-        <div
-          className={
-            "small-compact flex flex-1 flex-wrap items-center" +
-            " justify-center gap-5"
-          }
-        >
-          <p className={"opacity-70"}>Copyright, Mr.vu</p>
-        </div>
-        <div className={"flex items-center justify-center sm:ml-auto"}>
-          <p
-            className={
-              "legal-after relative mr-9 text-p5 transition-all" +
-              " duration-500 hover:text-p1"
-            }
-          >
-            Privacy Policy
-          </p>
-          <p
-            className={"text-p5 transition-all" + " duration-500 hover:text-p1"}
-          >
-            Terms of Use
-          </p>
-        </div>
+import { motion } from 'framer-motion';
 
-        <ul className={"flex flex-1 justify-center gap-3 max-md:mt-10"}>
-          {socials.map(({ id, url, icon, title }) => (
-            <li key={id}>
-              <a href={url} className={"social-icon !bg-black-200"}>
-                <img
-                  src={icon}
-                  alt={title}
-                  className={"size-1/3 object-contain"}
-                />
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </footer>
-  );
-};
+import { socials } from '../constants';
+import styles from '@/styles';
+import { footerVariants } from '@/lib/utils';
+
+const Footer = () => (
+	<motion.footer
+		variants={footerVariants}
+		initial="hidden"
+		whileInView="show"
+		className={`${styles.paddings} py-8 relative bg-black`}
+	>
+		<div className="footer-gradient" />
+		<div
+			className={`${styles.innerWidth} mx-auto flex flex-col gap-8 max-w-7xl`}
+		>
+			<div
+				className="flex items-center justify-between flex-wrap gap-5"
+			>
+				<h4
+					className="font-bold md:text-[64px] text-[44px] text-white"
+				>
+					Enter the Metaverse
+				</h4>
+				<button
+					type="button"
+					className="flex items-center h-fit py-4 px-6 bg-[#25618b] rounded-[32px] gap-[12px]"
+				>
+					<img
+						src="/headset.svg"
+						alt="headset"
+						className="w-[24px] h-[24px] object-contain"
+					/>
+					<span className="font-normal text-[16px] text-white">ENTER METAVERSE</span>
+				</button>
+			</div>
+			<div className="flex flex-col">
+				<div className="mb-[50px] h-[2px] bg-white opacity-10" />
+				<div
+					className="flex items-center justify-between flex-wrap gap-4"
+				>
+					<h4 className="font-extrabold text-[24px] text-white">Metaverse</h4>
+					<p className="font-normal text-[14px] text-white opacity-50">
+						Copyright © 2021 - 2022 Metaverse. All rights reserved.
+					</p>
+					<div className="flex gap-4">
+						{socials.map((social, index) => (
+							<img
+								key={social.name}
+								src={social.url}
+								alt={social.name}
+								className="w-[24px] h-[24px] object-contain cursor-pointer"
+							/>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+	</motion.footer>
+);
+
 export default Footer;
