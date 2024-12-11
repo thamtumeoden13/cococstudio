@@ -125,6 +125,9 @@ const config: Config = {
         256: '0 0 256px',
         100: '0 0 100%',
       },
+      transitionTimingFunction: {
+        'out-flex': 'cubic-bezier(0.05, 0.6, 0.4, 0.9)',
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography"), addVariablesForColors],
