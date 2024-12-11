@@ -53,34 +53,6 @@ export default async function Construction({ searchParams }: {
           </p>
         </section>
       )}
-{/* 
-      {query ? (
-        <section className={"section_container"}>
-          <p className={"text-30-semibold"}>
-            {`Tìm kiếm cho "${query}"`}
-          </p>
-          <ul className={"mt-7 card_grid"}>
-            {searchForProjects?.length > 0 ? (
-              searchForProjects.map((post: StartupCardType) => (
-                <StartupCard key={post?._id} post={post} path="project" />
-              ))
-            ) : (
-              <p className={"no-result"}>
-                Không tìm thấy hạng mục dự án phù hợp
-              </p>
-            )}
-          </ul>
-        </section>
-      ) : (
-        <>
-          {searchForConstructions?.length > 0 && (
-            searchForConstructions.map((post: StartupCardType) => (
-              <ConstructionList key={post?._id} post={post} />
-            ))
-          )}
-        </>
-      )} */}
-
       <SanityLive />
     </>
   );

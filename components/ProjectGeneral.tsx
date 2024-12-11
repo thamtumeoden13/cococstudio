@@ -36,7 +36,7 @@ const ProjectGeneral = ({ post }: { post: StartupCardType }) => {
     <TracingBeam className="px-6 max-w-7xl">
       <div className="mx-auto antialiased pt-4 relative">
 
-        <div className={"space-y-5 mt-10 max-w-4xl mx-auto"}>
+        <div className={"space-y-5 mt-10 px-4 max-w-6xl mx-auto"}>
           <div className={"flex-between gap-5"}>
             <Link
               href={`/app/(root)/user/${post?.author?._id}`}
@@ -145,7 +145,7 @@ const ProjectGeneral = ({ post }: { post: StartupCardType }) => {
           <h3 className={"text-30-bold"}>Pitch Details</h3>
           {parsedContent ? (
             <article
-              className={"prose max-w-4xl font-work-sans break-all"}
+              className={"prose max-w-7xl font-work-sans break-all"}
               dangerouslySetInnerHTML={{ __html: parsedContent }}
             />
           ) : (

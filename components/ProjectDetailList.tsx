@@ -22,7 +22,7 @@ const ProjectDetailList = async ({ post }: { post: StartupCardType }) => {
   if (!searchForProjectDetails?.length) return null
 
   return (
-    <section className={"section_container !px-0"}>
+    <section className={"section_container"}>
       <Link href={`/du-an/${slug?.current}`}>
         <h1 className="heading-half hover:underline" style={{ textAlign: 'left' }}>
           Dự Án: {'  '}
