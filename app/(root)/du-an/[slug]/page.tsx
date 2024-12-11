@@ -43,8 +43,13 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
       </section>
 
       <section className={"section_container"}>
-        <img src={post.image} alt="thumbnail" className={"h-[44rem] w-full" +
-          " rounded-xl"} />
+        <Image
+          src={post.image}
+          alt="thumbnail"
+          height={1000}
+          width={1000}
+          className={"h-[44rem] w-full rounded-xl"}
+        />
 
         <ProjectDetailList key={post?._id} post={post} />
 

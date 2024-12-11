@@ -17,7 +17,8 @@ const SimpleCard = ({ post }: { post: SimpleCard }) => {
     category,
     _id,
     image,
-    description
+    description,
+    slug
   } = post;
 
   return (
@@ -38,7 +39,7 @@ const SimpleCard = ({ post }: { post: SimpleCard }) => {
               {author?.name}
             </p>
           </Link> */}
-          <Link href={`/startup/${_id}`}>
+          <Link href={`/chi-tiet-du-an/${slug?.current}`}>
             <h3 className={"text-20-medium !font-semibold line-clamp-2"}>{title}</h3>
           </Link>
         </div>
@@ -50,11 +51,17 @@ const SimpleCard = ({ post }: { post: SimpleCard }) => {
           />
         </Link> */}
       </div>
-      <Link href={`/startup/${_id}`}>
+      <Link href={`/chi-tiet-du-an/${slug?.current}`}>
         {/* <p className={"simple-card_desc"}>
           {description}
         </p> */}
-        <img src={image} alt="placeholder" className={"simple-card_img"} />
+        <Image
+          src={image!}
+          alt={title!}
+          height={200}
+          width={200}
+          className={"simple-card_img"}
+        />
       </Link>
 
       {/* <div className={"flex-between gap-3 mt-5"}>

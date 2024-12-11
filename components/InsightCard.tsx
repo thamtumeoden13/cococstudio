@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import { fadeIn } from '@/lib/utils';
 import { motion } from 'framer-motion';

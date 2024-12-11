@@ -1,6 +1,7 @@
 import { workExperience } from '@/constants'
 import React from 'react'
 import { Button } from './shared/MovingBorder'
+import Image from "next/image"
 
 const Experience = () => {
   return (
@@ -23,9 +24,9 @@ const Experience = () => {
                 className="lg:w-32 md:w-20 w-16"
               />
               <div className="lg:ms-5">
-                <h1 className="text-start text-xl md:2xl font-bold">
+                <h3 className="text-start text-xl md:2xl font-bold">
                   {card.title}
-                </h1>
+                </h3>
                 <p className="text-start text-white-100 mt-3 font-semibold">
                   {card.desc}
                 </p>

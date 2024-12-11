@@ -75,3 +75,27 @@ export default async function Home({ searchParams }: {
     </>
   );
 }
+
+export const metadata = {
+  title: "Thiết Kế, Xây Dựng | cococstudio",
+  description: "Mô tả ngắn gọn về sản phẩm, giúp tăng khả năng hiển thị trên Google.",
+  keywords: ["Biệt Thự", "Nhà Phố", "Nội Thất", "Công Trình Công Giáo"],
+  openGraph: {
+    title: "Thiết Kế, Xây Dựng | cococstudio",
+    description: "Mô tả chi tiết sản phẩm.",
+    url: "https://cococstudio.com/",
+    images: [
+      {
+        url: "https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        alt: "noi-that",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@twitterhandle",
+    title: "Sản phẩm | Tên website",
+    description: "Mô tả chi tiết sản phẩm.",
+    images: ["https://example.com/image.jpg"],
+  },
+};

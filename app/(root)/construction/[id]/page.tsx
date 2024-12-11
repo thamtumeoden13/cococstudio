@@ -41,8 +41,13 @@ export default async function Constructions({ params }: { params: Promise<{ id: 
       </section>
 
       <section className={"section_container"}>
-        <img src={data.image} alt="thumbnail" className={"h-[44rem] w-full" +
-          " rounded-xl"} />
+        <Image
+          src={data.image}
+          alt="thumbnail"
+          height={704}
+          width={1000}
+          className={"w-full rounded-xl"}
+        />
 
         <ProjectList key={data?._id} post={data} />
 

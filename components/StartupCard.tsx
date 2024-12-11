@@ -39,7 +39,7 @@ const StartupCard = ({ post, path }: { post: StartupCardType, path: string }) =>
             </p>
           </Link>
           <Link href={`/${path}/${slug?.current}`}>
-            <h3 className={"text-26-semibold line-clamp-2"}>{title}</h3>
+            <h3 className={"text-26-semibold line-clamp-2 h-20"}>{title}</h3>
           </Link>
         </div>
         <Link href={`/user/${author?._id}`}>
@@ -54,7 +54,13 @@ const StartupCard = ({ post, path }: { post: StartupCardType, path: string }) =>
         <p className={"startup-card_desc"}>
           {description}
         </p>
-        <img src={image} alt="placeholder" className={"startup-card_img"} />
+        <Image
+          src={image!}
+          alt="placeholder"
+          height={200}
+          width={200}
+          className={"startup-card_img"}
+        />
       </Link>
 
       <div className={"flex-between gap-3 mt-5"}>
