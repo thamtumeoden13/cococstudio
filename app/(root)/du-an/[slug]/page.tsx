@@ -17,6 +17,8 @@ import View from "@/components/View";
 import StartupCard, { StartupCardType } from "@/components/StartupCard";
 import ProjectList from '@/components/ProjectList';
 import ProjectDetailList from '@/components/ProjectDetailList';
+import { sanityFetch } from '@/sanity/lib/live';
+import MarkupSchema from '@/components/shared/MarkupSchema';
 
 const md = markdownit();
 
@@ -25,33 +27,33 @@ export const experimental_ppr = true;
 const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const slug = (await params).slug;
 
-  const [post] = await Promise.all([
-    client.fetch(PROJECT_BY_SLUG_QUERY, { slug }),
-  ])
+  const { data } = await sanityFetch({ query: PROJECT_BY_SLUG_QUERY, params: { slug } })
 
-  if (!post) return notFound();
+  if (!data) return notFound();
 
-  const parsedContent = md.render(post?.pitch || '');
+  const parsedContent = md.render(data?.pitch || '');
 
   return (
     <>
+      <MarkupSchema  path={`du-an/${slug}`} post={data} />
+      
       <section className={"pink_container !min-h-[230px] mt-32"}>
-        <p className={"tag"}>{formatDate(post?._createdAt)}</p>
+        <p className={"tag"}>{formatDate(data?._createdAt)}</p>
 
-        <h1 className={"heading"}>{post.title}</h1>
-        <p className={"sub-heading !max-w-5xl"}>{post.description}</p>
+        <h1 className={"heading"}>{data.title}</h1>
+        <p className={"sub-heading !max-w-5xl"}>{data.description}</p>
       </section>
 
       <section className={"section_container"}>
         <Image
-          src={post.image}
+          src={data.image}
           alt="thumbnail"
           height={1000}
           width={1000}
           className={"h-[44rem] w-full rounded-xl"}
         />
 
-        <ProjectDetailList key={post?._id} post={post} />
+        <ProjectDetailList key={data?._id} post={data} />
 
         <div className={"space-y-5 mt-10 max-w-7xl mx-auto"}>
           <h3 className={"text-30-bold"}>Pitch Details</h3>
@@ -72,3 +74,34 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   )
 }
 export default Page
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const slug = (await params).slug;
+
+  // Fetch dữ liệu sản phẩm từ API hoặc database
+  const data = await client.fetch(PROJECT_BY_SLUG_QUERY, { slug })
+
+  return {
+    title: `${data.title} - Cốc Cốc Studio`,
+    description: `${data.description}`,
+    openGraph: {
+      title: `${data.title} - Cốc Cốc Studio`,
+      description: `${data.description}`,
+      url: `http://cococstudio.com/du-an/${slug}`,
+      images: [
+        {
+          url: data.image,
+          width: 800,
+          height: 600,
+          alt: data.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${data.name} - Cốc Cốc Studio`,
+      description: `${data.description}`,
+      images: [data.image],
+    },
+  };
+}

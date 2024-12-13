@@ -8,6 +8,7 @@ import { auth } from "@/auth";
 import Hero from "@/components/Hero";
 import ProjectList from "@/components/ProjectList";
 import ProjectDetailList from "@/components/ProjectDetailList";
+import MarkupSchema from "@/components/shared/MarkupSchema";
 // import BreadcrumbComponent from "@/components/shared/Breadcrumb";
 
 export default async function Projects({ searchParams }: {
@@ -27,6 +28,8 @@ export default async function Projects({ searchParams }: {
 
   return (
     <>
+      <MarkupSchema path={`du-an`} />
+
       <section className={"pink_container !min-h-[230px] mt-32"}>
         <h1 className={"heading"}>
           Pitch Your Startup, <br /> Connect With Entrepreneurs

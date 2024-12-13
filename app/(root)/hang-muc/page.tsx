@@ -8,6 +8,7 @@ import { auth } from "@/auth";
 import Hero from "@/components/Hero";
 import StartupList from "@/components/StartupList";
 import ConstructionList from "@/components/ConstructionList";
+import MarkupSchema from "@/components/shared/MarkupSchema";
 
 export default async function Construction({ searchParams }: {
   searchParams: Promise<{ query?: string }>
@@ -16,6 +17,8 @@ export default async function Construction({ searchParams }: {
   const query = (await searchParams).query;
 
   const params = { search: query || null };
+
+  console.log(`params: ${query}`)
 
   const session = await auth();
 
@@ -28,6 +31,8 @@ export default async function Construction({ searchParams }: {
 
   return (
     <>
+      <MarkupSchema path="hang-muc"/>
+
       <section className={"pink_container !mt-32"}>
         <h1 className={"heading"}>
           Pitch Your Startup, <br /> Connect With Entrepreneurs
@@ -49,7 +54,7 @@ export default async function Construction({ searchParams }: {
       ) : (
         <section className={"section_container"}>
           <p className={"no-result"}>
-            Không tìm thấy hạn m
+            Không tìm thấy hạn mục
           </p>
         </section>
       )}

@@ -2,12 +2,12 @@ import Image from "next/image";
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { StartupCardType } from "@/components/StartupCard";
 import { client } from "@/sanity/lib/client";
-import { CONSTRUCTIONS_QUERY, PROJECT_DETAILS_BY_QUERY, PROJECTS_QUERY, STARTUPS_QUERY } from "@/sanity/lib/queries";
+import { CONSTRUCTIONS_QUERY, PROJECT_DETAILS_BY_QUERY, } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { auth } from "@/auth";
 import Hero from "@/components/Hero";
-import StartupList from "@/components/StartupList";
 import ConstructionList from "@/components/ConstructionList";
+import MarkupSchema from "@/components/shared/MarkupSchema";
 
 export default async function Home({ searchParams }: {
   searchParams: Promise<{ query?: string }>
@@ -30,6 +30,7 @@ export default async function Home({ searchParams }: {
 
   return (
     <>
+      <MarkupSchema post={{}} path=""/>
       <Hero />
       <section className={"pink_container"}>
         <h1 className={"heading"}>

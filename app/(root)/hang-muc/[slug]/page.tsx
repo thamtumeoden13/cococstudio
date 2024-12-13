@@ -11,6 +11,7 @@ import ProjectList from "@/components/ProjectList";
 import ConstructionList from "@/components/ConstructionList";
 import { formatDate } from "@/lib/utils";
 import { notFound } from "next/navigation";
+import MarkupSchema from "@/components/shared/MarkupSchema";
 // import BreadcrumbComponent from "@/components/shared/Breadcrumb";
 
 const md = markdownit();
@@ -31,6 +32,8 @@ export default async function Constructions({ params }: { params: Promise<{ slug
 
   return (
     <>
+      <MarkupSchema post={data} path={`hang-muc/${slug}`} />
+
       <section className={"pink_container !min-h-[230px] mt-32"}>
         <p className={"tag"}>{formatDate(data?._createdAt)}</p>
 
@@ -67,4 +70,36 @@ export default async function Constructions({ params }: { params: Promise<{ slug
       <SanityLive />
     </>
   );
+}
+
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const slug = (await params).slug;
+
+  // Fetch dữ liệu sản phẩm từ API hoặc database
+  const { data } = await sanityFetch({ query: CONSTRUCTION_BY_SLUG_QUERY, params: { slug } });
+
+  return {
+    title: `${data.title} - Cốc Cốc Studio`,
+    description: `${data.description}`,
+    openGraph: {
+      title: `${data.title} - Cốc Cốc Studio`,
+      description: `${data.description}`,
+      url: `http://cococstudio.com/hang-muc/${slug}`,
+      images: [
+        {
+          url: data.image,
+          width: 800,
+          height: 600,
+          alt: data.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${data.name} - Cốc Cốc Studio`,
+      description: `${data.description}`,
+      images: [data.image],
+    },
+  };
 }
