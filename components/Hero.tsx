@@ -29,14 +29,12 @@ const Hero = () => {
         </div>
 
         <div
-          className={
-            "absolute -top-32 left-[calc(50%-340px)] w-[1230px] pointer-events-none hero-img_res"
-          }
+          className={"hero-img_res"}
         >
           <img
             src="/images/hero.png"
             alt="hero"
-            className={"size-1230 max-lg:size-960 max-md:size-640 max-md:hidden max-md:h-auto"}
+          // className={"size-960 max-lg:size-640 max-md:size-640 max-md:h-auto"}
           />
         </div>
       </div>

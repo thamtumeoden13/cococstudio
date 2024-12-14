@@ -11,7 +11,7 @@ const Footer = () => (
 		variants={footerVariants}
 		initial="hidden"
 		whileInView="show"
-		className={`${styles.paddings} py-8 relative bg-black`}
+		className={`${styles.paddings} py-8 relative bg-black overflow-hidden`}
 	>
 		<div className="footer-gradient" />
 		<div

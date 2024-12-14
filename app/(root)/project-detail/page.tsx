@@ -2,7 +2,7 @@ import Image from "next/image";
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { StartupCardType } from "@/components/StartupCard";
 import { client } from "@/sanity/lib/client";
-import { PROJECTDETAILS_QUERY, PROJECTS_QUERY, STARTUPS_QUERY } from "@/sanity/lib/queries";
+import { PROJECT_DETAILS_BY_QUERY, PROJECTS_QUERY, STARTUPS_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { auth } from "@/auth";
 import Hero from "@/components/Hero";
@@ -21,7 +21,7 @@ export default async function Home({ searchParams }: {
 
   console.log(`session -> ${session?.id}`);
 
-  const { data: searchForProjects } = await sanityFetch({ query: PROJECTDETAILS_QUERY, params });
+  const { data: searchForProjects } = await sanityFetch({ query: PROJECT_DETAILS_BY_QUERY, params });
 
   return (
     <>

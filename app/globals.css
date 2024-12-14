@@ -459,7 +459,7 @@
   /* END of Header */
   /* START of Hero */
   .hero-img_res {
-    @apply max-lg:-top-40 max-lg:left-[calc(50%-280px)] max-lg:w-[1160px] max-md:bottom-[-590px] max-md:left-[calc(50%-390px)] max-md:top-auto;
+    @apply absolute pointer-events-none top-8 left-[calc(50%-80px)] lg:left-[calc(50%-280px)] md:top-16 md:left-[calc(50%-120px)] max-sm:hidden;
   }
 
   /* END of Hero */
