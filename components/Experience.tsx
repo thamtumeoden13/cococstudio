@@ -5,7 +5,7 @@ import Image from "next/image"
 
 const Experience = () => {
   return (
-    <section className="py-20" id="testimonials">
+    <>
       <h1 className="heading !text-left">
         My{' '}
         <span className="text-purple">work experience</span>
@@ -35,7 +35,7 @@ const Experience = () => {
           </Button>
         ))}
       </div>
-    </section>
+    </>
   )
 }
 

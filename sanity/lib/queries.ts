@@ -311,3 +311,11 @@ export const PROJECT_DETAIL_BY_SLUG_QUERY =
   thumbnail,
   pitch,
 }`);
+
+export const PROJECT_DETAIL_VIEWS_QUERY = defineQuery(`
+  *[_type == "projectDetail" && _id == $id][0]{
+    _id,
+    views
+    }
+  `);
+  

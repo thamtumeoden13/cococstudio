@@ -1,7 +1,8 @@
 import React, { Suspense } from 'react'
 import {
   PLAYLIST_BY_SLUG_QUERY,
-  STARTUP_BY_ID_QUERY
+  STARTUP_BY_ID_QUERY,
+  STARTUP_VIEWS_QUERY
 } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 import { notFound } from "next/navigation";
@@ -99,7 +100,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         )}
 
         <Suspense fallback={<Skeleton className={"view_skeleton"} />}>
-          <View id={id} />
+          <View query={STARTUP_VIEWS_QUERY} id={id} />
         </Suspense>
       </section>
     </>

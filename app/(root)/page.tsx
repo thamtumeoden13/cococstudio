@@ -11,6 +11,11 @@ import ConstructionList from "@/components/ConstructionList";
 import MarkupSchema from "@/components/shared/MarkupSchema";
 import { AppleCardsCarousel } from "@/components/AppleCardsCarousel";
 import SimpleCard from "@/components/SimpleCard";
+import Experience from "@/components/Experience";
+import { ParallaxScroll } from "@/components/ui/parallax-scroll";
+import { parallaxCards, parallaxImages } from "@/constants";
+import { Meteors } from "@/components/ui/meteors";
+import { ExpandableCard } from "@/components/ExpandableCard";
 
 export default async function Home({ searchParams }: {
   searchParams: Promise<{ query?: string }>
@@ -37,7 +42,25 @@ export default async function Home({ searchParams }: {
       <section className="section_container !max-w-full mt-16 bg-black-200 justify-items-center !overflow-hidden">
         <AppleCardsCarousel />
       </section>
-      <section className={"pink_container !min-h-[230px]"}>
+
+      <section className={"pink_container !bg-black"}>
+        <section className={"section_container"}>
+          <Experience />
+        </section>
+      </section>
+      {/* <section className={"pink_container !bg-white"}> */}
+        <section className={"section_container my-16 bg-white border border-neutral-100 rounded-xl relative"}>
+          <Meteors number={20} />
+          <ParallaxScroll cards={parallaxCards} />
+        </section>
+      {/* </section> */}
+      {/* <section className={"pink_container !bg-white"}>
+        <section className={"section_container bg-white border border-neutral-100 rounded-xl relative"}>
+          <Meteors number={20} />
+          <ExpandableCard />
+        </section>
+      </section> */}
+      {/* <section className={"pink_container !min-h-[230px]"}>
         <h1 className={"heading"}>
           Kết Nối Với Chúng Tôi
         </h1>
@@ -76,7 +99,7 @@ export default async function Home({ searchParams }: {
         </>
       )}
 
-      <SanityLive />
+      <SanityLive /> */}
     </>
   );
 }
