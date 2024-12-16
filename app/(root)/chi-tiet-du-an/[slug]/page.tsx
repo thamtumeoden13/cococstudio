@@ -40,7 +40,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   return (
     <>
       <MarkupSchema path={`chi-tiet-du-an/${slug}`} post={post} />
-      
+
       <section className={"pink_container !min-h-[230px] mt-32"}>
         <p className={"tag"}>{formatDate(post?._createdAt)}</p>
 
@@ -48,11 +48,11 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
         <p className={"sub-heading !max-w-5xl"}>{post.description}</p>
       </section>
 
-      <section className={"section_container !py-0 !px-2 !min-h-[230px] !max-w-screen-xl"}>
+      {/* <section className={"section_container !py-0 !px-2 !min-h-[230px] !max-w-screen-xl"}>
         <div className="h-[48rem] max-w-screen-xl">
           <ProjectAlbum />
         </div>
-      </section>
+      </section> */}
 
       <section className="section_container !max-w-screen-xl">
         <div className="flex justify-between items-start gap-1">
@@ -61,18 +61,17 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           <div className='hidden lg:flex flex-col w-[36rem]'>
             {releatedPosts?.length > 0 && (
               <div className={"flex flex-col"}>
-                <p className={"text-30-semibold"}>Liên Quan</p>
+                <p className={"heading-half !leading-[16px] !text-left w-[330px] !bg-black-100 rounded-tl-2xl"}>Quan Tâm</p>
 
-                <ul className={"mt-7 card_grid-xs "}>
+                <ul className={"mt-2 card_grid-xs "}>
                   {releatedPosts.map((post: StartupCardType, index: number) => (
-                    <SimpleCard key={index} post={post} />
+                    <SimpleCard key={index} post={post} path='chi-tiet-du-an' />
                   ))}
                 </ul>
               </div>
             )}
           </div>
         </div>
-        <AppleCardsCarousel />
 
         <hr className={"divider !max-w-full"} />
 

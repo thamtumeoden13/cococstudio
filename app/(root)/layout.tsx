@@ -2,14 +2,16 @@ import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
+import { NavbarMenu } from "@/components/NavigationMenu";
 
 export default function Layout({children}: Readonly<{
   children: React.ReactNode
 }>) {
 
   return (
-    <main className={"font-work-sans"}>
+    <main className={"font-ibm-plex"}>
       {/*<Navbar/>*/}
+      {/* <NavbarMenu /> */}
       <Header />
       {children}
       <Footer />

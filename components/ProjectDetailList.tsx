@@ -8,6 +8,7 @@ import { Author, Startup } from "@/sanity/types";
 import StartupCard from './StartupCard';
 import { PROJECT_DETAILS_BY_PROJECT_QUERY } from '@/sanity/lib/queries';
 import { sanityFetch } from '@/sanity/lib/live';
+import SimpleCard from './SimpleCard';
 
 export type StartupCardType = Omit<Startup, "author"> & { author?: Author };
 
@@ -22,9 +23,9 @@ const ProjectDetailList = async ({ post }: { post: StartupCardType }) => {
   if (!searchForProjectDetails?.length) return null
 
   return (
-    <section className={"section_container"}>
-      <Link href={`/du-an/${slug?.current}`}>
-        <h1 className="heading-half hover:underline" style={{ textAlign: 'left' }}>
+    <section className={"section_container !justify-items-center"}>
+      <Link href={`/du-an/${slug?.current}`} className='flex lg:w-[65rem] md:w-[43rem] w-[22rem]'>
+        <h1 className="heading-half hover:underline w-full" style={{ textAlign: 'left' }}>
           Dự Án: {'  '}
           <span className="text-purple">{title}</span>
         </h1>
@@ -32,7 +33,7 @@ const ProjectDetailList = async ({ post }: { post: StartupCardType }) => {
       <ul className={"mt-7 card_grid"}>
         {searchForProjectDetails?.length > 0 && (
           searchForProjectDetails.map((post: StartupCardType) => (
-            <StartupCard key={post?._id} post={post} path='chi-tiet-du-an' />
+            <SimpleCard key={post?._id} post={post} path='chi-tiet-du-an' />
           ))
         )}
       </ul>
