@@ -136,3 +136,13 @@ declare type TransformedImageProps = {
   hasDownload?: boolean;
   setIsTransforming?: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+declare module '*.mp4' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.jpg' {
+  const src: string;
+  export default src;
+}

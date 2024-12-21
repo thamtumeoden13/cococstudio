@@ -102,6 +102,7 @@ const Header = () => {
                     <div className="  text-sm grid grid-cols-2 gap-10 p-4">
                       {constructionNavList.map(({ title, href, src, description }) => (
                         <ProductItem
+                          key={title}
                           title={title}
                           href={href}
                           src={src}
