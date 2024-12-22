@@ -22,7 +22,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           {/* <About /> */}
           <Insights />
           <Explore />
-          <Contact />
+          <div className="mt-10">
+            <Contact />
+          </div>
         </section>
       </section>
     </>
