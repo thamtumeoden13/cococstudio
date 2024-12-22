@@ -16,12 +16,13 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <>
-      <section className={"pink_container !bg-slate-800 mt-16"}>
-        <section className={"section_container overflow-hidden"}>
+      <section className={"pink_container !bg-black"}>
+        <section className={"section_container mt-16"}>
           {/* <Experience /> */}
           {/* <About /> */}
           <Insights />
           <Explore />
+          <Contact />
         </section>
       </section>
     </>

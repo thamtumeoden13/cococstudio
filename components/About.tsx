@@ -15,7 +15,7 @@ const About = () => {
           items={testimonials}
           direction="right"
           speed="slow"
-          className='max-w-7xl'
+          className='max-w-5xl'
         />
 
         {/* <div className="flex flex-wrap items-center justify-center gap-4 md:gap-16 max-lg:mt-10">

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useOutsideClick } from "@/hooks/use-outside-click";
+import { FollowerPointerCard } from "./following-pointer";
 
 export const ParallaxScroll = ({
   cards,
@@ -105,7 +106,6 @@ export const ParallaxScroll = ({
                   className="w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-cover"
                 />
               </motion.div>
-
               <div>
                 <div className="flex justify-between items-start p-4">
                   <div className="">
@@ -158,13 +158,13 @@ export const ParallaxScroll = ({
         ref={gridRef}
       >
         <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center  max-w-7xl mx-auto gap-10 py-40 px-10"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center  max-w-7xl mx-auto gap-10 px-10"
           ref={gridRef}
         >
           <div className="grid gap-10">
             {firstPart.map((el, idx) => (
               <motion.div
-                className="justify-items-center"
+                className="justify-items-center hover:cursor-pointer"
                 style={{ y: translateFirst }} // Apply the translateY motion value here
                 key={"grid-1" + idx}
                 onClick={() => setActive(el)}
@@ -182,7 +182,7 @@ export const ParallaxScroll = ({
           <div className="grid gap-10">
             {secondPart.map((el, idx) => (
               <motion.div
-                className="justify-items-center"
+                className="justify-items-center hover:cursor-pointer"
                 style={{ y: translateSecond }}
                 key={"grid-2" + idx}
                 onClick={() => setActive(el)}
@@ -200,7 +200,7 @@ export const ParallaxScroll = ({
           <div className="grid gap-10">
             {thirdPart.map((el, idx) => (
               <motion.div
-                className="justify-items-center"
+                className="justify-items-center  hover:cursor-pointer"
                 style={{ y: translateThird }}
                 key={"grid-3" + idx}
                 onClick={() => setActive(el)}
@@ -253,3 +253,23 @@ export const CloseIcon = () => {
     </motion.svg>
   );
 };
+
+
+const TitleComponent = ({
+  title,
+  avatar,
+}: {
+  title: string;
+  avatar: string;
+}) => (
+  <div className="flex space-x-2 items-center">
+    <Image
+      src={avatar}
+      height="20"
+      width="20"
+      alt="thumbnail"
+      className="rounded-full border-2 border-white"
+    />
+    <p>{title}</p>
+  </div>
+);

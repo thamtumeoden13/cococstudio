@@ -3,7 +3,7 @@ import Image from "next/image";
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { StartupCardType } from "@/components/StartupCard";
 import { client } from "@/sanity/lib/client";
-import { CONSTRUCTIONS_QUERY, PROJECT_DETAILS_BY_QUERY, } from "@/sanity/lib/queries";
+import { CATEGORY_BY_SLUG_QUERY, CONSTRUCTIONS_QUERY, PROJECT_DETAILS_BY_QUERY, } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { auth } from "@/auth";
 import Hero from "@/components/Hero";
@@ -16,6 +16,8 @@ import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 import { parallaxCards, parallaxImages } from "@/constants";
 import { Meteors } from "@/components/ui/meteors";
 import { ExpandableCard } from "@/components/ExpandableCard";
+import { FocusCards } from "@/components/ui/focus-cards";
+import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 
 export default async function Home({ searchParams }: {
   searchParams: Promise<{ query?: string }>
@@ -36,30 +38,41 @@ export default async function Home({ searchParams }: {
 
   const { data: searchForConstructions } = await sanityFetch({ query: CONSTRUCTIONS_QUERY, params });
 
+  const { select: homeHeroPost } = await client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "home-hero" });
+
   return (
     <>
       <MarkupSchema post={{}} path="" />
       <section className="section_container !max-w-full mt-16 bg-black-200 justify-items-center !overflow-hidden">
-        <AppleCardsCarousel />
+        <AppleCardsCarousel data={homeHeroPost} />
       </section>
 
-      <section className={"pink_container !bg-black"}>
-        <section className={"section_container"}>
-          <Experience />
-        </section>
+      {/* <section className={"pink_container !bg-black"}> */}
+      <section className={"section_container"}>
+        <div className="flex flex-col items-center justify-center ">
+          <TypewriterEffectSmooth words={words_1} cursorClassName="bg-primary" />
+        </div>
+        <Experience />
+
       </section>
-      {/* <section className={"pink_container !bg-white"}> */}
-        <section className={"section_container my-16 bg-white border border-neutral-100 rounded-xl relative"}>
-          <Meteors number={20} />
-          <ParallaxScroll cards={parallaxCards} />
-        </section>
       {/* </section> */}
-      {/* <section className={"pink_container !bg-white"}>
-        <section className={"section_container bg-white border border-neutral-100 rounded-xl relative"}>
-          <Meteors number={20} />
-          <ExpandableCard />
-        </section>
-      </section> */}
+      {/* <section className={"pink_container !bg-white"}> */}
+      <section className={"section_container my-16 bg-white border border-neutral-100 rounded-xl relative"}>
+        <Meteors number={20} />
+        <div className="flex flex-col items-center justify-center ">
+          <TypewriterEffectSmooth words={words_2} cursorClassName="bg-primary" />
+        </div>
+        <ParallaxScroll cards={parallaxCards} />
+      </section>
+      {/* </section> */}
+      {/* <section className={"pink_container !bg-white"}> */}
+      <section className={"section_container bg-white border border-neutral-100 rounded-xl relative"}>
+        <div className="flex flex-col items-center justify-center ">
+          <TypewriterEffectSmooth words={words_3} cursorClassName="bg-primary" />
+        </div>
+        <FocusCards cards={parallaxCards} />
+      </section>
+      {/* </section> */}
       {/* <section className={"pink_container !min-h-[230px]"}>
         <h1 className={"heading"}>
           Kết Nối Với Chúng Tôi
@@ -132,3 +145,59 @@ export const metadata: Metadata = {
     ],
   },
 };
+
+const words_1 = [
+  {
+    text: "DỊCH",
+  },
+  {
+    text: "VỤ",
+  },
+  {
+    text: "CỦA",
+  },
+  {
+    text: "CHÚNG",
+    className: "text-primary",
+  },
+  {
+    text: "TÔI.",
+    className: "text-primary",
+  },
+];
+const words_2 = [
+  {
+    text: "SẢN",
+  },
+  {
+    text: "PHẨM",
+  },
+  {
+    text: "TIÊU",
+    className: "text-primary",
+  },
+  {
+    text: "BIỂU.",
+    className: "text-primary",
+  },
+];
+
+const words_3 = [
+  {
+    text: "DỰ",
+  },
+  {
+    text: "ÁN",
+  },
+  {
+    text: "ĐÃ",
+  },
+  {
+    text: "TRIỂN",
+    className: "text-primary",
+  },
+  {
+    text: "KHAI.",
+    className: "text-primary",
+  },
+];

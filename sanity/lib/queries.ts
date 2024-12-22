@@ -318,4 +318,31 @@ export const PROJECT_DETAIL_VIEWS_QUERY = defineQuery(`
     views
     }
   `);
-  
+
+
+export const CATEGORY_BY_SLUG_QUERY =
+  defineQuery(`*[_type == "category" && slug.current == $slug][0]{
+_id,
+title,
+slug,
+select[]->{
+    _id,
+    _createdAt,
+    title,
+    subtitle,
+    slug,
+    description,
+    image,
+    thumbnail,
+    author->{
+      _id,
+      name,
+      slug,
+      image,
+      bio
+    },
+    construction->{
+      _id, title, subtitle, description, image, thumbnail, slug
+    }, 
+  }
+}`);

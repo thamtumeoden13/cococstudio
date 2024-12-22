@@ -130,30 +130,44 @@ export const testimonials = [
 export const workExperience = [
   {
     id: 1,
-    title: "Frontend Engineer Intern",
+    title: "Chụp Ảnh Sản Phẩm",
     desc: "Assisted in the development of a web-based platform using React.js, enhancing interactivity.",
-    className: "md:col-span-2",
+    // className: "md:col-span-2",
     thumbnail: "/exp1.svg",
   },
   {
     id: 2,
-    title: "Mobile App Dev - JSM Tech",
+    title: "Chụp Ảnh Đồ Ăn",
     desc: "Designed and developed mobile app for both iOS & Android platforms using React Native.",
-    className: "md:col-span-2", // change to md:col-span-2
+    // className: "md:col-span-2", // change to md:col-span-2
     thumbnail: "/exp2.svg",
   },
   {
     id: 3,
-    title: "Freelance App Dev Project",
+    title: "Quay Video Sản Phẩm",
     desc: "Led the dev of a mobile app for a client, from initial concept to deployment on app stores.",
-    className: "md:col-span-2", // change to md:col-span-2
+    // className: "md:col-span-2", // change to md:col-span-2
     thumbnail: "/exp3.svg",
   },
   {
     id: 4,
-    title: "Lead Frontend Developer",
+    title: "Chụp Ảnh Nhà Máy",
     desc: "Developed and maintained user-facing features using modern frontend technologies.",
-    className: "md:col-span-2",
+    // className: "md:col-span-2",
+    thumbnail: "/exp4.svg",
+  },
+  {
+    id: 5,
+    title: "Chụp Ảnh Nội Thất",
+    desc: "Developed and maintained user-facing features using modern frontend technologies.",
+    // className: "md:col-span-2",
+    thumbnail: "/exp4.svg",
+  },
+  {
+    id: 6,
+    title: "Cho Thuê Phòng Chụp Theo Giờ",
+    desc: "Developed and maintained user-facing features using modern frontend technologies.",
+    // className: "md:col-span-2",
     thumbnail: "/exp4.svg",
   },
 ];
@@ -242,37 +256,37 @@ export const exploreWorlds = [
     imgUrl: '/planet-04.png',
     title: 'Paradise Island',
   },
-  {
-    id: 'world-5',
-    imgUrl: '/planet-05.png',
-    title: 'Hawkins Labs',
-  },
+  // {
+  //   id: 'world-5',
+  //   imgUrl: '/planet-05.png',
+  //   title: 'Hawkins Labs',
+  // },
 ];
 
 export const constructionNavList = [
   {
-    title: "Nội Thất",
-    href: "/hang-muc/noi-that",
+    title: "Chụp Ảnh Sản Phẩm",
+    href: "/hang-muc/chup-anh-san-pham",
     src: "https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    description: "Hạng mục thiết kế nội thất",
+    description: "Hạng mục chụp ảnh sản phẩm",
   },
   {
-    title: "Nhà Phố",
-    href: "/hang-muc/nha-pho",
+    title: "Chụp Ảnh Đồ Ăn",
+    href: "/hang-muc/chup-anh-do-an",
     src: "https://images.pexels.com/photos/9146390/pexels-photo-9146390.jpeg?auto=compress&cs=tinysrgb&w=800",
-    description: "Hạng mục thiết kế nhà phố",
+    description: "Hạng mục chụp ảnh đồ ăn",
   },
   {
-    title: "Biệt Thự",
-    href: "/hang-muc/biet-thu",
+    title: "Chụp Ảnh Nội Thất",
+    href: "/hang-muc/chup-anh-noi-that",
     src: "https://images.pexels.com/photos/89887/pexels-photo-89887.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description: "Hạng mục thiết kế biệt thự",
+    description: "Hạng mục chụp ảnh nội thất",
   },
   {
-    title: "Công Trình Tôn Giáo",
-    href: "/hang-muc/cong-trinh-ton-giao",
+    title: "Cho Thuê Phòng Chụp Theo Giờ",
+    href: "/hang-muc/cho-thue-phong-chup-theo-gio",
     src: "https://images.pexels.com/photos/32870/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    description: "Hạng mục thiết kế công trình Tôn giáo",
+    description: "Hạng mục cho thuê phòng chụp theo giờ",
   },
 ]
 
