@@ -69,6 +69,10 @@ const config: Config = {
         s4: '#1959AD',
         s5: '#263466',
       },
+      destructive: {
+        DEFAULT: "hsl(var(--destructive))",
+        foreground: "hsl(var(--destructive-foreground))",
+      },
       fontFamily: {
         "ibm-plex": ["var(--font-ibm-plex)"],
         "work-sans": ["var(--font-work-sans)"],

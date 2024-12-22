@@ -33,8 +33,8 @@ const ContactModal = () => {
           <span className="font-normal text-[16px] text-white">Bạn Cần Hỗ Trợ</span>
         </div>
       </ModalTrigger>
-      <ModalBody className="md:max-w-[720px] md:min-w-[720px] rounded-2xl overflow-y-scroll">
-        <ModalContent>
+      <ModalBody className="md:max-w-[720px] md:min-w-[720px] rounded-2xl">
+        <ModalContent className="overflow-y-scroll">
           <div className="flex flex-col max-md:flex-row justify-around items-center">
             <Contact className="md:min-w-[640px] min-w-[430px]" />
           </div>

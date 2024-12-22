@@ -1,14 +1,21 @@
 "use client"
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useActionState } from 'react'
 import { motion } from 'framer-motion'
 import emailjs from '@emailjs/browser'
+import { useToast } from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
+import { Send } from "lucide-react";
 
 // import { EarthCanvas } from './canvas'
 // import { SectionWrapper } from '../hoc'
 import styles from "@/styles"
 import { cn, slideIn, staggerContainer } from "@/lib/utils"
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect"
+import { formContactSchema } from "@/lib/validation";
+import z from "zod";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
 
 const Contact = ({ className }: { className?: string }) => {
 
@@ -19,50 +26,82 @@ const Contact = ({ className }: { className?: string }) => {
     email: '',
     message: ''
   })
-  const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const { toast } = useToast()
 
-  const handleChange = (e: any) => {
-    const { target } = e;
-    const { name, value } = target;
-    setForm({ ...form, [name]: value })
-  }
+  const handleFormSubmit = async (prevState: any, formData: FormData) => {
+    try {
+      const formValues = {
+        name: formData.get("name") as string,
+        email: formData.get("email") as string,
+        message: formData.get("message") as string
+      }
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    setLoading(true)
+      await formContactSchema.parseAsync(formValues);
 
-    // ugaUp8luB88w0ka3B
-    // template_qwrundy
-    // service_j6ok8ud
+      console.log(formValues);
 
-    emailjs.send('service_djy948a', 'template_jd2t2tf',
-      {
-        from_name: form.name,
-        to_name: 'Mr.Vu',
-        from_email: form.email,
-        to_email: 'ltv.mrvu@gmail.com',
-        message: form.message
-      },
-      'ugaUp8luB88w0ka3B'
-    )
-      .then(() => {
-        setLoading(false)
+      const result = await emailjs.send('service_djy948a', 'template_jd2t2tf',
+        {
+          from_name: formValues.name,
+          to_name: 'Cococ Studio',
+          from_email: formValues.email,
+          to_email: 'ltv.mrvu@gmail.com',
+          message: formValues.message
+        },
+        'ugaUp8luB88w0ka3B'
+      )
 
-        alert('Thank you, I will get back to you as soon as possible')
-
-        setForm({
-          name: '',
-          email: '',
-          message: ''
+      if (result.status == 200) {
+        toast({
+          title: "Success",
+          description: "Thank you, I will get back to you as soon as possible",
         })
-      }, (error: any) => {
-        setLoading(false)
+      }
 
-        console.log(error)
+      
+      return {
+        // ...prevState,
+        error: "",
+        status: "SUCCESS",
+      }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const fieldErrors = error.flatten().fieldErrors;
 
-        alert('Something went wrong')
+        setErrors(fieldErrors as unknown as Record<string, string>);
+
+        toast({
+          title: "Error",
+          description: "Please check your inputs and try again",
+          variant: "destructive",
+        })
+
+        return { ...prevState, error: "Validation failed", status: "ERROR" };
+      }
+
+      toast({
+        title: "Error",
+        description: "An unexpected error has occurred",
+        variant: "destructive",
       })
+
+      return {
+        ...prevState,
+        error: "An unexpected error has occurred",
+        status: "ERROR",
+      }
+    }
   }
+
+  const [state, formAction, isPending] = useActionState(
+    handleFormSubmit,
+    {
+      error: "",
+      status: "INITIAL",
+    }
+  );
+
 
   return (
     <motion.div
@@ -70,66 +109,74 @@ const Contact = ({ className }: { className?: string }) => {
       className={cn('flex-[0.75] bg-black p-8 rounded-2xl border-white border', className)}
     >
       <p className={styles.sectionSubText}>Get in touch</p>
-      {/* <h3 className={styles.sectionHeadText}>Liên Hệ.</h3> */}
       <TypewriterEffectSmooth words={words_1} cursorClassName="bg-primary" />
 
       <form
         ref={formRef}
-        onSubmit={handleSubmit}
+        action={formAction}
         className='mt-12 flex flex-col gap-8'
       >
         <label className='flex flex-col'>
           <span className='text-white font-medium mb-4'>
             Tên của bạn
           </span>
-          <input
-            type='text'
+          <Input
+            required
+            id="name"
             name='name'
-            value={form.name}
-            onChange={handleChange}
             placeholder="what's your name?"
-            className='bg-tertiary py-4 px-6 
+            className='bg-tertiary py-4 px-6 h-12
             placeholder:text-primary 
             text-black rounded-lg outline-none border-none font-medium'
           />
+          {errors.name && (
+            <p className={"startup-form_error"}>{errors.name}</p>
+          )}
         </label>
         <label className='flex flex-col'>
           <span className='text-white font-medium mb-4'>
             Your Email
           </span>
-          <input
-            type='email'
+          <Input
+            required
+            id="name"
             name='email'
-            value={form.email}
-            onChange={handleChange}
             placeholder="what's your email?"
-            className='bg-tertiary py-4 px-6 
+            className='bg-tertiary py-4 px-6 h-12
             placeholder:text-primary 
             text-black rounded-lg outline-none border-none font-medium'
           />
+          {errors.email && (
+            <p className={"startup-form_error"}>{errors.email}</p>
+          )}
         </label>
         <label className='flex flex-col'>
           <span className='text-white font-medium mb-4'>
             Your Message
           </span>
-          <textarea
+          <Textarea
+            required
             rows={7}
+            id="message"
             name='message'
-            value={form.message}
-            onChange={handleChange}
-            placeholder="what do you want to say"
+            placeholder="what do you want to say?"
             className='bg-tertiary py-4 px-6 
             placeholder:text-primary 
             text-black rounded-lg outline-none border-none font-medium'
           />
+          {errors.message && (
+            <p className={"startup-form_error"}>{errors.message}</p>
+          )}
         </label>
 
-        <button
-          type='submit'
-          className='bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary'
+        <Button
+          type={"submit"}
+          className={"startup-form_btn text-white"}
+          disabled={isPending}
         >
-          {loading ? 'Sending...' : 'Send'}
-        </button>
+          {isPending ? "Submitting..." : "Send Your Message"}
+          <Send className={"size-6 ml-2"} />
+        </Button>
       </form>
     </motion.div>
   )

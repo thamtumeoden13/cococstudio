@@ -89,7 +89,7 @@ const Header = () => {
     >
       <div className={"container flex h-14 items-center max-lg:px-5"}>
         <Link href={"/"} className={"lg:hidden flex-1 cursor-pointer z-2"}>
-          <Image src="/logo-1.png" alt="logo" width={60} height={30} />
+          <Image src="/logo-cococstudio.png" alt="logo" width={60} height={30} />
         </Link>
 
         <div
@@ -133,7 +133,7 @@ const Header = () => {
                     )}
                   >
                     <Image
-                      src="/logo-1.png"
+                      src="/logo-cococstudio.png"
                       alt="logo"
                       width={60}
                       height={30}

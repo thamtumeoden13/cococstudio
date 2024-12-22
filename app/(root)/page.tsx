@@ -58,7 +58,7 @@ export default async function Home({ searchParams }: {
       {/* </section> */}
       {/* <section className={"pink_container !bg-white"}> */}
       <section className={"section_container my-16 bg-white border border-neutral-100 rounded-xl relative"}>
-        <Meteors number={20} />
+        {/* <Meteors number={20} /> */}
         <div className="flex flex-col items-center justify-center ">
           <TypewriterEffectSmooth words={words_2} cursorClassName="bg-primary" />
         </div>
@@ -118,29 +118,29 @@ export default async function Home({ searchParams }: {
 }
 
 export const metadata: Metadata = {
-  title: "CÔNG TY TNHH KIẾN TRÚC XÂY DỰNG ART SUNDAY",
-  description: "Thiết Kế Và Thi Công Kiến Trúc: Nhà Phố, Biệt Thự, Khách Sạn, Nhà Thờ, Nhà Giáo Lý Và Nội Thất Chuyên Nghiệp",
-  keywords: ["Biệt Thự", "Nhà Phố", "Nội Thất", "Công Trình Công Giáo"],
+  title: "CÔNG TY TNHH MTV TRUYỀN THÔNG QUẢNG CÁO COCOC STUDIO",
+  description: "Cốc Cốc Studio cung cấp dịch vụ chụp hình quảng cáo cho doanh nghiệp. Đến với Cốc Cốc Studio sẽ cùng nhau thực hiện từ ý tưởng và concept để cho ra những hình ảnh đúng với yêu cầu của từng nhãn hàng nhất.",
+  keywords: ["Chụp ảnh sản phẩm", "Chụp ảnh đồ ăn", "Quay video sản phẩm", "Chụp ảnh nhà máy", "Chụp ảnh nội thất", "Cho thuê phòng chụp hình theo giờ"],
   openGraph: {
-    title: "Kiến Trúc, Xây Dựng | ART SUNDAY",
-    description: "Thiết Kế Và Thi Công Kiến Trúc: Nhà Phố, Biệt Thự, Khách Sạn, Nhà Thờ, Nhà Giáo Lý Và Nội Thất Chuyên Nghiệp.",
-    url: "https://artsunday.vn/",
+    title: "Chụp ảnh, Quay phim | Cốc Cốc Studio",
+    description: "Cốc Cốc Studio cung cấp dịch vụ chụp hình quảng cáo cho doanh nghiệp. Đến với Cốc Cốc Studio sẽ cùng nhau thực hiện từ ý tưởng và concept để cho ra những hình ảnh đúng với yêu cầu của từng nhãn hàng nhất.",
+    url: "https://cococstudio.com/",
     images: [
       {
         url: "https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        alt: "noi-that",
+        alt: "cococ-studio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@twitterhandle",
-    title: "Kiến Trúc, Xây Dựng | ART SUNDAY",
-    description: "Thiết Kế Và Thi Công Kiến Trúc: Nhà Phố, Biệt Thự, Khách Sạn, Nhà Thờ, Nhà Giáo Lý Và Nội Thất Chuyên Nghiệp.",
+    title: "Chụp ảnh, Quay phim | Cốc Cốc Studio",
+    description: "Cốc Cốc Studio cung cấp dịch vụ chụp hình quảng cáo cho doanh nghiệp. Đến với Cốc Cốc Studio sẽ cùng nhau thực hiện từ ý tưởng và concept để cho ra những hình ảnh đúng với yêu cầu của từng nhãn hàng nhất.",
     images: [
       {
         url: "https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        alt: "noi-that",
+        alt: "cococ-studio",
       },
     ],
   },
@@ -161,7 +161,7 @@ const words_1 = [
     className: "text-primary",
   },
   {
-    text: "TÔI.",
+    text: "TÔI",
     className: "text-primary",
   },
 ];
@@ -177,7 +177,7 @@ const words_2 = [
     className: "text-primary",
   },
   {
-    text: "BIỂU.",
+    text: "BIỂU",
     className: "text-primary",
   },
 ];
@@ -197,7 +197,7 @@ const words_3 = [
     className: "text-primary",
   },
   {
-    text: "KHAI.",
+    text: "KHAI",
     className: "text-primary",
   },
 ];

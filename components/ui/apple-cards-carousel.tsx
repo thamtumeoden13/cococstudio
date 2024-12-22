@@ -22,16 +22,10 @@ interface CarouselProps {
   initialScroll?: number;
 }
 
-type Card = {
-  _id: string;
-  src: string;
-  title: string;
-  image: string;
-  category: string;
-  construction:any;
-  content: React.ReactNode;
-};
-type CardType = Omit<Project, "author" | "construction"> & { author?: Author } & { construction?: Construction };
+type CardType = Omit<Project, "author" | "construction">
+  & { author?: Author }
+  & { construction?: Construction }
+  & { content?: React.ReactNode }
 
 
 export const CarouselContext = createContext<{
@@ -239,7 +233,8 @@ export const Card = ({
               >
                 {card.title}
               </motion.p>
-              <div className="py-10">{card.pitch}</div>
+              {card.content && <div className="py-10">{card.content}</div>}
+              {card.pitch && <div className="py-10">{card.pitch}</div>}
             </motion.div>
           </div>
         )}

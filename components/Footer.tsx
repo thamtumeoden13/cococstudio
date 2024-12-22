@@ -55,11 +55,11 @@ const Footer = () => {
 				</h4> */}
           <div className="flex flex-col">
             <Image
-              src={"/bg-artsunday.png"}
+              src={"/logo-cococstudio.png"}
               alt='logo'
               width={500}
               height={500}
-              className='object-contain w-[360px] h-[100px]'
+              className='object-cover w-[200px] h-[200px]'
             />
             {/* <TextGenerateEffect
               className="font-medium text-left my-1 text-white-100 text-[20px] md:text-md lg:text-lg"
@@ -105,7 +105,7 @@ const Footer = () => {
           >
             <ContactModal />
             <p className="font-normal text-[14px] text-white opacity-50">
-              Copyright © 2023 - 2025 Art Sunday. All rights reserved.
+              Copyright © 2024 Cococ Studio. All rights reserved.
             </p>
             <div className="flex gap-4">
               {socials.map((social, index) => (
