@@ -34,12 +34,10 @@ export default async function Home({ searchParams }: {
 
   // const posts = await client.fetch(STARTUPS_QUERY);
 
-  // const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
-  const { data: searchForProjectDetails } = await sanityFetch({ query: PROJECT_DETAILS_BY_QUERY, params });
-  console.log(searchForProjectDetails)
-  const { data: searchForConstructions } = await sanityFetch({ query: CONSTRUCTIONS_QUERY, params });
-
-  const { select: homeHeroPost } = await client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "home-hero" });
+  const [searchForProjectDetails, { select: homeHeroPost }] = await Promise.all([
+    client.fetch(PROJECT_DETAILS_BY_QUERY, params),
+    client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "home-hero" })
+  ])
 
   return (
     <>
