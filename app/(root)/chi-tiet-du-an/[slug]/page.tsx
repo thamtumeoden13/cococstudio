@@ -34,7 +34,6 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const { data: post } = await sanityFetch({ query: PROJECT_DETAIL_BY_SLUG_QUERY, params: { slug } })
 
-  const releatedPosts = await client.fetch(PROJECT_DETAILS_BY_PROJECT_QUERY, { id: post.project._id },)
 
   if (!post) return notFound();
 

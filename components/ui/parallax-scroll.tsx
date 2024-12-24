@@ -6,13 +6,18 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { FollowerPointerCard } from "./following-pointer";
+import { ProjectDetail } from "@/sanity/types";
+
+type CardType = Omit<ProjectDetail, "author">;
 
 export const ParallaxScroll = ({
   cards,
   className,
+  path,
 }: {
-  cards: any[];
+  cards: CardType[];
   className?: string;
+  path?: string;
 }) => {
   const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
     null
@@ -101,8 +106,8 @@ export const ParallaxScroll = ({
                   priority
                   width={280}
                   height={200}
-                  src={active.thumbnail}
-                  alt={active.title}
+                  src={active.thumbnail!}
+                  alt={active.title!}
                   className="w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-cover"
                 />
               </motion.div>
@@ -119,7 +124,7 @@ export const ParallaxScroll = ({
                       layoutId={`description-${active.description}-${id}`}
                       className="text-neutral-600 dark:text-neutral-400 text-base"
                     >
-                      {active.description}
+                      {active.subtitle}
                     </motion.p>
                   </div>
 
@@ -128,7 +133,7 @@ export const ParallaxScroll = ({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    href={active.ctaLink}
+                    href={`${path}/${active.slug?.current}`}
                     target="_blank"
                     className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
                   >
@@ -143,9 +148,7 @@ export const ParallaxScroll = ({
                     exit={{ opacity: 0 }}
                     className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                   >
-                    {typeof active.content === "function"
-                      ? active.content()
-                      : active.content}
+                    {active.description}
                   </motion.div>
                 </div>
               </div>
@@ -170,7 +173,7 @@ export const ParallaxScroll = ({
                 onClick={() => setActive(el)}
               >
                 <Image
-                  src={el.image}
+                  src={el.image!}
                   className="h-[414px] w-[295px] object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
                   height="400"
                   width="400"
@@ -188,7 +191,7 @@ export const ParallaxScroll = ({
                 onClick={() => setActive(el)}
               >
                 <Image
-                  src={el.image}
+                  src={el.image!}
                   className="h-[414px] w-[295px] object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
                   height="400"
                   width="400"
@@ -206,7 +209,7 @@ export const ParallaxScroll = ({
                 onClick={() => setActive(el)}
               >
                 <Image
-                  src={el.image}
+                  src={el.image!}
                   className="h-[414px] w-[295px] object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
                   height="400"
                   width="400"
