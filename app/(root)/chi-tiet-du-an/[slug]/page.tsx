@@ -38,6 +38,8 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   if (!post) return notFound();
 
+  const parsedContent = md.render(post?.pitch || '');
+
   return (
     <>
       <MarkupSchema path={`chi-tiet-du-an/${slug}`} post={post} />
@@ -55,23 +57,25 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
         </div>
       </section> */}
 
-      <section className="section_container !max-w-screen-xl">
-        <div className="flex justify-between items-start gap-1">
-          <ProjectGeneral post={post} />
+      <section className={"section_container"}>
+        <Image
+          src={post.thumbnail}
+          alt="thumbnail"
+          height={1000}
+          width={1000}
+          className={"h-[44rem] w-full rounded-xl"}
+        />
 
-          <div className='hidden lg:flex flex-col w-[36rem]'>
-            {releatedPosts?.length > 0 && (
-              <div className={"flex flex-col"}>
-                <p className={"heading-half !leading-[16px] !text-left w-[330px] !bg-black-100 rounded-tl-2xl"}>Quan Tâm</p>
-
-                <ul className={"mt-2 card_grid-xs "}>
-                  {releatedPosts.map((post: StartupCardType, index: number) => (
-                    <SimpleCard key={index} post={post} path='chi-tiet-du-an' />
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+        <div className={"space-y-5 mt-10 max-w-7xl mx-auto"}>
+          <h3 className={"text-30-bold"}>Bài Viết Chi Tiết</h3>
+          {parsedContent ? (
+            <article
+              className={"prose max-w-7xl font-ibm-plex break-all"}
+              dangerouslySetInnerHTML={{ __html: parsedContent }}
+            />
+          ) : (
+            <p className={"no-result"}>Không tìm thấy thông tin phù hợp</p>
+          )}
         </div>
 
         <hr className={"divider !max-w-full"} />
@@ -80,7 +84,6 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           <View query={PROJECT_DETAIL_VIEWS_QUERY} id={post._id} />
         </Suspense>
       </section>
-
     </>
   )
 }

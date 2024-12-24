@@ -17,7 +17,8 @@ import { parallaxCards, parallaxImages } from "@/constants";
 import { Meteors } from "@/components/ui/meteors";
 import { ExpandableCard } from "@/components/ExpandableCard";
 import { FocusCards } from "@/components/ui/focus-cards";
-import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
+import { TitleComponent, TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
+import { FollowerPointerCard } from "@/components/ui/following-pointer";
 
 export default async function Home({ searchParams }: {
   searchParams: Promise<{ query?: string }>
@@ -35,7 +36,7 @@ export default async function Home({ searchParams }: {
 
   // const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
   const { data: searchForProjectDetails } = await sanityFetch({ query: PROJECT_DETAILS_BY_QUERY, params });
-
+  console.log(searchForProjectDetails)
   const { data: searchForConstructions } = await sanityFetch({ query: CONSTRUCTIONS_QUERY, params });
 
   const { select: homeHeroPost } = await client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "home-hero" });
@@ -49,7 +50,7 @@ export default async function Home({ searchParams }: {
 
       {/* <section className={"pink_container !bg-black"}> */}
       <section className={"section_container"}>
-        <div className="flex flex-col items-center justify-center ">
+        <div className="flex flex-col items-center justify-center relative">
           <TypewriterEffectSmooth words={words_1} cursorClassName="bg-primary" />
         </div>
         <Experience />
@@ -62,7 +63,7 @@ export default async function Home({ searchParams }: {
         <div className="flex flex-col items-center justify-center ">
           <TypewriterEffectSmooth words={words_2} cursorClassName="bg-primary" />
         </div>
-        <ParallaxScroll cards={parallaxCards} />
+        <ParallaxScroll cards={searchForProjectDetails} />
       </section>
       {/* </section> */}
       {/* <section className={"pink_container !bg-white"}> */}
@@ -70,7 +71,7 @@ export default async function Home({ searchParams }: {
         <div className="flex flex-col items-center justify-center ">
           <TypewriterEffectSmooth words={words_3} cursorClassName="bg-primary" />
         </div>
-        <FocusCards cards={parallaxCards} />
+        <FocusCards cards={searchForProjectDetails} path="/chi-tiet-du-an" />
       </section>
       {/* </section> */}
       {/* <section className={"pink_container !min-h-[230px]"}>

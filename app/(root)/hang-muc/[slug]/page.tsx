@@ -43,7 +43,7 @@ export default async function Constructions({ params }: { params: Promise<{ slug
 
       <section className={"section_container"}>
         <Image
-          src={data.image}
+          src={data.thumbnail}
           alt="thumbnail"
           height={1000}
           width={1000}

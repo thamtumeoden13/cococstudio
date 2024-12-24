@@ -4,21 +4,15 @@ import { EyeIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Author, Startup } from "@/sanity/types";
+import { Author, Construction, Startup } from "@/sanity/types";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
-export type SimpleCard = Omit<Startup, "author"> & { author?: Author };
+export type SimpleCard = Omit<Construction, "author"> & { author?: Author };
 
 const SimpleCard = ({ post, path }: { post: SimpleCard, path: string }) => {
   const {
-    _createdAt,
-    views,
-    author,
     title,
-    category,
-    _id,
-    image,
-    description,
+    thumbnail,
     slug
   } = post;
 
@@ -66,7 +60,7 @@ const SimpleCard = ({ post, path }: { post: SimpleCard, path: string }) => {
           {description}
         </p> */}
         <Image
-          src={image!}
+          src={thumbnail!}
           alt={title!}
           width={280}
           height={200}
@@ -75,12 +69,12 @@ const SimpleCard = ({ post, path }: { post: SimpleCard, path: string }) => {
       </Link>
 
       <div className={"flex-between gap-3 mt-5"}>
-        <Link href={`/?query=${category?.toLowerCase()}`}>
-          <div className={"flex gap-1.5"}>
-            <EyeIcon className={"size-6 text-primary"} />
-            <span className={"text-16-medium"}>{views}</span>
-          </div>
-        </Link>
+        {/* <Link href={`/?query=${category?.toLowerCase()}`}> */}
+        <div className={"flex gap-1.5"}>
+          <EyeIcon className={"size-6 text-primary"} />
+          {/* <span className={"text-16-medium"}>{views}</span> */}
+        </div>
+        {/* </Link> */}
         <Button className={"simple-card_btn"} asChild>
           <Link href={`/${path}/${slug?.current}`}>
             Chi Tiết

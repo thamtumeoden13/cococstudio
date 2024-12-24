@@ -101,7 +101,7 @@ export const ParallaxScroll = ({
                   priority
                   width={280}
                   height={200}
-                  src={active.ctaLink}
+                  src={active.thumbnail}
                   alt={active.title}
                   className="w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-cover"
                 />
@@ -132,7 +132,7 @@ export const ParallaxScroll = ({
                     target="_blank"
                     className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
                   >
-                    {active.ctaText}
+                    {"Visit"}
                   </motion.a>
                 </div>
                 <div className="pt-4 relative px-4">
@@ -170,7 +170,7 @@ export const ParallaxScroll = ({
                 onClick={() => setActive(el)}
               >
                 <Image
-                  src={el.src}
+                  src={el.image}
                   className="h-[414px] w-[295px] object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
                   height="400"
                   width="400"
@@ -188,7 +188,7 @@ export const ParallaxScroll = ({
                 onClick={() => setActive(el)}
               >
                 <Image
-                  src={el.src}
+                  src={el.image}
                   className="h-[414px] w-[295px] object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
                   height="400"
                   width="400"
@@ -206,7 +206,7 @@ export const ParallaxScroll = ({
                 onClick={() => setActive(el)}
               >
                 <Image
-                  src={el.src}
+                  src={el.image}
                   className="h-[414px] w-[295px] object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
                   height="400"
                   width="400"
@@ -253,23 +253,3 @@ export const CloseIcon = () => {
     </motion.svg>
   );
 };
-
-
-const TitleComponent = ({
-  title,
-  avatar,
-}: {
-  title: string;
-  avatar: string;
-}) => (
-  <div className="flex space-x-2 items-center">
-    <Image
-      src={avatar}
-      height="20"
-      width="20"
-      alt="thumbnail"
-      className="rounded-full border-2 border-white"
-    />
-    <p>{title}</p>
-  </div>
-);

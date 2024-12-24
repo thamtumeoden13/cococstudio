@@ -42,7 +42,6 @@ export const FollowerPointerCard = ({
   const handleMouseEnter = () => {
     setIsInside(true);
   };
-  console.log({isInside})
   return (
     <div
       onMouseLeave={handleMouseLeave}
@@ -82,7 +81,7 @@ export const FollowPointer = ({
   ];
   return (
     <motion.div
-      className="h-4 w-4 rounded-full absolute z-[50]"
+      className="h-4 w-4 rounded-full absolute z-50"
       style={{
         top: y,
         left: x,

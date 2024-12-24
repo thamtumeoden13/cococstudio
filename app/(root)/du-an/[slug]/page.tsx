@@ -46,7 +46,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
       <section className={"section_container"}>
         <Image
-          src={data.image}
+          src={data.thumbnail}
           alt="thumbnail"
           height={1000}
           width={1000}
