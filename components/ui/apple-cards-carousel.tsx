@@ -287,11 +287,11 @@ export const BlurImage = ({
         className
       )}
       onLoad={() => setLoading(false)}
-      src={src}
+      src={"/pexels-falling4utah-1080696.jpg"}
       width={width}
       height={height}
-      // loading="lazy"
-      // decoding="async"
+      loading="lazy"
+      decoding="async"
       blurDataURL={typeof src === "string" ? src : undefined}
       alt={alt ? alt : "Background of a beautiful view"}
       {...rest}
