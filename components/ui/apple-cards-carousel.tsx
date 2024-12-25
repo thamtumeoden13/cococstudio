@@ -111,7 +111,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
             {items.map((item, index) => (
               <motion.div
                 initial={{
-                  opacity: 1,
+                  opacity: 0,
                   y: 20,
                 }}
                 animate={{
@@ -287,7 +287,7 @@ export const BlurImage = ({
         className
       )}
       onLoad={() => setLoading(false)}
-      src={"/pexels-falling4utah-1080696.jpg"}
+      src={src}
       width={width}
       height={height}
       loading="lazy"
