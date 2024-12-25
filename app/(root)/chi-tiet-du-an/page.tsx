@@ -10,7 +10,7 @@ import ProjectList from "@/components/ProjectList";
 import ProjectDetailList from "@/components/ProjectDetailList";
 import MarkupSchema from "@/components/shared/MarkupSchema";
 import { Metadata } from "next/types";
-import SimpleCard from "@/components/SimpleCard";
+import SimpleCard, { SimpleCardType } from "@/components/SimpleCard";
 // import BreadcrumbComponent from "@/components/shared/Breadcrumb";
 
 export default async function Home({ searchParams }: {
@@ -41,7 +41,7 @@ export default async function Home({ searchParams }: {
         <p className={"sub-heading !max-w-3xl"}>
           Hãy Chọn Dự Án Mà Bạn Quan Tâm.
         </p>
-        <SearchForm query={query} path="chi-tiet-du-an" search="Dự Án"/>
+        <SearchForm query={query} path="chi-tiet-du-an" search="Dự Án" />
       </section>
       <section className={"section_container justify-items-center"}>
         <p className={"text-30-semibold"}>
@@ -49,7 +49,7 @@ export default async function Home({ searchParams }: {
         </p>
         <ul className={"mt-7 card_grid"}>
           {searchForProjects?.length > 0 ? (
-            searchForProjects.map((post: StartupCardType) => (
+            searchForProjects.map((post: SimpleCardType) => (
               <SimpleCard key={post?._id} post={post} path="chi-tiet-du-an" />
             ))
           ) : (
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
     url: "https://cococstudio.com/",
     images: [
       {
-        url: "https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        url: "https://cococstudio.com/logo-cococstudio.png",
         alt: "cococ-studio",
       },
     ],
@@ -98,7 +98,7 @@ export const metadata: Metadata = {
     description: "Cốc Cốc Studio cung cấp dịch vụ chụp hình quảng cáo cho doanh nghiệp. Đến với Cốc Cốc Studio sẽ cùng nhau thực hiện từ ý tưởng và concept để cho ra những hình ảnh đúng với yêu cầu của từng nhãn hàng nhất.",
     images: [
       {
-        url: "https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        url: "https://cococstudio.com/logo-cococstudio.png",
         alt: "cococ-studio",
       },
     ],

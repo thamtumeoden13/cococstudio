@@ -63,7 +63,6 @@ export default async function Construction({ searchParams }: {
   );
 }
 
-
 export const metadata: Metadata = {
   title: "CÔNG TY TNHH MTV TRUYỀN THÔNG QUẢNG CÁO COCOC STUDIO",
   description: "Cốc Cốc Studio cung cấp dịch vụ chụp hình quảng cáo cho doanh nghiệp. Đến với Cốc Cốc Studio sẽ cùng nhau thực hiện từ ý tưởng và concept để cho ra những hình ảnh đúng với yêu cầu của từng nhãn hàng nhất.",
@@ -74,7 +73,7 @@ export const metadata: Metadata = {
     url: "https://cococstudio.com/",
     images: [
       {
-        url: "https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        url: "https://cococstudio.com/logo-cococstudio.png",
         alt: "cococ-studio",
       },
     ],
@@ -86,7 +85,7 @@ export const metadata: Metadata = {
     description: "Cốc Cốc Studio cung cấp dịch vụ chụp hình quảng cáo cho doanh nghiệp. Đến với Cốc Cốc Studio sẽ cùng nhau thực hiện từ ý tưởng và concept để cho ra những hình ảnh đúng với yêu cầu của từng nhãn hàng nhất.",
     images: [
       {
-        url: "https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        url: "https://cococstudio.com/logo-cococstudio.png",
         alt: "cococ-studio",
       },
     ],

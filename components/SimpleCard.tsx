@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Author, Construction, Startup } from "@/sanity/types";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
-export type SimpleCard = Omit<Construction, "author"> & { author?: Author };
+export type SimpleCardType = Omit<Construction, "author"> & { author?: Author };
 
-const SimpleCard = ({ post, path }: { post: SimpleCard, path: string }) => {
+const SimpleCard = ({ post, path }: { post: SimpleCardType , path: string }) => {
   const {
     title,
     thumbnail,

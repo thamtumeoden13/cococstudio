@@ -87,7 +87,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: `http://cococstudio.com/hang-muc/${slug}`,
       images: [
         {
-          url: data.image,
+          url: data.thumbnail,
           width: 800,
           height: 600,
           alt: data?.title,
@@ -98,7 +98,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       card: 'summary_large_image',
       title: `${data?.name} - Cốc Cốc Studio`,
       description: `${data?.description}`,
-      images: [data?.image],
+      images: [data?.thumbnail],
     },
   };
 }

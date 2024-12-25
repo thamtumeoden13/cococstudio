@@ -74,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <body
         // className={`${workSans.variable}`}
         className={cn("font-IBMPlex antialiased", IBMPlex.variable)}
