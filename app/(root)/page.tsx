@@ -43,7 +43,6 @@ export default async function Home({ searchParams }: {
   return (
     <>
       <MarkupSchema post={{}} path="" />
-      <Hero />
 
       <section className="section_container !max-w-full mt-16 bg-black-200 justify-items-center !overflow-hidden">
         <AppleCardsCarousel data={homeHeroPost} />
