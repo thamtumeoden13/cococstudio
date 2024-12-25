@@ -259,12 +259,12 @@ export const Card = ({
             {card.title}
           </motion.p>
         </div>
-        {/* <BlurImage
+        <BlurImage
           src={card.image!}
           alt={card.title!}
           fill
           className="object-cover absolute z-10 inset-0"
-        /> */}
+        />
       </motion.button>
     </>
   );
