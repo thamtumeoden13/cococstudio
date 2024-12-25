@@ -8,7 +8,7 @@ import { testimonials_2 } from "@/constants";
 
 export type ProjectCardType = Omit<Project, "author" | "construction"> & { author?: Author } & { construction?: Construction };
 
-export function AppleCardsCarousel({ title, data }: { title?: string, data: ProjectCardType[] }) {
+export function AppleCardsCarousel({ title, data }: { title?: string, data: any[] }) {
   const cards = data.map((card: any, index: number) => (
     <Card
       key={card._id}
