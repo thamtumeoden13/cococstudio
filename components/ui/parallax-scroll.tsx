@@ -134,7 +134,6 @@ export const ParallaxScroll = ({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     href={`${path}/${active.slug?.current}`}
-                    target="_blank"
                     className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
                   >
                     {"Visit"}

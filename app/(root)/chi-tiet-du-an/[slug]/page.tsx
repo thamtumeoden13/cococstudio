@@ -1,32 +1,21 @@
 import React, { Suspense } from 'react'
 import {
-  PLAYLIST_BY_SLUG_QUERY,
-  PROJECT_DETAIL_BY_ID_QUERY,
   PROJECT_DETAIL_BY_SLUG_QUERY,
   PROJECT_DETAIL_VIEWS_QUERY,
-  PROJECT_DETAILS_BY_PROJECT_QUERY,
-  STARTUP_BY_ID_QUERY
 } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 import { notFound } from "next/navigation";
 import { formatDate } from "@/lib/utils";
-import Link from "next/link";
-import Image from "next/image";
 
 import markdownit from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
 import View from "@/components/View";
-import StartupCard, { StartupCardType } from "@/components/StartupCard";
 
 
-import ProjectAlbum from "@/components/ProjectAlbum"
-import ProjectGeneral from "@/components/ProjectGeneral"
-import SimpleCard from '@/components/SimpleCard';
-import { AppleCardsCarousel } from '@/components/AppleCardsCarousel';
 import { sanityFetch } from '@/sanity/lib/live';
 import MarkupSchema from '@/components/shared/MarkupSchema';
-// import BreadcrumbComponent from "@/components/shared/Breadcrumb"
-// import Header from "@/components/shared/Header"
+import { CloudinaryImage } from "@/components/shared/CloudinaryImage";
+
 const md = markdownit();
 
 const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
@@ -57,12 +46,12 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
       </section> */}
 
       <section className={"section_container"}>
-        <Image
+        <CloudinaryImage
           src={post.thumbnail}
-          alt="thumbnail"
-          height={1000}
-          width={1000}
-          className={"h-[44rem] w-full rounded-xl"}
+          alt={post?.slug?.current || "thumbnail"}
+          width={760}
+          height={540}
+          className="rounded-lg w-full mb-10 object-cover"
         />
 
         <div className={"space-y-5 mt-10 max-w-7xl mx-auto"}>

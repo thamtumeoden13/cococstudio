@@ -34,13 +34,6 @@ export const Card = React.memo(
         )}
         onClick={handleCLick}
       >
-        {/* <Image
-        src={card.src}
-        alt={card.title}
-        fill
-        className="object-cover absolute inset-0"
-      /> */}
-
         <Image
           src={card.image!}
           className="h-[414px] w-full object-cover object-left-top rounded-lg "

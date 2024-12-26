@@ -1,17 +1,12 @@
-import Image from "next/image";
-import SearchForm from "@/components/SearchForm";
-import StartupCard, { StartupCardType } from "@/components/StartupCard";
-import { client } from "@/sanity/lib/client";
-import { CONSTRUCTION_BY_ID_QUERY, CONSTRUCTION_BY_SLUG_QUERY, PROJECTS_QUERY, STARTUPS_QUERY } from "@/sanity/lib/queries";
+import { CONSTRUCTION_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import markdownit from "markdown-it";
 import { auth } from "@/auth";
-import Hero from "@/components/Hero";
 import ProjectList from "@/components/ProjectList";
-import ConstructionList from "@/components/ConstructionList";
 import { formatDate } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import MarkupSchema from "@/components/shared/MarkupSchema";
+import { CloudinaryImage } from "@/components/shared/CloudinaryImage";
 // import BreadcrumbComponent from "@/components/shared/Breadcrumb";
 
 const md = markdownit();
@@ -42,12 +37,12 @@ export default async function Constructions({ params }: { params: Promise<{ slug
       </section>
 
       <section className={"section_container"}>
-        <Image
+        <CloudinaryImage
           src={data.thumbnail}
-          alt="thumbnail"
-          height={1000}
-          width={1000}
-          className={"h-[44rem] w-full rounded-xl"}
+          alt={data?.slug?.current || "thumbnail"}
+          width={760}
+          height={540}
+          className="rounded-lg w-full mb-10 object-cover"
         />
 
         <ProjectList key={data?._id} post={data} />

@@ -28,21 +28,19 @@ export const CloudinaryImage = ({
   alt,
   ...rest
 }: ImageProps) => {
-  const imageUrl = "https://res.cloudinary.com/ds5evrsfp/image/upload/v1714203053/cococstudio/landscapes/nature-mountains.jpg";
 
   return (
     <Image
       loader={cloudinaryLoader}
-      src={src || imageUrl}
+      src={src}
       className={cn(
-        "transition duration-300 blur-sm",
+        "transition duration-300 blur-0",
         className
       )}
       width={width}
       height={height}
       loading="lazy"
       decoding="async"
-      blurDataURL={typeof src === "string" ? src : undefined}
       alt={alt ? alt : "Background of a beautiful view"}
       {...rest}
     />

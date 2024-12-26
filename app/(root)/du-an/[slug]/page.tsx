@@ -1,24 +1,16 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import {
-  PLAYLIST_BY_SLUG_QUERY,
-  PROJECT_BY_ID_QUERY,
   PROJECT_BY_SLUG_QUERY,
-  STARTUP_BY_ID_QUERY
 } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 import { notFound } from "next/navigation";
 import { formatDate } from "@/lib/utils";
-import Link from "next/link";
-import Image from "next/image";
 
 import markdownit from "markdown-it";
-import { Skeleton } from "@/components/ui/skeleton";
-import View from "@/components/View";
-import StartupCard, { StartupCardType } from "@/components/StartupCard";
-import ProjectList from '@/components/ProjectList';
 import ProjectDetailList from '@/components/ProjectDetailList';
 import { sanityFetch } from '@/sanity/lib/live';
 import MarkupSchema from '@/components/shared/MarkupSchema';
+import { CloudinaryImage } from "@/components/shared/CloudinaryImage";
 
 const md = markdownit();
 
@@ -35,8 +27,8 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <>
-      <MarkupSchema  path={`du-an/${slug}`} post={data} />
-      
+      <MarkupSchema path={`du-an/${slug}`} post={data} />
+
       <section className={"pink_container !min-h-[230px] mt-32"}>
         <p className={"tag"}>{formatDate(data?._createdAt)}</p>
 
@@ -45,12 +37,12 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
       </section>
 
       <section className={"section_container"}>
-        <Image
+        <CloudinaryImage
           src={data.thumbnail}
-          alt="thumbnail"
-          height={1000}
-          width={1000}
-          className={"h-[44rem] w-full rounded-xl"}
+          alt={data?.slug?.current || "thumbnail"}
+          width={760}
+          height={540}
+          className="rounded-lg w-full mb-10 object-cover"
         />
 
         <ProjectDetailList key={data?._id} post={data} />
