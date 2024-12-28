@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import Image, { ImageProps } from 'next/image';
-import { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 type CloudinaryImageType = {
   src: string;
@@ -17,6 +17,39 @@ const cloudinaryLoader = ({ src, width, quality }: { src: string; width: number;
     f_auto: true,
     q_auto: true,
     w: width,
+    q: quality || 75,
+  });
+};
+
+const optimizeCloudinaryImage = (url: string, options: { [key: string]: string | number | boolean }) => {
+  // Kiểm tra URL Cloudinary
+  if (!url || !url.includes("res.cloudinary.com")) {
+    return url; // Trả về URL gốc nếu không hợp lệ
+  }
+
+  // Tạo các tham số biến đổi
+  const transformations = Object.entries(options)
+    .filter(([, value]) => value) // Bỏ qua giá trị "false" hoặc "undefined"
+    .map(([key, value]) => (typeof value === "boolean" ? key : `${key}_${value}`))
+    .join(",");
+
+  // Tách URL thành phần cơ bản và đường dẫn ảnh
+  const [base, imagePath] = url.split("/upload/");
+
+  // Kết hợp lại URL với các tham số tối ưu hóa
+  return `${base}/upload/${transformations}/${imagePath}`;
+};
+
+const getBlurDataURL = (src: string): string => {
+  if (!src || !src.includes("res.cloudinary.com")) {
+    return src; // Nếu không phải URL Cloudinary, trả về URL gốc
+  }
+
+  // Tạo URL với kích thước nhỏ, chất lượng thấp để làm ảnh mờ
+  return optimizeCloudinaryImage(src, {
+    w: 10, // Chiều rộng 10px
+    q: 10, // Chất lượng thấp
+    f_auto: true, // Định dạng tự động
   });
 };
 
@@ -54,47 +87,24 @@ export const BlurImage = ({
   ...rest
 }: ImageProps) => {
   const [isLoading, setLoading] = useState(true);
+
   return (
     <Image
       className={cn(
-        // "transition duration-300",
-        // isLoading ? "blur-sm" : "blur-0",
-        className
+        className,
+        // isLoading ? "blur-sm transition duration-300" : "blur-0"
       )}
       loader={cloudinaryLoader}
       onLoad={() => setLoading(false)}
       src={src}
       width={width}
       height={height}
-      blurDataURL={typeof src === "string" ? src : undefined}
-      alt={alt ? alt : "Background of a beautiful view"}
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      blurDataURL={typeof src === "string" ? getBlurDataURL(src) : undefined} // Sử dụng hàm tạo blurDataURL
+      alt={alt || "Background of a beautiful view"}
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      placeholder="blur" // Bật chế độ làm mờ
+      priority={true}
       {...rest}
     />
   );
-};
-
-const optimizeCloudinaryImage = (url: string, options: { [key: string]: string | number | boolean }) => {
-  // Kiểm tra URL có thuộc Cloudinary hay không
-  if (!url.includes('res.cloudinary.com')) {
-    return url; // Nếu không phải URL Cloudinary, trả về nguyên URL
-  }
-
-  // Tách URL thành các phần
-  const [base, imagePath] = url.split('/upload/');
-  
-  // Tạo chuỗi các tham số từ options, xử lý giá trị boolean đúng cách
-  const transformations = Object.entries(options)
-    .map(([key, value]) => {
-      if (typeof value === 'boolean') {
-        // Chuyển boolean thành chuỗi "true" cho giá trị "true" và bỏ qua "false"
-        return value ? `${key}` : '';
-      }
-      return `${key}_${value}`;
-    })
-    .filter(Boolean)  // Loại bỏ chuỗi rỗng
-    .join(',');
-
-  // Chèn các tham số vào URL
-  return `${base}/upload/${transformations}/${imagePath}`;
 };
