@@ -20,8 +20,8 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <section className={"section_container mt-16  w-full md:w-[44rem]"}>
           {/* <Experience /> */}
           {/* <About /> */}
-          <Insights />
-          <Explore />
+          {/* <Insights />
+          <Explore /> */}
           <div className="mt-10">
             <Contact />
           </div>
