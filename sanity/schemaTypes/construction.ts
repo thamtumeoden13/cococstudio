@@ -58,7 +58,7 @@ export const construction = defineType({
     defineField({
       name: 'pitch',
       type: 'markdown',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().min(20),
     }),
     defineField({
       name: 'isActived',

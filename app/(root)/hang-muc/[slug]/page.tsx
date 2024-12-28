@@ -42,7 +42,7 @@ export default async function Constructions({ params }: { params: Promise<{ slug
           alt={data?.slug?.current || "thumbnail"}
           width={760}
           height={540}
-          className="rounded-lg w-full mb-10 object-cover"
+          className="max-h-[44rem] rounded-lg w-full mb-10 object-cover"
         />
 
         <ProjectList key={data?._id} post={data} />
