@@ -57,8 +57,8 @@ export const BlurImage = ({
   return (
     <Image
       className={cn(
-        "transition duration-300",
-        isLoading ? "blur-sm" : "blur-0",
+        // "transition duration-300",
+        // isLoading ? "blur-sm" : "blur-0",
         className
       )}
       loader={cloudinaryLoader}
