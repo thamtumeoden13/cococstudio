@@ -37,72 +37,25 @@ export default async function Home({ searchParams }: {
         <AppleCardsCarousel data={homeHeroPost} />
       </section>
 
-      {/* <section className={"pink_container !bg-black"}> */}
       <section className={"section_container"}>
         <div className="flex flex-col items-center justify-center relative">
           <TypewriterEffectSmooth words={words_1} cursorClassName="bg-primary" />
         </div>
         <Experience />
-
       </section>
-      {/* </section> */}
-      {/* <section className={"pink_container !bg-white"}> */}
+
       <section className={"section_container my-16 bg-white border border-neutral-100 rounded-xl relative"}>
-        {/* <Meteors number={20} /> */}
         <div className="flex flex-col items-center justify-center ">
           <TypewriterEffectSmooth words={words_2} cursorClassName="bg-primary" />
         </div>
         <ParallaxScroll cards={searchForProjects} path={"du-an"} />
       </section>
-      {/* </section> */}
-      {/* <section className={"pink_container !bg-white"}> */}
       <section className={"section_container bg-white border border-neutral-100 rounded-xl relative"}>
         <div className="flex flex-col items-center justify-center ">
           <TypewriterEffectSmooth words={words_3} cursorClassName="bg-primary" />
         </div>
         <FocusCards cards={searchForProjectDetails} path="/chi-tiet-du-an" />
       </section>
-      {/* </section> */}
-      {/* <section className={"pink_container !min-h-[230px]"}>
-        <h1 className={"heading"}>
-          Kết Nối Với Chúng Tôi
-        </h1>
-
-        <p className={"sub-heading !max-w-3xl"}>
-          Hãy Chọn Hạng mục, Dự Án Mà Bạn Quan Tâm.
-        </p>
-
-        <SearchForm query={query} search="Dự Án" />
-      </section>
-
-      {query ? (
-        <section className={"section_container !justify-items-center"}>
-          <p className={"text-30-semibold"}>
-            {`Tìm kiếm cho "${query}"`}
-          </p>
-          <ul className={"mt-7 card_grid"}>
-            {searchForProjectDetails?.length > 0 ? (
-              searchForProjectDetails.map((post: StartupCardType) => (
-                <SimpleCard key={post?._id} post={post} path="du-an" />
-              ))
-            ) : (
-              <p className={"no-result"}>
-                Không tìm thấy dự án
-              </p>
-            )}
-          </ul>
-        </section>
-      ) : (
-        <>
-          {searchForConstructions?.length > 0 && (
-            searchForConstructions.map((post: StartupCardType) => (
-              <ConstructionList key={post?._id} post={post} />
-            ))
-          )}
-        </>
-      )}
-
-      <SanityLive /> */}
     </>
   );
 }

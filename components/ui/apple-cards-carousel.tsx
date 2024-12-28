@@ -111,22 +111,22 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
           >
             {items.map((item, index) => (
               <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.5,
-                    delay: 0.2 * index,
-                    ease: "easeOut",
-                    once: true,
-                  },
-                }}
+                // initial={{
+                //   opacity: 0,
+                //   y: 20,
+                // }}
+                // animate={{
+                //   opacity: 1,
+                //   y: 0,
+                //   transition: {
+                //     duration: 0.5,
+                //     delay: 0.2 * index,
+                //     ease: "easeOut",
+                //     once: true,
+                //   },
+                // }}
                 key={"card" + index}
-                className="last:pr-[5%] md:last:pr-[33%]  rounded-3xl"
+                className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
               >
                 {item}
               </motion.div>
@@ -264,6 +264,8 @@ export const Card = ({
           src={card.image!}
           alt={card.title!}
           fill
+          loading="eager"
+          priority={true}
           className="object-cover absolute z-10 inset-0"
         />
       </motion.button>
