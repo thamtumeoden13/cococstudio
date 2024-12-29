@@ -108,6 +108,7 @@ export const CONSTRUCTIONS_QUERY =
   title, 
   slug,
   _createdAt,
+  _updatedAt,
   author->{
     _id, name, image, bio
   }, 
@@ -159,6 +160,7 @@ export const PROJECTS_QUERY =
   subtitle,
   slug,
   _createdAt,
+  _updatedAt,
   author->{
     _id, name, image, bio
   }, 
@@ -239,6 +241,7 @@ export const PROJECT_DETAILS_BY_QUERY =
   subtitle,
   slug,
   _createdAt,
+  _updatedAt,
   author->{
     _id, name, image, bio
   }, 

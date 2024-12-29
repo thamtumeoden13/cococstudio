@@ -1,6 +1,39 @@
+// import type { MetadataRoute } from 'next'
+// const baseUrl = 'https://cococstudio.com';
+ 
+// export default function sitemap(): MetadataRoute.Sitemap {
+//   return [
+//     {
+//       url: `${baseUrl}/hang-muc`,
+//       lastModified: new Date(),
+//       changeFrequency: 'daily',
+//       priority: 1,
+//     },
+//     {
+//       url: `${baseUrl}/du-an`,
+//       lastModified: new Date(),
+//       changeFrequency: 'daily',
+//       priority: 0.8,
+//     },
+//     {
+//       url: `${baseUrl}/chi-tiet-du-an`,
+//       lastModified: new Date(),
+//       changeFrequency: 'daily',
+//       priority: 0.5,
+//     },
+//     {
+//       url: `${baseUrl}/thong-tin`,
+//       lastModified: new Date(),
+//       changeFrequency: 'daily',
+//       priority: 0.5,
+//     },
+//   ]
+// }
+
 import { client } from "@/sanity/lib/client";
 import { CONSTRUCTIONS_QUERY, PROJECT_DETAILS_BY_QUERY, PROJECTS_QUERY } from "@/sanity/lib/queries";
 import { ProjectDetail } from "@/sanity/types";
+import type { MetadataRoute } from 'next'
 
 const baseUrl = 'https://cococstudio.com';
 
@@ -36,9 +69,9 @@ async function fetchPosts() {
   return [...sitemapConstructions, ...sitemapProjects, ...sitemapProjectDetails];
 }
 
-export default async function sitemap() {
-  // const dynamicRoutes = await fetchPosts();
-  // console.log("Fetched dynamic routes: ", JSON.stringify(dynamicRoutes, null, 2));
+export default async function sitemap(): MetadataRoute.Sitemap {
+  const dynamicRoutes = await fetchPosts();
+  console.log("Fetched dynamic routes: ", JSON.stringify(dynamicRoutes, null, 2));
   const staticRoutes = [
     { url: `${baseUrl}/`, lastModified: new Date() },
     { url: `${baseUrl}/hang-muc`, lastModified: new Date() },
