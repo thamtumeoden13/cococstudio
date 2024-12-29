@@ -37,8 +37,8 @@ async function fetchPosts() {
 }
 
 export default async function sitemap() {
-  const dynamicRoutes = await fetchPosts();
-
+  // const dynamicRoutes = await fetchPosts();
+  // console.log("Fetched dynamic routes: ", JSON.stringify(dynamicRoutes, null, 2));
   const staticRoutes = [
     { url: `${baseUrl}/`, lastModified: new Date() },
     { url: `${baseUrl}/hang-muc`, lastModified: new Date() },
@@ -47,5 +47,5 @@ export default async function sitemap() {
     { url: `${baseUrl}/thong-tin`, lastModified: new Date() },
   ];
 
-  return [...staticRoutes, ...dynamicRoutes];
+  return [...staticRoutes];
 }
