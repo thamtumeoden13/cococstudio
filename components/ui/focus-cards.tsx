@@ -9,14 +9,16 @@ export const Card = React.memo(
   ({
     card,
     index,
+    className,
     hovered,
     setHovered,
     onClick,
   }: {
     card: CardType;
     index: number;
-    hovered: number | null;
-    setHovered: React.Dispatch<React.SetStateAction<number | null>>;
+    hovered?: number | null;
+    className?: string;
+    setHovered?: React.Dispatch<React.SetStateAction<number | null>>;
     onClick?: (card: any) => void;
   }) => {
 
@@ -26,11 +28,12 @@ export const Card = React.memo(
 
     return (
       <div
-        onMouseEnter={() => setHovered(index)}
-        onMouseLeave={() => setHovered(null)}
+        onMouseEnter={() => setHovered && setHovered(index)}
+        onMouseLeave={() => setHovered && setHovered(null)}
         className={cn(
           "justify-items-center rounded-lg relative  transition-all duration-300 ease-out hover:cursor-pointer",
-          hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
+          hovered !== null && hovered !== index && "blur-sm scale-[0.98]",
+          className
         )}
         onClick={handleCLick}
       >
