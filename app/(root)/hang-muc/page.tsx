@@ -27,7 +27,7 @@ export default async function Construction({ searchParams }: {
 
   // const posts = await client.fetch(STARTUPS_QUERY);
 
-  const { data: searchForConstructions } = await sanityFetch({ query: CONSTRUCTIONS_BY_QUERY });
+  const { data: searchForConstructions } = await sanityFetch({ query: CONSTRUCTIONS_BY_QUERY, params });
   console.log(`searchForConstructions -> ${params}: ${searchForConstructions}`)
 
   return (
