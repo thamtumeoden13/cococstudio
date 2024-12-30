@@ -2,7 +2,7 @@ import Image from "next/image";
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { StartupCardType } from "@/components/StartupCard";
 import { client } from "@/sanity/lib/client";
-import { CONSTRUCTION_BY_ID_QUERY, PROJECTS_QUERY, STARTUPS_QUERY } from "@/sanity/lib/queries";
+import { CONSTRUCTION_BY_ID_QUERY, PROJECTS_BY_QUERY, STARTUPS_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import markdownit from "markdown-it";
 import { auth } from "@/auth";

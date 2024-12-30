@@ -1,5 +1,5 @@
 import { client } from "@/sanity/lib/client";
-import { CONSTRUCTIONS_QUERY, PROJECT_DETAILS_BY_QUERY, PROJECTS_QUERY } from "@/sanity/lib/queries";
+import { CONSTRUCTIONS_BY_QUERY, PROJECT_DETAILS_BY_QUERY, PROJECTS_BY_QUERY } from "@/sanity/lib/queries";
 import { ProjectDetail } from "@/sanity/types";
 import { getServerSideSitemap } from 'next-sitemap'
 
@@ -14,8 +14,8 @@ async function fetchPosts() {
     searchForProjects,
     searchForProjectDetails,
   ] = await Promise.all([
-    client.fetch(CONSTRUCTIONS_QUERY, { search: null }),
-    client.fetch(PROJECTS_QUERY, { search: null }),
+    client.fetch(CONSTRUCTIONS_BY_QUERY, { search: null }),
+    client.fetch(PROJECTS_BY_QUERY, { search: null }),
     client.fetch(PROJECT_DETAILS_BY_QUERY, { search: null }),
   ]);
 

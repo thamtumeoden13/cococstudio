@@ -1,20 +1,25 @@
 "use client"
 
-import React, { useState, useActionState } from 'react'
+import React, { useState, useActionState, useEffect } from 'react'
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
-import { formConstructionSchema } from "@/lib/validation";
+import { formProjectSchema } from "@/lib/validation";
 import z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { createConstruction } from "@/lib/actions";
+import { createConstruction, createProject, createProjectDetail } from "@/lib/actions";
+import { Combobox, ComboboxDataType } from "./shared/ComboBox";
+import { client } from "@/sanity/lib/client";
+import { CONSTRUCTIONS_BY_QUERY, PROJECTS_BY_QUERY } from "@/sanity/lib/queries";
 
-const ConstructionForm = () => {
+const ProjectDetailForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [pitch, setPitch] = useState("");
+  const [pitch, setPitch] = useState<string>("");
+  const [selected, setSelected] = useState<ComboboxDataType | null>(null);
+  const [constructions, setConstructions] = useState<ComboboxDataType[]>([])
   const { toast } = useToast()
   const router = useRouter();
 
@@ -26,23 +31,24 @@ const ConstructionForm = () => {
         description: formData.get("description") as string,
         thumbnail: formData.get("thumbnail") as string,
         image: formData.get("image") as string,
+        projectId: selected?._id,
         pitch,
       }
 
-      await formConstructionSchema.parseAsync(formValues);
+      await formProjectSchema.parseAsync(formValues);
 
       console.log(formValues);
 
-      const response = await createConstruction(prevState, formData, pitch);
+      const response = await createProjectDetail(prevState, formData, pitch, selected!._id);
 
       if (response.status === "SUCCESS") {
         toast({
           title: "Success",
-          description: "Your construction pitch has been created successfully",
+          description: "Your project pitch has been created successfully",
         })
       }
 
-      router.push(`/hang-muc/${response.result.slug.current}`)
+      router.push(`/hang-muc/${selected?.slug?.current}`)
       return response;
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -81,6 +87,17 @@ const ConstructionForm = () => {
     }
   );
 
+  useEffect(() => {
+    const getConstructions = async () => {
+      const result = await client.fetch(PROJECTS_BY_QUERY, { search: null });
+
+      setConstructions(result || [])
+    }
+
+    getConstructions();
+
+  }, [])
+
   return (
     <form
       action={formAction}
@@ -95,7 +112,7 @@ const ConstructionForm = () => {
           name={"title"}
           className={"startup-form_input"}
           required
-          placeholder={"Construction Title"}
+          placeholder={"Project Title"}
         />
         {errors.title && (
           <p className={"startup-form_error"}>{errors.title}</p>
@@ -110,7 +127,7 @@ const ConstructionForm = () => {
           name={"subtitle"}
           className={"startup-form_input"}
           required
-          placeholder={"Construction Subtitle"}
+          placeholder={"Project Subtitle"}
         />
         {errors.subtitle && (
           <p className={"startup-form_error"}>{errors.subtitle}</p>
@@ -125,7 +142,7 @@ const ConstructionForm = () => {
           name={"description"}
           className={"startup-form_textarea"}
           required
-          placeholder={"Construction Description"}
+          placeholder={"Project Description"}
         />
         {errors.description && (
           <p className={"startup-form_error"}>{errors.description}</p>
@@ -141,7 +158,7 @@ const ConstructionForm = () => {
           name={"thumbnail"}
           className={"startup-form_input"}
           required
-          placeholder={"Construction Thumbnail URL"}
+          placeholder={"Project Thumbnail URL"}
         />
         {errors.thumbnail && (
           <p className={"startup-form_error"}>{errors.thumbnail}</p>
@@ -157,7 +174,21 @@ const ConstructionForm = () => {
           name={"image"}
           className={"startup-form_input"}
           required
-          placeholder={"Construction Image URL"}
+          placeholder={"Project Image URL"}
+        />
+        {errors.image && (
+          <p className={"startup-form_error"}>{errors.image}</p>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="image" className={"startup-form_label"}>
+          {"Construction"}
+        </label>
+        <Combobox
+          data={constructions}
+          className={"startup-form_input justify-between"}
+          onChange={(value: ComboboxDataType) => { setSelected(value) }}
         />
         {errors.image && (
           <p className={"startup-form_error"}>{errors.image}</p>
@@ -194,4 +225,4 @@ const ConstructionForm = () => {
     </form>
   )
 }
-export default ConstructionForm
+export default ProjectDetailForm

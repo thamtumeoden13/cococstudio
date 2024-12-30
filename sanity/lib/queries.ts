@@ -102,8 +102,8 @@ export const PLAYLIST_BY_SLUG_QUERY =
   }
 }`);
 
-export const CONSTRUCTIONS_QUERY =
-  defineQuery(`*[_type == "construction"] | order(_createdAt desc) {
+export const CONSTRUCTIONS_BY_QUERY =
+  defineQuery(`*[_type == "construction" && !defined($search) || title match $search || author->name match $search] | order(_createdAt desc) {
   _id, 
   title, 
   slug,
@@ -153,7 +153,7 @@ export const CONSTRUCTION_BY_SLUG_QUERY =
   pitch,
 }`);
 
-export const PROJECTS_QUERY =
+export const PROJECTS_BY_QUERY =
   defineQuery(`*[_type == "project" && !defined($search) || title match $search || author->name match $search] | order(_createdAt desc) {
   _id, 
   title, 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { client } from "@/sanity/lib/client";
-import { CATEGORY_BY_SLUG_QUERY, PROJECT_DETAILS_BY_QUERY, PROJECTS_QUERY, } from "@/sanity/lib/queries";
+import { CATEGORY_BY_SLUG_QUERY, PROJECT_DETAILS_BY_QUERY, PROJECTS_BY_QUERY, } from "@/sanity/lib/queries";
 import { auth } from "@/auth";
 import MarkupSchema from "@/components/shared/MarkupSchema";
 import { AppleCardsCarousel } from "@/components/AppleCardsCarousel";
@@ -24,7 +24,7 @@ export default async function Home({ searchParams }: {
   // const posts = await client.fetch(STARTUPS_QUERY);
 
   const [searchForProjects, searchForProjectDetails, { select: homeHeroPost }] = await Promise.all([
-    client.fetch(PROJECTS_QUERY, params),
+    client.fetch(PROJECTS_BY_QUERY, params),
     client.fetch(PROJECT_DETAILS_BY_QUERY, params),
     client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "home-hero" })
   ])
