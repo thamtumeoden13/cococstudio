@@ -8,6 +8,7 @@ import Experience from "@/components/Experience";
 import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 import { FocusCards } from "@/components/ui/focus-cards";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
+import { ContactButton } from "@/components/shared/ContactButton";
 
 export default async function Home({ searchParams }: {
   searchParams: Promise<{ query?: string }>
@@ -56,6 +57,8 @@ export default async function Home({ searchParams }: {
         </div>
         <FocusCards cards={searchForProjectDetails} path="/chi-tiet-du-an" />
       </section>
+
+      <ContactButton />
     </>
   );
 }

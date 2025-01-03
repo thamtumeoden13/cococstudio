@@ -23,17 +23,17 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <>
       <section className={"pink_container"}>
-        <section className={"section_container mt-16"}>
+        {/* <section className={"section_container mt-16"}>
           <CarouselPlugin data={homeHeroPost} />
-        </section>
-        <section className={"section_container mt-16"}>
+        </section> */}
 
+        {/* <section className={"section_container mt-16"}>
           <CarouselSpacing data={homeHeroPost} />
         </section>
         <section className={"section_container mt-16"}>
 
           <CarouselOrientation data={homeHeroPost} />
-        </section>
+        </section> */}
         <section className={"section_container mt-16  w-full md:w-[44rem]"}>
           {/* <Experience /> */}
           {/* <About /> */}

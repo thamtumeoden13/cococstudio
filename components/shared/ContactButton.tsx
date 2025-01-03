@@ -9,7 +9,7 @@ import { after } from "next/server";
 export const ContactButton = async () => {
 
   return (
-    <div className={"view-container left-3 relative z-10"}>
+    <div className={"view-container left-3 relative z-20"}>
       <a
         target="_blank"
         rel="noopener noreferrer"
