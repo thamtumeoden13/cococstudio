@@ -25,7 +25,7 @@ const ProjectDetailList = async ({ post }: { post: StartupCardType }) => {
   return (
     <section className={"section_container !justify-items-center"}>
       <Link href={`/du-an/${slug?.current}`} className='flex lg:w-[65rem] md:w-[43rem] w-[22rem]'>
-        <h1 className="heading-half hover:underline w-full" style={{ textAlign: 'left' }}>
+        <h1 className="heading-half">
           Dự Án: {'  '}
           <span className="text-purple">{title}</span>
         </h1>

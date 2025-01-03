@@ -12,7 +12,7 @@ import {
 import { Project } from "@/sanity/types"
 import Image from "next/image"
 
-export type CarouselOrientationDataType = Pick<Project, "_id" | "title" | "thumbnail" | "image">
+export type CarouselOrientationDataType = Omit<Project, "author">
 
 export function CarouselOrientation(
   {
@@ -42,7 +42,7 @@ export function CarouselOrientation(
               className="h-48 w-full object-cover object-left-top rounded-lg "
               height="400"
               width="400"
-              alt="thumbnail"
+              alt={card.subtitle || "Cốc Cốc Studio"}
             />
           </CarouselItem>
         ))}

@@ -72,7 +72,7 @@ export const CloudinaryImage = ({
       )}
       width={width}
       height={height}
-      alt={alt ? alt : "Background of a beautiful view"}
+      alt={alt || "Cốc Cốc Studio"}
       {...rest}
     />
   )
@@ -100,7 +100,7 @@ export const BlurImage = ({
       width={width}
       height={height}
       blurDataURL={typeof src === "string" ? getBlurDataURL(src) : undefined} // Sử dụng hàm tạo blurDataURL
-      alt={alt || "Background of a beautiful view"}
+      alt={alt || "Cốc Cốc Studio"}
       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       placeholder="blur" // Bật chế độ làm mờ
       priority={true}

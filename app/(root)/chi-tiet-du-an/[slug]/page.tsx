@@ -1,7 +1,10 @@
 import React, { Suspense } from 'react'
 import {
+  PROJECT_BY_ID_QUERY,
+  PROJECT_BY_SLUG_QUERY,
   PROJECT_DETAIL_BY_SLUG_QUERY,
   PROJECT_DETAIL_VIEWS_QUERY,
+  PROJECT_DETAILS_BY_PROJECT_QUERY,
 } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 import { notFound } from "next/navigation";
@@ -15,6 +18,8 @@ import View from "@/components/View";
 import { sanityFetch } from '@/sanity/lib/live';
 import MarkupSchema from '@/components/shared/MarkupSchema';
 import { CloudinaryImage } from "@/components/shared/CloudinaryImage";
+import { CarouselPlugin } from "@/components/shared/CarouselPlugin";
+import { ContactButton } from "@/components/shared/ContactButton";
 
 const md = markdownit();
 
@@ -27,6 +32,11 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   if (!post) return notFound();
 
   const parsedContent = md.render(post?.pitch || '');
+
+
+  const detailsByProjectId = await client.fetch(PROJECT_DETAILS_BY_PROJECT_QUERY, { id: post.project._id });
+
+  console.log('detailsByProjectId', detailsByProjectId.length)
 
   return (
     <>
@@ -48,7 +58,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
       <section className={"section_container"}>
         <CloudinaryImage
           src={post.thumbnail}
-          alt={post?.slug?.current || "thumbnail"}
+          alt={post.subtitle || "Cốc Cốc Studio"}
           width={760}
           height={540}
           className="max-h-[44rem] rounded-lg w-full mb-10 object-cover"
@@ -58,7 +68,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           <h3 className={"text-30-bold"}>Bài Viết Chi Tiết</h3>
           {parsedContent ? (
             <article
-              className={"prose max-w-7xl font-ibm-plex break-all"}
+              className={"prose max-w-7xl font-ibm-plex text-justify"}
               dangerouslySetInnerHTML={{ __html: parsedContent }}
             />
           ) : (
@@ -67,6 +77,16 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
         </div>
 
         <hr className={"divider !max-w-full"} />
+
+        {detailsByProjectId &&
+          <section className={"section_container !py-0 "}>
+            <h4 className="heading-half w-full md:w-[32rem] text-left">
+              Bài Viết{'  '}
+              <span className="text-purple">{"Liên Quan"}</span>
+            </h4>
+            <CarouselPlugin data={detailsByProjectId} className="max-w-7xl py-10" />
+          </section>
+        }
 
         <Suspense fallback={<Skeleton className={"view_skeleton"} />}>
           <View query={PROJECT_DETAIL_VIEWS_QUERY} id={post._id} />

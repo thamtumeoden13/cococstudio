@@ -23,7 +23,7 @@ const ImageModal = ({ item }: { item: any }) => {
       <ModalTrigger className="flex justify-center group/modal-btn">
         <Image
           src={item.image}
-          alt="blog thumnail"
+          alt={item.subtitle || "blog thumnail"}
           width={760}
           height={540}
           className="rounded-lg mb-10 object-cover"
@@ -69,7 +69,8 @@ const ImageModal = ({ item }: { item: any }) => {
               <Lens hovering={hovering} setHovering={setHovering}>
                 <Image
                   src={imageSelected}
-                  alt="blog thumnail"
+                  alt=""
+                  role="presentation"
                   height="1000"
                   width="1000"
                   className="rounded-lg mb-4 object-cover"

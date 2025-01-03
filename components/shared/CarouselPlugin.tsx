@@ -11,11 +11,15 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Project } from "@/sanity/types"
-import { Card } from "../ui/focus-cards"
+import { FocusCard } from "../ui/focus-cards"
+import { cn } from "@/lib/utils"
+import { AppleCard, AppleCardType } from "../ui/apple-cards-carousel"
+import { AnimatedTestimonials } from "../ui/animated-testimonials"
+import { testimonials_2 } from "@/constants"
 
-export type CarouselPluginDataType = Pick<Project, "_id" | "title" | "thumbnail" | "image">
+export type CarouselPluginDataType = Omit<Project, "author">
 
-export function CarouselPlugin({ data }: { data: CarouselPluginDataType[] }) {
+export function CarouselPlugin({ data, className }: { data: AppleCardType[], className?: string }) {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   )
@@ -23,22 +27,25 @@ export function CarouselPlugin({ data }: { data: CarouselPluginDataType[] }) {
   return (
     <Carousel
       plugins={[plugin.current]}
-      className="w-full max-w-4xl"
+      className={cn("w-full max-w-4xl", className)}
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
-      <CarouselContent>
+      <CarouselContent className="">
         {data.map((card, index) => (
           <CarouselItem
             key={`carousel-item-card-${card.title}-${index.toString()}`}
-            className="pt-1 md:basis-1/2"
+            className="last:pr-[5%] rounded-3xl"
           >
-            <Card
-              card={card}
+            <AppleCard
+              key={card._id}
+              card={{
+                ...card,
+                // content: <AnimatedTestimonials testimonials={testimonials_2} />,
+                path: "chi-tiet-du-an"
+              }}
               index={index}
-              hovered={index}
-            // setHovered={setHovered}
-            // onClick={handleClick}
+              className="lg:h-[72vh] md:h-[60vh]"
             />
           </CarouselItem>
         ))}

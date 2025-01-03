@@ -107,7 +107,8 @@ export const ParallaxScroll = ({
                   width={280}
                   height={200}
                   src={active.thumbnail!}
-                  alt={active.title!}
+                  alt={""}
+                  role="presentation"
                   className="w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-cover"
                 />
               </motion.div>
@@ -173,10 +174,10 @@ export const ParallaxScroll = ({
               >
                 <Image
                   src={el.image!}
-                  className="h-[414px] w-[295px] object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
+                  className="h-[414px] w-full object-cover object-left-top rounded-lg gap-5 !m-0 !p-0"
                   height="400"
                   width="400"
-                  alt="thumbnail"
+                  alt={el.subtitle || "Cốc Cốc Studio"}
                 />
               </motion.div>
             ))}
@@ -191,10 +192,10 @@ export const ParallaxScroll = ({
               >
                 <Image
                   src={el.image!}
-                  className="h-[414px] w-[295px] object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
+                  className="h-[414px] w-full object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
                   height="400"
                   width="400"
-                  alt="thumbnail"
+                  alt={el.subtitle || "Cốc Cốc Studio"}
                 />
               </motion.div>
             ))}
@@ -209,10 +210,10 @@ export const ParallaxScroll = ({
               >
                 <Image
                   src={el.image!}
-                  className="h-[414px] w-[295px] object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
+                  className="h-[414px] w-full object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
                   height="400"
                   width="400"
-                  alt="thumbnail"
+                  alt={el.subtitle || "Cốc Cốc Studio"}
                 />
               </motion.div>
             ))}

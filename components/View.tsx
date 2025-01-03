@@ -19,7 +19,7 @@ const View = async ({ query, id }: { query: string, id: string }) => {
 
   return (
 
-    <div className={"view-container"}>
+    <div className={"view-container right-3"}>
       <div className={"absolute -top-2 -right-2"}>
         <Ping />
       </div>

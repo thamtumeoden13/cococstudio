@@ -3,9 +3,9 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { ProjectDetail } from "@/sanity/types";
+import { Project, ProjectDetail } from "@/sanity/types";
 
-export const Card = React.memo(
+export const FocusCard = React.memo(
   ({
     card,
     index,
@@ -14,7 +14,7 @@ export const Card = React.memo(
     setHovered,
     onClick,
   }: {
-    card: CardType;
+    card: FocusCardType;
     index: number;
     hovered?: number | null;
     className?: string;
@@ -42,7 +42,7 @@ export const Card = React.memo(
           className="h-[414px] w-full object-cover object-left-top rounded-lg "
           height="400"
           width="400"
-          alt="thumbnail"
+          alt={card.subtitle || "Cốc Cốc Studio"}
         />
         <div
           className={cn(
@@ -59,12 +59,12 @@ export const Card = React.memo(
   }
 );
 
-Card.displayName = "Card";
+FocusCard.displayName = "Card";
 
-type CardType = Pick<ProjectDetail, "title" | "image" | "slug">;
+export type FocusCardType = Omit<Project, "author">;
 
 export function FocusCards({ cards, className, path }: {
-  cards: CardType[];
+  cards: FocusCardType[];
   className?: string;
   path?: string;
 }) {
@@ -72,7 +72,7 @@ export function FocusCards({ cards, className, path }: {
   const router = useRouter()
   const [hovered, setHovered] = useState<number | null>(null);
 
-  const handleClick = (card: CardType) => {
+  const handleClick = (card: FocusCardType) => {
 
     if (path && card.slug) router.push(`${path}/${card.slug?.current}`);
   }
@@ -80,7 +80,7 @@ export function FocusCards({ cards, className, path }: {
   return (
     <div className={cn("h-[40rem] items-start overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-10 max-w-7xl mx-auto md:px-8 w-full", className)}>
       {cards.map((card, index) => (
-        <Card
+        <FocusCard
           key={`focust-card-${card.title}-${index.toString()}`}
           card={card}
           index={index}

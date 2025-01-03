@@ -10,10 +10,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Project } from "@/sanity/types"
-import { Card } from "../ui/focus-cards"
+import { FocusCard } from "../ui/focus-cards"
 import { cn } from "@/lib/utils"
 
-export type CarouselSpacingDataType = Pick<Project, "_id" | "title" | "thumbnail" | "image">
+export type CarouselSpacingDataType = Omit<Project, "author">
 
 export function CarouselSpacing(
   {
@@ -32,7 +32,7 @@ export function CarouselSpacing(
             key={`carousel-item-card-${card._id}-${index.toString()}`}
             className="pl-1 md:basis-1/2 lg:basis-1/3"
           >
-            <Card
+            <FocusCard
               card={card}
               index={index}
               hovered={index}

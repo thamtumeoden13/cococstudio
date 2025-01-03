@@ -17,16 +17,18 @@ import Image, { ImageProps } from "next/image";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { Author, Construction, Project } from "@/sanity/types";
 import { BlurImage } from "../shared/CloudinaryImage";
+import { useRouter } from "next/navigation";
 
 interface CarouselProps {
   items: JSX.Element[];
   initialScroll?: number;
 }
 
-type CardType = Omit<Project, "author" | "construction">
+export type AppleCardType = Omit<Project, "author" | "construction">
   & { author?: Author }
   & { construction?: Construction }
   & { content?: React.ReactNode }
+  & { path?: string }
 
 
 export const CarouselContext = createContext<{
@@ -126,7 +128,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                 //   },
                 // }}
                 key={"card" + index}
-                className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
+                className="last:pr-[5%] rounded-3xl"
               >
                 {item}
               </motion.div>
@@ -154,13 +156,13 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
   );
 };
 
-export const Card = ({
+export const AppleCard = ({
   card,
   index,
   layout = false,
   className,
 }: {
-  card: CardType;
+  card: AppleCardType;
   index: number;
   layout?: boolean;
   className?: string;
@@ -168,6 +170,7 @@ export const Card = ({
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { onCardClose, currentIndex } = useContext(CarouselContext);
+  const router = useRouter();
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -188,8 +191,12 @@ export const Card = ({
 
   useOutsideClick(containerRef, () => handleClose());
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpen = (card: AppleCardType) => {
+    if (card.content) {
+      setOpen(true);
+    } else if (card.path) {
+      router.push(`/${card.path}/${card.slug!.current}`)
+    }
   };
 
   const handleClose = () => {
@@ -242,7 +249,7 @@ export const Card = ({
       </AnimatePresence>
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
-        onClick={handleOpen}
+        onClick={() => handleOpen(card)}
         className={cn("rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[40rem] md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10", className)}
       >
         <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />

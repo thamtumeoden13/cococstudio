@@ -39,7 +39,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
       <section className={"section_container"}>
         <CloudinaryImage
           src={data.thumbnail}
-          alt={data?.slug?.current || "thumbnail"}
+          alt={data.subtitle || "Cốc Cốc Studio"}
           width={760}
           height={540}
           className="max-h-[44rem] rounded-lg w-full mb-10 object-cover"
@@ -51,7 +51,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           <h3 className={"text-30-bold"}>Bài Viết Chi Tiết</h3>
           {parsedContent ? (
             <article
-              className={"prose max-w-4xl font-ibm-plex break-all"}
+              className={"prose max-w-4xl font-ibm-plex text-justify"}
               dangerouslySetInnerHTML={{ __html: parsedContent }}
             />
           ) : (

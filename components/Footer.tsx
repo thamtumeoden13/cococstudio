@@ -56,7 +56,7 @@ const Footer = () => {
           <div className="flex flex-col">
             <Image
               src={"/logo-cococstudio.png"}
-              alt='logo'
+              alt='Cốc Cốc Studio'
               width={500}
               height={500}
               className='object-cover w-[200px] h-[200px]'

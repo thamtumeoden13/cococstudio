@@ -133,7 +133,8 @@ export const ProductItem = ({
         src={src}
         width={140}
         height={100}
-        alt={title}
+        alt=""
+        role="presentation"
         className="flex-shrink-0 rounded-md shadow-2xl w-[140px] h-[100px]"
       />
       <div>

@@ -44,7 +44,7 @@ const ProjectGeneral = ({ post }: { post: StartupCardType }) => {
           <h3 className={"text-30-bold"}>Bài Viết Chi Tiết</h3>
           {parsedContent ? (
             <article
-              className={"prose max-w-7xl font-ibm-plex break-all"}
+              className={"prose max-w-7xl font-ibm-plex text-justify"}
               dangerouslySetInnerHTML={{ __html: parsedContent }}
             />
           ) : (

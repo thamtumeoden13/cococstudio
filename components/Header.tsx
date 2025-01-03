@@ -89,7 +89,7 @@ const Header = () => {
     >
       <div className={"container flex h-14 items-center max-lg:px-5"}>
         <Link href={"/"} className={"lg:hidden flex-1 cursor-pointer z-2"}>
-          <Image src="/logo-cococstudio.png" alt="logo" width={60} height={30} />
+          <Image src="/logo-cococstudio.png" alt="Logo Cốc Cốc Studio" width={60} height={30} />
         </Link>
 
         <div
@@ -134,7 +134,7 @@ const Header = () => {
                   >
                     <Image
                       src="/logo-cococstudio.png"
-                      alt="logo"
+                      alt="Logo Cốc Cốc Studio"
                       width={60}
                       height={30}
                     />
@@ -172,14 +172,16 @@ const Header = () => {
             >
               <Image
                 src="/images/bg-outlines.svg"
-                alt="outline"
+                alt=""
+                role="presentation"
                 width={960}
                 height={380}
                 className={"relative z-2"}
               />
               <Image
                 src="/images/bg-outlines-fill.png"
-                alt="outline"
+                alt=""
+                role="presentation"
                 width={960}
                 height={380}
                 className={"absolute inset-0 mix-blend-soft-light opacity-5"}

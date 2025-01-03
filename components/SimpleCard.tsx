@@ -12,6 +12,7 @@ export type SimpleCardType = Omit<Construction, "author"> & { author?: Author };
 const SimpleCard = ({ post, path }: { post: SimpleCardType, path: string }) => {
   const {
     title,
+    subtitle,
     thumbnail,
     slug
   } = post;
@@ -37,7 +38,7 @@ const SimpleCard = ({ post, path }: { post: SimpleCardType, path: string }) => {
       <Link href={`/${path}/${slug?.current}`}>
         <CloudinaryImage
           src={thumbnail!}
-          alt={title!}
+          alt={subtitle || "Cốc Cốc Studio"}
           width={280}
           height={200}
           className={"simple-card_img"}
