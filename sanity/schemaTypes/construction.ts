@@ -52,8 +52,6 @@ export const construction = defineType({
     defineField({
       name: 'tags',
       type: 'string',
-      validation: (Rule) => Rule.required().min(1).max(20).error("Please" +
-        " enter a tags")
     }),
     defineField({
       name: 'pitch',

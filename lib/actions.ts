@@ -59,6 +59,8 @@ export const createPitch = async (state: any, form: FormData, pitch: string,) =>
 export const createConstruction = async (state: any, form: FormData, pitch: string,) => {
   const session = await auth();
 
+  console.log('createConstruction -> session',session)
+
   if (!session) return parseServerActionResponse({
     error: "Not signed in",
     status: "ERROR"
@@ -92,7 +94,7 @@ export const createConstruction = async (state: any, form: FormData, pitch: stri
       },
       author: {
         _type: "reference",
-        _ref: "6cf8dae8-a4fb-4acb-af7a-f88510cd9799", //session?.id
+        _ref: session?.id,
       },
       pitch
     }
@@ -152,7 +154,7 @@ export const createProject = async (state: any, form: FormData, pitch: string, c
       },
       author: {
         _type: "reference",
-        _ref: "6cf8dae8-a4fb-4acb-af7a-f88510cd9799", //session?.id
+        _ref: session?.id,
       },
       construction: {
         _type: "reference",
@@ -216,7 +218,7 @@ export const createProjectDetail = async (state: any, form: FormData, pitch: str
       },
       author: {
         _type: "reference",
-        _ref: "6cf8dae8-a4fb-4acb-af7a-f88510cd9799", //session?.id
+        _ref: session?.id
       },
       project: {
         _type: "reference",
