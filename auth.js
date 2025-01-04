@@ -30,7 +30,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 						id,
 						name,
 						username: login,
-						userEmail: email,
+						email: email,
 						image,
 						bio: bio || "",
 					});
@@ -50,7 +50,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 						id: sub,
 						name,
 						username: email,
-						userEmail: email,
+						email: email,
 						image,
 						bio: "",
 					});
