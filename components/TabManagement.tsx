@@ -14,7 +14,7 @@ export function TabManagement() {
       title: "Hạng Mục",
       value: "hang-muc",
       content: (
-        <div className="w-full overflow-scroll relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-blue-700 to-green-900">
+        <div className="relative w-full h-full p-10 overflow-scroll text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
           <p>Hạng Mục</p>
           <ConstructionTable />
         </div>
@@ -24,7 +24,7 @@ export function TabManagement() {
       title: "Dự Án",
       value: "du-an",
       content: (
-        <div className="w-full overflow-scroll relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-blue-700 to-green-900">
+        <div className="relative w-full h-full p-10 overflow-scroll text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
           <p>Dự Án</p>
           <ProjectTable />
         </div>
@@ -34,7 +34,7 @@ export function TabManagement() {
       title: "Bài Viết",
       value: "chi-tiet-bai-viet",
       content: (
-        <div className="w-full overflow-scroll relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-blue-700 to-green-900">
+        <div className="relative w-full h-full p-10 overflow-scroll text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
           <p>Bài Viết</p>
           <ProjectDetailTable />
         </div>
@@ -44,7 +44,7 @@ export function TabManagement() {
       title: "Home Hero",
       value: "home-hero",
       content: (
-        <div className="w-full overflow-scroll relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-blue-700 to-green-900">
+        <div className="relative w-full h-full p-10 overflow-scroll text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
           <p>Trang Chủ</p>
           <HeroTable />
         </div>
@@ -54,7 +54,7 @@ export function TabManagement() {
       title: "Nav Router",
       value: "nav-router",
       content: (
-        <div className="w-full overflow-scroll relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-blue-700 to-green-900">
+        <div className="relative w-full h-full p-10 overflow-scroll text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
           <p>Nav Router</p>
           <NavRouterTable />
         </div>
@@ -64,7 +64,7 @@ export function TabManagement() {
       title: "Footer",
       value: "footer",
       content: (
-        <div className="w-full overflow-scroll relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-blue-700 to-green-900">
+        <div className="relative w-full h-full p-10 overflow-scroll text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
           <p>Footer</p>
           <FooterTable />
         </div>
@@ -73,7 +73,7 @@ export function TabManagement() {
   ];
 
   return (
-    <div className="h-[20rem] md:h-[40rem] [perspective:1000px] relative b flex flex-col max-w-7xl mx-auto w-full  items-start justify-start my-40">
+    <div className="h-[20rem] md:h-[40rem] [perspective:1000px] relative b flex flex-col max-w-7xl mx-auto w-full  items-start justify-start m-10">
       <Tabs tabs={tabs} />
     </div>
   );

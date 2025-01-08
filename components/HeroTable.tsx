@@ -9,12 +9,14 @@ const HeroTable = async () => {
 
   const params = { slug: 'home-hero' }
 
-  const { data: homeHeroPost } = await sanityFetch({ query: CATEGORY_BY_SLUG_QUERY, params })
+  const { data: { select: homeHeroPost } } = await sanityFetch({ query: CATEGORY_BY_SLUG_QUERY, params })
+
+  console.log('HeroTable -> homeHeroPost', homeHeroPost)
 
   if (!homeHeroPost?.length) return null;
 
   return (
-    <section className={"section_container !justify-items-center"}>
+    <section className={"section_container !justify-items-center !mt-0"}>
       <TableComponent data={homeHeroPost} title='Trang Chủ' />
     </section>
   )

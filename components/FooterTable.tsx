@@ -10,13 +10,13 @@ const FooterTable = async () => {
 
   const params = { slug: 'footer' }
 
-  const { data: footerCategory } = await sanityFetch({ query: CATEGORY_BY_SLUG_QUERY, params })
+  const { data: { select: footerCategory } } = await sanityFetch({ query: CATEGORY_BY_SLUG_QUERY, params })
 
 
   if (!footerCategory?.length) return null;
 
   return (
-    <section className={"section_container !justify-items-center"}>
+    <section className={"section_container !justify-items-center !mt-0"}>
       <TableComponent data={footerCategory} title='Footer' />
     </section>
   )

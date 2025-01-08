@@ -10,14 +10,24 @@ import { formProjectSchema } from "@/lib/validation";
 import z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { createConstruction, createProject } from "@/lib/actions";
+import { createProject } from "@/lib/actions";
 import { Combobox, ComboboxDataType } from "./shared/ComboBox";
 import { client } from "@/sanity/lib/client";
 import { CONSTRUCTIONS_BY_QUERY } from "@/sanity/lib/queries";
+import { Project } from '@/sanity/types';
 
-const ProjectForm = () => {
+type FormDataType = {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  thumbnail?: string;
+  image?: string;
+}
+
+const ProjectForm = ({ post }: { post?: Project }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState<string>("");
+  const [formData, setFormData] = useState<FormDataType | null>(null);
   const [selected, setSelected] = useState<ComboboxDataType | null>(null);
   const [constructions, setConstructions] = useState<ComboboxDataType[]>([])
   const { toast } = useToast()
@@ -48,7 +58,9 @@ const ProjectForm = () => {
         })
       }
 
-      router.push(`/hang-muc/${selected?.slug?.current}`)
+      // router.push(`/du-an/${selected?.slug?.current}`)
+      router.push(`/auth`)
+
       return response;
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -98,6 +110,19 @@ const ProjectForm = () => {
 
   }, [])
 
+  useEffect(() => {
+    if (post) {
+
+      const { title, subtitle, description, thumbnail, image, } = post;
+
+      setFormData({...formData, title, subtitle, description, thumbnail, image});
+
+      if(post.pitch){
+        setPitch(post.pitch)
+      }
+    }
+  }, [post])
+
   return (
     <form
       action={formAction}
@@ -110,6 +135,7 @@ const ProjectForm = () => {
         <Input
           id={"title"}
           name={"title"}
+          value={formData?.title}
           className={"startup-form_input"}
           required
           placeholder={"Project Title"}
@@ -125,6 +151,7 @@ const ProjectForm = () => {
         <Input
           id={"subtitle"}
           name={"subtitle"}
+          value={formData?.subtitle}
           className={"startup-form_input"}
           required
           placeholder={"Project Subtitle"}
@@ -140,6 +167,7 @@ const ProjectForm = () => {
         <Textarea
           id={"description"}
           name={"description"}
+          value={formData?.description}
           className={"startup-form_textarea"}
           required
           placeholder={"Project Description"}
@@ -156,6 +184,7 @@ const ProjectForm = () => {
         <Input
           id={"thumbnail"}
           name={"thumbnail"}
+          value={formData?.thumbnail}
           className={"startup-form_input"}
           required
           placeholder={"Project Thumbnail URL"}
@@ -172,6 +201,7 @@ const ProjectForm = () => {
         <Input
           id={"image"}
           name={"image"}
+          value={formData?.image}
           className={"startup-form_input"}
           required
           placeholder={"Project Image URL"}

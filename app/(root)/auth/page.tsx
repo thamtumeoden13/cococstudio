@@ -21,19 +21,18 @@ const AuthPage = async () => {
   const session = await auth();
 
   console.log('AuthPage -> session', session)
-  const { select: homeHeroPost } = await client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "home-hero" });
 
   return (
     <>
       {/* <section className={"pink_container !bg-slate-800 mt-16"}> */}
       <section className={"section_container min-h-[32rem] mt-32 w-full"}>
-        {session && session?.user ? (
+        {session?.user ? (
           <>
             <form action={async () => {
               "use server"
               await signOut({ redirectTo: "/auth" });
             }}
-            className=''
+              className=""
             >
               <Button
                 type={"submit"}
@@ -44,46 +43,45 @@ const AuthPage = async () => {
                 <LogOut className={"size-6 text-white"} />
               </Button>
             </form>
-            <section className={"section_container mt-16"}>
+            <section className={"section_container !mt-0 !p-0"}>
               {/* <ConstructionTable /> */}
 
               <TabManagement />
             </section>
           </>
-        )
-          : (
-            <div className="gap-10 flex flex-col">
-              <form action={async () => {
-                "use server"
-                await signIn('github');
-              }}
+        ) : (
+          <div className="flex flex-col gap-10">
+            <form action={async () => {
+              "use server"
+              await signIn('github');
+            }}
+            >
+              <Button
+                type={"submit"}
+                className={"startup-form_btn text-white gap-4"}
+              // disabled={isPending}
               >
-                <Button
-                  type={"submit"}
-                  className={"startup-form_btn text-white gap-4"}
-                // disabled={isPending}
-                >
-                  {"Login By GitHub"}
-                  <IconBrandGithub className={"size-12"} />
-                </Button>
-              </form>
-              <form action={async () => {
-                "use server"
-                await signIn('google');
-              }}
+                {"Login By GitHub"}
+                <IconBrandGithub className={"size-12"} />
+              </Button>
+            </form>
+            <form action={async () => {
+              "use server"
+              await signIn('google');
+            }}
+            >
+              <Button
+                type={"submit"}
+                className={"startup-form_btn text-white gap-4 bg-secondary"}
+              // disabled={isPending}
               >
-                <Button
-                  type={"submit"}
-                  className={"startup-form_btn text-white gap-4 bg-secondary"}
-                // disabled={isPending}
-                >
-                  {"Login By Google"}
-                  <IconBrandGoogle className={"size-12"} />
-                </Button>
-              </form>
-            </div>
+                {"Login By Google"}
+                <IconBrandGoogle className={"size-12"} />
+              </Button>
+            </form>
+          </div>
 
-          )}
+        )}
       </section>
       {/* </section> */}
     </>

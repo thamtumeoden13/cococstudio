@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Table,
   TableBody,
@@ -6,15 +8,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { EditIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-export const TableComponent = ({ data, title, className, }:
+export const TableComponent = ({ data, title, className, path }:
   {
     data: any[];
     title: string;
     className?: string;
+    path?: string;
   }
 ) => {
+  const router = useRouter();
+
+  const handleActionRow = (post: any) => {
+    if (path) {
+      console.log('TableComponent -> path', path)
+      router.push(`/auth/${path}/${post.slug.current}`)
+    }
+  }
 
   return (
     <Table className="">
@@ -25,6 +38,7 @@ export const TableComponent = ({ data, title, className, }:
           <TableHead className="text-20-medium !text-white">Permalink</TableHead>
           <TableHead className="text-20-medium !text-white">Thumbnail</TableHead>
           <TableHead className="text-20-medium !text-white">Description</TableHead>
+          {path && <TableHead className="text-20-medium !text-white">Action</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -43,6 +57,11 @@ export const TableComponent = ({ data, title, className, }:
 
             </TableCell>
             <TableCell className="font-normal">{item.description}</TableCell>
+            {path &&
+              <TableCell className="flex items-center justify-center">
+                <EditIcon className={"size-6 text-white hover:cursor-pointer"} onClick={() => handleActionRow(item)} />
+              </TableCell>
+            }
           </TableRow>
         ))}
       </TableBody>

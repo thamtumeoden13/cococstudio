@@ -14,8 +14,8 @@ const ProjectTable = async () => {
   if (!searchForProjects?.length) return null;
 
   return (
-    <section className={"section_container !justify-items-center"}>
-      <TableComponent data={searchForProjects} title='Dự Án' />
+    <section className={"section_container !justify-items-center !mt-0"}>
+      <TableComponent data={searchForProjects} title='Dự Án' path='du-an' />
     </section>
   )
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useActionState } from 'react'
+import React, { useState, useActionState, useEffect } from 'react'
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
@@ -11,10 +11,20 @@ import z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createConstruction } from "@/lib/actions";
+import { Construction } from '@/sanity/types';
 
-const ConstructionForm = () => {
+type FormDataType = {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  thumbnail?: string;
+  image?: string;
+}
+
+const ConstructionForm = ({ post }: { post?: Construction }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState("");
+  const [formData, setFormData] = useState<FormDataType | null>(null);
   const { toast } = useToast()
   const router = useRouter();
 
@@ -42,7 +52,8 @@ const ConstructionForm = () => {
         })
       }
 
-      router.push(`/hang-muc/${response.result.slug.current}`)
+      // router.push(`/hang-muc/${response.result.slug.current}`)
+      router.push(`/auth`)
       return response;
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -81,6 +92,19 @@ const ConstructionForm = () => {
     }
   );
 
+  useEffect(() => {
+    if (post) {
+
+      const { title, subtitle, description, thumbnail, image, } = post;
+
+      setFormData({ ...formData, title, subtitle, description, thumbnail, image });
+
+      if (post.pitch) {
+        setPitch(post.pitch)
+      }
+    }
+  }, [post])
+
   return (
     <form
       action={formAction}
@@ -93,6 +117,7 @@ const ConstructionForm = () => {
         <Input
           id={"title"}
           name={"title"}
+          value={formData?.title}
           className={"startup-form_input"}
           required
           placeholder={"Construction Title"}
@@ -108,6 +133,7 @@ const ConstructionForm = () => {
         <Input
           id={"subtitle"}
           name={"subtitle"}
+          value={formData?.subtitle}
           className={"startup-form_input"}
           required
           placeholder={"Construction Subtitle"}
@@ -123,6 +149,7 @@ const ConstructionForm = () => {
         <Textarea
           id={"description"}
           name={"description"}
+          value={formData?.description}
           className={"startup-form_textarea"}
           required
           placeholder={"Construction Description"}
@@ -139,6 +166,7 @@ const ConstructionForm = () => {
         <Input
           id={"thumbnail"}
           name={"thumbnail"}
+          value={formData?.thumbnail}
           className={"startup-form_input"}
           required
           placeholder={"Construction Thumbnail URL"}
@@ -155,6 +183,7 @@ const ConstructionForm = () => {
         <Input
           id={"image"}
           name={"image"}
+          value={formData?.image}
           className={"startup-form_input"}
           required
           placeholder={"Construction Image URL"}

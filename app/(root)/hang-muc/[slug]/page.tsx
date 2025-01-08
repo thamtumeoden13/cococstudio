@@ -1,23 +1,17 @@
 import { CONSTRUCTION_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import markdownit from "markdown-it";
-import { auth } from "@/auth";
 import ProjectList from "@/components/ProjectList";
 import { formatDate } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import MarkupSchema from "@/components/shared/MarkupSchema";
 import { CloudinaryImage } from "@/components/shared/CloudinaryImage";
-// import BreadcrumbComponent from "@/components/shared/Breadcrumb";
 
 const md = markdownit();
 
-export default async function Constructions({ params }: { params: Promise<{ slug: string }> }) {
+const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const slug = (await params).slug;
-
-  const session = await auth();
-
-  console.log(`session -> ${session?.id}`);
 
   const { data } = await sanityFetch({ query: CONSTRUCTION_BY_SLUG_QUERY, params: { slug } });
 
@@ -66,6 +60,8 @@ export default async function Constructions({ params }: { params: Promise<{ slug
     </>
   );
 }
+
+export default Page
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;

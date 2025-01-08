@@ -1,7 +1,5 @@
 import React, { Suspense } from 'react'
 import {
-  PROJECT_BY_ID_QUERY,
-  PROJECT_BY_SLUG_QUERY,
   PROJECT_DETAIL_BY_SLUG_QUERY,
   PROJECT_DETAIL_VIEWS_QUERY,
   PROJECT_DETAILS_BY_PROJECT_QUERY,
@@ -14,12 +12,10 @@ import markdownit from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
 import View from "@/components/View";
 
-
 import { sanityFetch } from '@/sanity/lib/live';
 import MarkupSchema from '@/components/shared/MarkupSchema';
 import { CloudinaryImage } from "@/components/shared/CloudinaryImage";
 import { CarouselPlugin } from "@/components/shared/CarouselPlugin";
-import { ContactButton } from "@/components/shared/ContactButton";
 
 const md = markdownit();
 
@@ -84,7 +80,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
               Bài Viết{'  '}
               <span className="text-purple">{"Liên Quan"}</span>
             </h4>
-            <CarouselPlugin data={detailsByProjectId} className="max-w-7xl py-10" />
+            <CarouselPlugin data={detailsByProjectId} className="py-10 max-w-7xl" />
           </section>
         }
 

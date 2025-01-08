@@ -1,6 +1,6 @@
 import React from 'react'
-import {auth} from "@/auth";
-import {redirect} from "next/navigation";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import ProjectForm from "@/components/ProjectForm";
 
 const Page = async () => {
@@ -14,7 +14,7 @@ const Page = async () => {
         <h1 className={"heading"}>Submit Your Project</h1>
       </section>
 
-      <ProjectForm/>
+      <ProjectForm />
     </>
   )
 }
