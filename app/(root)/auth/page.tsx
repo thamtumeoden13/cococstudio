@@ -8,33 +8,47 @@ import { auth, signIn, signOut } from "@/auth";
 import { LogIn, LogOut, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
+import { CarouselSpacing } from '@/components/shared/CarouselSpacing';
+import { client } from '@/sanity/lib/client';
+import { CATEGORY_BY_SLUG_QUERY } from '@/sanity/lib/queries';
+import { TableComponent } from '@/components/shared/Table';
+import ConstructionTable from '@/components/ConstructionTable';
+import { TabManagement } from '@/components/TabManagement';
 
 export const experimental_ppr = true;
 
 const AuthPage = async () => {
   const session = await auth();
 
-  console.log('AuthPage -> session',session)
+  console.log('AuthPage -> session', session)
+  const { select: homeHeroPost } = await client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "home-hero" });
 
   return (
     <>
       {/* <section className={"pink_container !bg-slate-800 mt-16"}> */}
-      <section className={"section_container min-h-[32rem] mt-32 w-full md:w-[32rem]"}>
+      <section className={"section_container min-h-[32rem] mt-32 w-full"}>
         {session && session?.user ? (
           <>
             <form action={async () => {
               "use server"
               await signOut({ redirectTo: "/auth" });
-            }}>
+            }}
+            className=''
+            >
               <Button
                 type={"submit"}
-                className={"startup-form_btn text-white !w-10"}
+                className={"startup-form_btn text-white gap-4 !w-[32rem]"}
               // disabled={isPending}
               >
-                <span className={"max-sm:hidden"}>Logout</span>
-                <LogOut className={"size-6 sm:hidden text-red-500"} />
+                <span>Logout</span>
+                <LogOut className={"size-6 text-white"} />
               </Button>
             </form>
+            <section className={"section_container mt-16"}>
+              {/* <ConstructionTable /> */}
+
+              <TabManagement />
+            </section>
           </>
         )
           : (
