@@ -9,7 +9,6 @@ const FooterTable = async () => {
 
   const { select: footerCategory } = await client.fetch(CATEGORY_BY_SLUG_QUERY, params);
 
-
   if (!footerCategory?.length) return null;
 
   return (

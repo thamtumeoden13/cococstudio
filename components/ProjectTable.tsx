@@ -1,15 +1,13 @@
 import React from 'react'
 import { PROJECTS_BY_QUERY } from '@/sanity/lib/queries';
-import { sanityFetch } from '@/sanity/lib/live';
 import { TableComponent } from './shared/Table';
+import { client } from '@/sanity/lib/client';
 
 const ProjectTable = async () => {
 
-  // const { _id: id, title, slug } = post
-
   const params = { search: null }
 
-  const { data: searchForProjects } = await sanityFetch({ query: PROJECTS_BY_QUERY, params });
+  const searchForProjects = await client.fetch(PROJECTS_BY_QUERY, params);
 
   if (!searchForProjects?.length) return null;
 

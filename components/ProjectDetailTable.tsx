@@ -1,7 +1,7 @@
 import React from 'react'
-import { PROJECT_DETAILS_BY_QUERY, PROJECTS_BY_QUERY } from '@/sanity/lib/queries';
-import { sanityFetch } from '@/sanity/lib/live';
+import { PROJECT_DETAILS_BY_QUERY } from '@/sanity/lib/queries';
 import { TableComponent } from './shared/Table';
+import { client } from '@/sanity/lib/client';
 
 const ProjectDetailTable = async () => {
 
@@ -9,7 +9,7 @@ const ProjectDetailTable = async () => {
 
   const params = { search: null }
 
-  const { data: searchForProjects } = await sanityFetch({ query: PROJECT_DETAILS_BY_QUERY, params });
+  const searchForProjects = await client.fetch(PROJECT_DETAILS_BY_QUERY, params);
 
   if (!searchForProjects?.length) return null;
 

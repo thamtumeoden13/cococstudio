@@ -1,13 +1,13 @@
 import React from 'react'
 import { CATEGORY_BY_SLUG_QUERY } from '@/sanity/lib/queries';
-import { sanityFetch } from '@/sanity/lib/live';
 import { TableComponent } from './shared/Table';
+import { client } from '@/sanity/lib/client';
 
 const NavRouterTable = async () => {
 
   const params = { slug: 'nav-router' }
 
-  const { data: { select: navProjectRouter } } = await sanityFetch({ query: CATEGORY_BY_SLUG_QUERY, params })
+  const { select: navProjectRouter } = await client.fetch(CATEGORY_BY_SLUG_QUERY, params);
 
   if (!navProjectRouter?.length) return null;
 
