@@ -1,16 +1,13 @@
 import React from 'react'
 import { CATEGORY_BY_SLUG_QUERY } from '@/sanity/lib/queries';
-import { sanityFetch } from '@/sanity/lib/live';
 import { TableComponent } from './shared/Table';
+import { client } from '@/sanity/lib/client';
 
 const FooterTable = async () => {
 
-  //const { _id: id, title, slug } = post
-
-
   const params = { slug: 'footer' }
 
-  const { data: { select: footerCategory } } = await sanityFetch({ query: CATEGORY_BY_SLUG_QUERY, params })
+  const { select: footerCategory } = await client.fetch(CATEGORY_BY_SLUG_QUERY, params);
 
 
   if (!footerCategory?.length) return null;
