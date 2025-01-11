@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { AUTHOR_BY_GITHUB_ID_QUERY } from "@/sanity/lib/queries";
+import { AUTHOR_BY_GITHUB_ID_QUERY, AUTHOR_BY_ID_QUERY } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 import { writeClient } from "@/sanity/lib/write-client";
 
@@ -22,17 +22,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				const existingUser = await client
 					.withConfig({ useCdn: false })
 					.fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
-						id: id,
+						id: String(id),
 					});
+
+				console.log('existingUser', existingUser)
 				if (!existingUser) {
 					await writeClient.create({
 						_type: "author",
-						id,
+						id: String(id),
 						name,
 						username: login,
 						email: email,
 						image,
 						bio: bio || "",
+						role: "viewer"
 					});
 				}
 
@@ -42,17 +45,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				const existingUser = await client
 					.withConfig({ useCdn: false })
 					.fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
-						id: sub,
+						id: String(sub),
 					});
 				if (!existingUser) {
 					await writeClient.create({
 						_type: "author",
-						id: sub,
+						id: String(sub),
 						name,
 						username: email,
 						email: email,
 						image,
 						bio: "",
+						role: "viewer"
 					});
 				}
 			}
@@ -67,10 +71,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				} else if (account.provider === "google" && profile?.sub) {
 					id = profile.sub
 				}
+				console.log({ token, account, profile })
 				const userById = await client
 					.withConfig({ useCdn: false })
 					.fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
-						id: id,
+						id: String(id),
 					});
 
 				token.id = userById?._id;

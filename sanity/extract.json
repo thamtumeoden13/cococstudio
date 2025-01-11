@@ -1672,6 +1672,27 @@
           "type": "string"
         },
         "optional": true
+      },
+      "role": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "viewer"
+            },
+            {
+              "type": "string",
+              "value": "editor"
+            },
+            {
+              "type": "string",
+              "value": "admin"
+            }
+          ]
+        },
+        "optional": true
       }
     }
   },

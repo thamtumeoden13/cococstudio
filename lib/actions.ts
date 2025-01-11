@@ -448,7 +448,9 @@ export const updateCategory = async (state: any, _id: string, projectId: string,
     status: "ERROR"
   });
 
-  const { select: homeHeroPost } = await client.fetch(CATEGORY_BY_ID_QUERY, { id: _id });
+  const { select: homeHeroPost } = await client
+    .withConfig({ useCdn: false })
+    .fetch(CATEGORY_BY_ID_QUERY, { id: _id });
 
   console.log(homeHeroPost);
 
@@ -472,6 +474,16 @@ export const updateCategory = async (state: any, _id: string, projectId: string,
         status: "SUCCESS",
       })
     }
+
+    const isExist = homeHeroPost.find((item: any) => item._id === projectId);
+
+    if (isExist) {
+      return parseServerActionResponse({
+        error: "This item is already exist",
+        status: "ERROR",
+      })
+    };
+
     const categorySelect = homeHeroPost.map((item: any) => ({ _type: "reference", _ref: item._id, _key: item._key || uuidv4() }));
     const categoryData = {
       select: [...categorySelect, { _type: "reference", _ref: projectId, _key: uuidv4() }]

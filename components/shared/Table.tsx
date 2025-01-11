@@ -12,13 +12,13 @@ import { cn } from "@/lib/utils";
 import { EditIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 
-export const TableComponent = ({ data, title, className, path, onDelete, onEdit, action = ['Edit'] }:
+export const TableComponent = ({ data, title, className, path, onDelete, onEdit, actions = [] }:
   {
     data: any[];
     title: string;
     className?: string;
     path?: string;
-    action?: string[];
+    actions?: string[];
     onDelete?: (post: any) => void;
     onEdit?: (post: any) => void;
   }
@@ -41,7 +41,7 @@ export const TableComponent = ({ data, title, className, path, onDelete, onEdit,
           <TableHead className="text-20-medium !text-white">Permalink</TableHead>
           <TableHead className="text-20-medium !text-white">Thumbnail</TableHead>
           <TableHead className="text-20-medium !text-white">Description</TableHead>
-          {action && <TableHead className="text-20-medium !text-white">Action</TableHead>}
+          {!!actions.length && <TableHead className="text-20-medium !text-white">Action</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -60,7 +60,7 @@ export const TableComponent = ({ data, title, className, path, onDelete, onEdit,
 
             </TableCell>
             <TableCell className="font-normal">{item.description}</TableCell>
-            {[...action]?.map((act) => (
+            {[...actions]?.map((act) => (
               <TableCell key={act} className="w-[40px] items-center justify-center ">
                 {act === 'Edit' && <EditIcon className={"size-6 text-white hover:cursor-pointer"} onClick={() => handleActionRow(item, act)} />}
                 {act === 'Delete' && <TrashIcon className={"size-6 text-red-500 hover:cursor-pointer"} onClick={() => handleActionRow(item, act)} />}

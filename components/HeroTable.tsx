@@ -102,7 +102,7 @@ const HeroTable = () => {
         <TableComponent
           data={homeHeroPost}
           title='Trang Chủ'
-          action={['Delete']}
+          actions={['Delete']}
           onDelete={handleDelete}
         />
       </div>

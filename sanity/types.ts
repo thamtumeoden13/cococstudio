@@ -300,6 +300,7 @@ export type Author = {
   email?: string;
   image?: string;
   bio?: string;
+  role?: "viewer" | "editor" | "admin";
 };
 
 export type Markdown = string;

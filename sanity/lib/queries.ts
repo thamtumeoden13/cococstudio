@@ -58,7 +58,8 @@ export const AUTHOR_BY_ID_QUERY = defineQuery(`
     username,
     email,
     image,
-    bio
+    bio,
+    role
 }
 `);
 

@@ -10,7 +10,7 @@ import { Project } from '@/sanity/types';
 import { updateCategory } from '@/lib/actions';
 import { toast } from '@/hooks/use-toast';
 
-const CategoryTable = ({ slug, title }: { slug: string, title:string }) => {
+const CategoryTable = ({ slug, title }: { slug: string, title: string }) => {
   const params = { slug }
 
   const [projects, setProjects] = useState<ComboboxDataType[] | null>(null)
@@ -19,22 +19,28 @@ const CategoryTable = ({ slug, title }: { slug: string, title:string }) => {
   const [selected, setSelected] = useState<ComboboxDataType | null>(null);
 
   const getProjects = async () => {
-    const projects = await client.fetch(PROJECTS_BY_QUERY, { search: null });
+    const projects = await client
+      .withConfig({ useCdn: false })
+      .fetch(PROJECTS_BY_QUERY, { search: null });
     console.log('HeroTable -> getProjects', projects)
     setProjects(projects);
   }
 
-  const getHomeHeroPost = async () => {
-    const { _id, select: homeHeroPost } = await client.fetch(CATEGORY_BY_SLUG_QUERY, params)
+  const getCategorySelect = async () => {
+    const { _id, select: homeHeroPost } = await client
+      .withConfig({ useCdn: false })
+      .fetch(CATEGORY_BY_SLUG_QUERY, params)
     console.log('HeroTable -> getHomeHeroPost', homeHeroPost);
     setHomeHeroPost(homeHeroPost);
     setCategoryId(_id);
   }
 
-  const handleAddHomeHero = async () => {
+  const handleAddCategorySelect = async () => {
     if (!selected) return;
-    const { select: homeHeroPost } = await client.fetch(CATEGORY_BY_SLUG_QUERY, params)
-    console.log('HeroTable -> handleAddHomeHero', homeHeroPost);
+    // const { select: homeHeroPost } = await client
+    //   .withConfig({ useCdn: false })
+    //   .fetch(CATEGORY_BY_SLUG_QUERY, params)
+    // console.log('HeroTable -> handleAddHomeHero', homeHeroPost);
 
     const { error, status } = await updateCategory('', categoryId, selected._id)
     if (status === 'ERROR') {
@@ -51,7 +57,7 @@ const CategoryTable = ({ slug, title }: { slug: string, title:string }) => {
       // variant: "destructive",
     });
     getProjects();
-    getHomeHeroPost();
+    getCategorySelect();
   }
 
   const handleDelete = async (post: Project) => {
@@ -73,12 +79,12 @@ const CategoryTable = ({ slug, title }: { slug: string, title:string }) => {
     });
 
     getProjects();
-    getHomeHeroPost();
+    getCategorySelect();
   }
 
   useEffect(() => {
     getProjects();
-    getHomeHeroPost();
+    getCategorySelect();
   }, [])
 
   if (!projects || !homeHeroPost) return null;
@@ -94,14 +100,14 @@ const CategoryTable = ({ slug, title }: { slug: string, title:string }) => {
             className={"startup-form_input !mt-0 !w-[24rem] !h-[2.5rem] !border-white-100 !text-white-100 !text-[18px]"}
             onChange={(value: ComboboxDataType) => { setSelected(value) }}
           />
-          <PlusCircleIcon className={"size-12 text-white hover:cursor-pointer"} onClick={handleAddHomeHero} />
+          <PlusCircleIcon className={"size-12 text-white hover:cursor-pointer"} onClick={handleAddCategorySelect} />
         </div>
       </div>
       <div className='flex justify-end w-full h-full'  >
         <TableComponent
           data={homeHeroPost}
           title={title}
-          action={['Delete']}
+          actions={['Delete']}
           onDelete={handleDelete}
         />
       </div>

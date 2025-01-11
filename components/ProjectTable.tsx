@@ -17,7 +17,9 @@ const ProjectTable = () => {
 
   const getProjects = async () => {
     const params = { search: null }
-    const searchForProjects = await client.fetch(PROJECTS_BY_QUERY, params);
+    const searchForProjects = await client
+      .withConfig({ useCdn: false })
+      .fetch(PROJECTS_BY_QUERY, params);
     setProjects(searchForProjects);
   }
 
@@ -67,7 +69,7 @@ const ProjectTable = () => {
           data={projects}
           title='Dự Án'
           path='du-an'
-          action={['Edit', 'Delete']}
+          actions={['Edit', 'Delete']}
           onDelete={handleDelete}
           onEdit={handleEdit}
         />

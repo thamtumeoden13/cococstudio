@@ -4,20 +4,22 @@ import React, { useEffect, useState } from 'react'
 import { CONSTRUCTIONS_BY_QUERY } from '@/sanity/lib/queries';
 import { TableComponent } from './shared/Table';
 import { client } from '@/sanity/lib/client';
-import { Construction, Project } from '@/sanity/types';
+import { Construction } from '@/sanity/types';
 import { useRouter } from 'next/navigation';
 import { deleteById } from '@/lib/actions';
 import { toast } from '@/hooks/use-toast';
 import { PlusCircleIcon } from 'lucide-react';
 
-const ConstructionTable = () => {
+const ConstructionTable = ({ role }: { role?: string }) => {
   const router = useRouter();
 
   const [constructions, setConstructions] = useState<Construction[] | []>([])
 
   const getConstructions = async () => {
     const params = { search: null }
-    const searchForProjects = await client.fetch(CONSTRUCTIONS_BY_QUERY, params);
+    const searchForProjects = await client
+      .withConfig({ useCdn: false })
+      .fetch(CONSTRUCTIONS_BY_QUERY, params);
     setConstructions(searchForProjects);
   }
 
@@ -56,6 +58,7 @@ const ConstructionTable = () => {
 
   if (!constructions) return null;
 
+  console.log('ConstructionTable -> role', role)
   return (
     <section className={"section_container !justify-items-center !mt-0 overflow-auto h-full"}>
       <div className='absolute top-0 flex items-center justify-end w-full h-24 gap-10 py-4 right-10 '>
@@ -67,7 +70,7 @@ const ConstructionTable = () => {
           data={constructions}
           title='Hạng Mục'
           path='hang-muc'
-          action={['Edit', 'Delete']}
+          actions={role == 'admin' || role == 'editor' ? ['Edit', 'Delete'] : []}
           onDelete={handleDelete}
           onEdit={handleEdit}
         />

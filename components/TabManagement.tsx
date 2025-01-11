@@ -4,8 +4,13 @@ import ConstructionTable from "./ConstructionTable";
 import ProjectTable from "./ProjectTable";
 import ProjectDetailTable from "./ProjectDetailTable";
 import CategoryTable from "./CategoryTable";
+import { Author } from "@/sanity/types";
 
-export const TabManagement = async () => {
+export const TabManagement = async ({ user }: { user: Author }) => {
+
+  const role = user?.role;
+
+  console.log('TabManagement -> user', user)
 
   const tabs = [
     {
@@ -13,7 +18,7 @@ export const TabManagement = async () => {
       value: "hang-muc",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <ConstructionTable />
+          <ConstructionTable role={role} />
         </div>
       ),
     },
