@@ -3,9 +3,7 @@ import { Tabs } from "./ui/tabs";
 import ConstructionTable from "./ConstructionTable";
 import ProjectTable from "./ProjectTable";
 import ProjectDetailTable from "./ProjectDetailTable";
-import HeroTable from "./HeroTable";
-import NavRouterTable from "./NavRouterTable";
-import FooterTable from "./FooterTable";
+import CategoryTable from "./CategoryTable";
 
 export const TabManagement = async () => {
 
@@ -42,7 +40,7 @@ export const TabManagement = async () => {
       value: "home-hero",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <HeroTable />
+          <CategoryTable slug="home-hero" title="Trang Chủ" />
         </div>
       ),
     },
@@ -51,7 +49,7 @@ export const TabManagement = async () => {
       value: "nav-router",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <NavRouterTable />
+          <CategoryTable slug="nav-router" title="Nav Router" />
         </div>
       ),
     },
@@ -59,16 +57,19 @@ export const TabManagement = async () => {
       title: "Footer",
       value: "footer",
       content: (
-        <div className="relative w-full h-full p-10 overflow-scroll text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <FooterTable />
+        <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
+          <CategoryTable slug="footer" title="Footer" />
         </div>
       ),
     },
   ];
 
   return (
-    <div className="h-[40rem] max-md:hidden [perspective:1000px] relative b flex flex-col max-w-7xl mx-auto w-full  items-start justify-start m-10">
-      <Tabs tabs={tabs} />
+    <div className="h-[90vh] max-md:hidden [perspective:1000px] relative b flex flex-col max-w-7xl mx-auto w-full  items-start justify-start m-10">
+      <Tabs
+        tabs={tabs}
+        activeTabClassName="bg-primary"
+      />
     </div>
   );
 }

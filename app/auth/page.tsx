@@ -1,19 +1,12 @@
 import React from 'react'
-import Experience from '@/components/Experience';
-import About from '@/components/About';
-import Insights from '@/components/Insights';
-import Explore from '@/components/Explore';
-import Contact from "@/components/Contact";
 import { auth, signIn, signOut } from "@/auth";
-import { LogIn, LogOut, Send } from "lucide-react";
+import { LogOut, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
-import { CarouselSpacing } from '@/components/shared/CarouselSpacing';
 import { client } from '@/sanity/lib/client';
-import { CATEGORY_BY_SLUG_QUERY } from '@/sanity/lib/queries';
-import { TableComponent } from '@/components/shared/Table';
-import ConstructionTable from '@/components/ConstructionTable';
+import { AUTHOR_BY_ID_QUERY } from '@/sanity/lib/queries';
 import { TabManagement } from '@/components/TabManagement';
+import Image from 'next/image';
 
 export const experimental_ppr = true;
 
@@ -21,13 +14,37 @@ const AuthPage = async () => {
   const session = await auth();
 
   console.log('AuthPage -> session', session)
+  let user = null;
+  if (session) {
+    user = await client.fetch(AUTHOR_BY_ID_QUERY, { id: session?.id });
+  }
 
   return (
     <>
       {/* <section className={"pink_container !bg-slate-800 mt-16"}> */}
-      <section className={"section_container min-h-[32rem] mt-32 w-full"}>
+      <section className={"section_container min-h-[32rem] mt-8 w-full"}>
         {session?.user ? (
           <>
+            <div className={"profile_card  my-4 "}>
+              <div className={"profile_title"}>
+                <h3 className={"text-24-black uppercase text-center line-clamp-1"}>
+                  {user.name}
+                </h3>
+              </div>
+
+              <Image
+                src={user.image}
+                alt={user.name}
+                width={220}
+                height={220}
+                className={"profile_image"}
+              />
+
+              <p className={"text-16-medium !text-white-100 mt-7 text-center"}>
+                @{user?.username}
+              </p>
+              <p className={"mt-1 text-center text-14-normal"}>{user?.bio}</p>
+            </div>
             <form action={async () => {
               "use server"
               await signOut({ redirectTo: "/auth" });
@@ -36,7 +53,7 @@ const AuthPage = async () => {
             >
               <Button
                 type={"submit"}
-                className={"startup-form_btn text-white gap-4 !w-[32rem]"}
+                className={"startup-form_btn text-white gap-4 !w-80 rounded-full"}
               // disabled={isPending}
               >
                 <span>Logout</span>
@@ -44,8 +61,6 @@ const AuthPage = async () => {
               </Button>
             </form>
             <section className={"section_container !mt-0 !p-0"}>
-              {/* <ConstructionTable /> */}
-
               <TabManagement />
             </section>
           </>

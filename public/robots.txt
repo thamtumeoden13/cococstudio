@@ -1,9 +1,10 @@
-# *
+# Chỉ định user-agent
 User-agent: *
 Allow: /
+Disallow: /auth/
 
-# Host
-Host: https://cococstudio.com/
+# Chỉ định host
+Host: https://cococstudio.com
 
-# Sitemaps
+# Chỉ định sitemap
 Sitemap: https://cococstudio.com/sitemap.xml
