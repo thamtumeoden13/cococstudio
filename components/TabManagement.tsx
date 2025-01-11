@@ -27,7 +27,7 @@ export const TabManagement = async ({ user }: { user: Author }) => {
       value: "du-an",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <ProjectTable />
+          <ProjectTable role={role} />
         </div>
       ),
     },
@@ -36,7 +36,7 @@ export const TabManagement = async ({ user }: { user: Author }) => {
       value: "chi-tiet-bai-viet",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <ProjectDetailTable />
+          <ProjectDetailTable role={role} />
         </div>
       ),
     },
@@ -45,7 +45,11 @@ export const TabManagement = async ({ user }: { user: Author }) => {
       value: "home-hero",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <CategoryTable slug="home-hero" title="Trang Chủ" />
+          <CategoryTable
+            slug="home-hero"
+            title="Trang Chủ"
+            role={role}
+          />
         </div>
       ),
     },
@@ -54,7 +58,11 @@ export const TabManagement = async ({ user }: { user: Author }) => {
       value: "nav-router",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <CategoryTable slug="nav-router" title="Nav Router" />
+          <CategoryTable
+            slug="nav-router"
+            title="Nav Router"
+            role={role}
+          />
         </div>
       ),
     },
@@ -63,7 +71,11 @@ export const TabManagement = async ({ user }: { user: Author }) => {
       value: "footer",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <CategoryTable slug="footer" title="Footer" />
+          <CategoryTable
+            slug="footer"
+            title="Footer"
+            role={role}
+          />
         </div>
       ),
     },

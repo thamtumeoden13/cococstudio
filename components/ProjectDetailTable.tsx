@@ -10,7 +10,7 @@ import { toast } from '@/hooks/use-toast';
 import { deleteById } from '@/lib/actions';
 import { PlusCircleIcon } from 'lucide-react';
 
-const ProjectDetailTable = () => {
+const ProjectDetailTable = ({ role }: { role?: string }) => {
   const router = useRouter();
 
   const [projects, setProjects] = useState<ProjectDetail[] | []>([])
@@ -67,7 +67,7 @@ const ProjectDetailTable = () => {
           data={projects}
           title='Bài Viết'
           path='chi-tiet-du-an'
-          actions={['Edit', 'Delete']}
+          actions={role == 'admin' || role == 'editor' ? ['Edit', 'Delete'] : []}
           onDelete={handleDelete}
           onEdit={handleEdit}
         />

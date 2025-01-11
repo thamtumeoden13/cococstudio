@@ -10,7 +10,7 @@ import { Project } from '@/sanity/types';
 import { updateCategory } from '@/lib/actions';
 import { toast } from '@/hooks/use-toast';
 
-const CategoryTable = ({ slug, title }: { slug: string, title: string }) => {
+const CategoryTable = ({ slug, title, role }: { slug: string, title: string, role?: string }) => {
   const params = { slug }
 
   const [projects, setProjects] = useState<ComboboxDataType[] | null>(null)
@@ -37,10 +37,6 @@ const CategoryTable = ({ slug, title }: { slug: string, title: string }) => {
 
   const handleAddCategorySelect = async () => {
     if (!selected) return;
-    // const { select: homeHeroPost } = await client
-    //   .withConfig({ useCdn: false })
-    //   .fetch(CATEGORY_BY_SLUG_QUERY, params)
-    // console.log('HeroTable -> handleAddHomeHero', homeHeroPost);
 
     const { error, status } = await updateCategory('', categoryId, selected._id)
     if (status === 'ERROR') {
@@ -107,7 +103,7 @@ const CategoryTable = ({ slug, title }: { slug: string, title: string }) => {
         <TableComponent
           data={homeHeroPost}
           title={title}
-          actions={['Delete']}
+          actions={role == 'admin' || role == 'editor' ? ['Delete'] : []}
           onDelete={handleDelete}
         />
       </div>
