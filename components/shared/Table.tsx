@@ -8,29 +8,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { EditIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { EditIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
-export const TableComponent = ({ data, title, className, path }:
+export const TableComponent = ({ data, title, className, path, onDelete, onEdit, action = ['Edit'] }:
   {
     data: any[];
     title: string;
     className?: string;
     path?: string;
+    action?: string[];
+    onDelete?: (post: any) => void;
+    onEdit?: (post: any) => void;
   }
 ) => {
-  const router = useRouter();
 
-  const handleActionRow = (post: any) => {
-    if (path) {
-      console.log('TableComponent -> path', path)
-      router.push(`/auth/${path}/${post.slug.current}`)
+  const handleActionRow = (post: any, action: string) => {
+    if (action === 'Edit') {
+      if (onEdit) onEdit(post)
+    } else if (action === 'Delete') {
+      if (onDelete) onDelete(post)
     }
   }
 
   return (
-    <Table className="">
+    <Table className={cn('w-full', className)}>
       {/* <TableCaption>{title}</TableCaption> */}
       <TableHeader>
         <TableRow>
@@ -38,12 +41,12 @@ export const TableComponent = ({ data, title, className, path }:
           <TableHead className="text-20-medium !text-white">Permalink</TableHead>
           <TableHead className="text-20-medium !text-white">Thumbnail</TableHead>
           <TableHead className="text-20-medium !text-white">Description</TableHead>
-          {path && <TableHead className="text-20-medium !text-white">Action</TableHead>}
+          {action && <TableHead className="text-20-medium !text-white">Action</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((item) => (
-          <TableRow key={item._id}>
+        {data.map((item, index) => (
+          <TableRow key={`${item._id}-${index}`} className="hover:bg-slate-800">
             <TableCell width={200} className="font-medium">{item.title}</TableCell>
             <TableCell width={200}>{item.slug?.current}</TableCell>
             <TableCell width={200} height={100}>
@@ -57,11 +60,12 @@ export const TableComponent = ({ data, title, className, path }:
 
             </TableCell>
             <TableCell className="font-normal">{item.description}</TableCell>
-            {path &&
-              <TableCell className="flex items-center justify-center">
-                <EditIcon className={"size-6 text-white hover:cursor-pointer"} onClick={() => handleActionRow(item)} />
+            {[...action]?.map((act) => (
+              <TableCell key={act} className="w-[40px] items-center justify-center ">
+                {act === 'Edit' && <EditIcon className={"size-6 text-white hover:cursor-pointer"} onClick={() => handleActionRow(item, act)} />}
+                {act === 'Delete' && <TrashIcon className={"size-6 text-red-500 hover:cursor-pointer"} onClick={() => handleActionRow(item, act)} />}
               </TableCell>
-            }
+            ))}
           </TableRow>
         ))}
       </TableBody>

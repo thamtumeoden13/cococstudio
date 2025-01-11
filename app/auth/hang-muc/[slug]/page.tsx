@@ -15,6 +15,8 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const post = await client.fetch(CONSTRUCTION_BY_SLUG_QUERY, { slug });
 
+  console.log(post);
+
   if (!post) return redirect("/auth");
 
   return (

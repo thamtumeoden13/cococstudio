@@ -10,19 +10,13 @@ import { formProjectSchema } from "@/lib/validation";
 import z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { createProject } from "@/lib/actions";
+import { createProject, updateProject } from "@/lib/actions";
 import { Combobox, ComboboxDataType } from "./shared/ComboBox";
 import { client } from "@/sanity/lib/client";
 import { CONSTRUCTIONS_BY_QUERY } from "@/sanity/lib/queries";
 import { Project } from '@/sanity/types';
 
-type FormDataType = {
-  title?: string;
-  subtitle?: string;
-  description?: string;
-  thumbnail?: string;
-  image?: string;
-}
+type FormDataType = Omit<Project, "author">;
 
 const ProjectForm = ({ post }: { post?: Project }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -33,23 +27,24 @@ const ProjectForm = ({ post }: { post?: Project }) => {
   const { toast } = useToast()
   const router = useRouter();
 
-  const handleFormSubmit = async (prevState: any, formData: FormData) => {
+  const handleFormSubmit = async (prevState: any, formDataSubmit: FormData) => {
     try {
       const formValues = {
-        title: formData.get("title") as string,
-        subtitle: formData.get("subtitle") as string,
-        description: formData.get("description") as string,
-        thumbnail: formData.get("thumbnail") as string,
-        image: formData.get("image") as string,
+        title: formDataSubmit.get("title") as string,
+        subtitle: formDataSubmit.get("subtitle") as string,
+        description: formDataSubmit.get("description") as string,
+        thumbnail: formDataSubmit.get("thumbnail") as string,
+        image: formDataSubmit.get("image") as string,
         constructionId: selected?._id,
         pitch,
       }
 
+      console.log('handleFormSubmit', formValues);
       await formProjectSchema.parseAsync(formValues);
 
       console.log(formValues);
 
-      const response = await createProject(prevState, formData, pitch, selected!._id);
+      const response = await updateProject(prevState, formDataSubmit, pitch, selected!._id, formData?._id!);
 
       if (response.status === "SUCCESS") {
         toast({
@@ -99,6 +94,14 @@ const ProjectForm = ({ post }: { post?: Project }) => {
     }
   );
 
+  const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+    setFormData({
+      ...formData!,
+      [e.target.name]: e.target.value
+    })
+  }
+
   useEffect(() => {
     const getConstructions = async () => {
       const result = await client.fetch(CONSTRUCTIONS_BY_QUERY, { search: null });
@@ -113,11 +116,11 @@ const ProjectForm = ({ post }: { post?: Project }) => {
   useEffect(() => {
     if (post) {
 
-      const { title, subtitle, description, thumbnail, image, } = post;
+      const { _id, title, subtitle, description, thumbnail, image, } = post;
 
-      setFormData({...formData, title, subtitle, description, thumbnail, image});
+      setFormData({ ...formData!, _id, title, subtitle, description, thumbnail, image });
 
-      if(post.pitch){
+      if (post.pitch) {
         setPitch(post.pitch)
       }
     }
@@ -136,6 +139,7 @@ const ProjectForm = ({ post }: { post?: Project }) => {
           id={"title"}
           name={"title"}
           value={formData?.title}
+          onChange={handleChangeForm}
           className={"startup-form_input"}
           required
           placeholder={"Project Title"}
@@ -155,6 +159,7 @@ const ProjectForm = ({ post }: { post?: Project }) => {
           className={"startup-form_input"}
           required
           placeholder={"Project Subtitle"}
+          onChange={handleChangeForm}
         />
         {errors.subtitle && (
           <p className={"startup-form_error"}>{errors.subtitle}</p>
@@ -171,6 +176,7 @@ const ProjectForm = ({ post }: { post?: Project }) => {
           className={"startup-form_textarea"}
           required
           placeholder={"Project Description"}
+          onChange={handleChangeForm}
         />
         {errors.description && (
           <p className={"startup-form_error"}>{errors.description}</p>
@@ -188,6 +194,7 @@ const ProjectForm = ({ post }: { post?: Project }) => {
           className={"startup-form_input"}
           required
           placeholder={"Project Thumbnail URL"}
+          onChange={handleChangeForm}
         />
         {errors.thumbnail && (
           <p className={"startup-form_error"}>{errors.thumbnail}</p>
@@ -205,6 +212,7 @@ const ProjectForm = ({ post }: { post?: Project }) => {
           className={"startup-form_input"}
           required
           placeholder={"Project Image URL"}
+          onChange={handleChangeForm}
         />
         {errors.image && (
           <p className={"startup-form_error"}>{errors.image}</p>

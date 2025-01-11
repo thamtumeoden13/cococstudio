@@ -10,32 +10,26 @@ import { formConstructionSchema } from "@/lib/validation";
 import z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { createConstruction } from "@/lib/actions";
+import { createConstruction, updateConstruction } from "@/lib/actions";
 import { Construction } from '@/sanity/types';
 
-type FormDataType = {
-  title?: string;
-  subtitle?: string;
-  description?: string;
-  thumbnail?: string;
-  image?: string;
-}
+type FormDataType = Omit<Construction, "author">;
 
 const ConstructionForm = ({ post }: { post?: Construction }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState("");
-  const [formData, setFormData] = useState<FormDataType | null>(null);
+  const [formData, setFormData] = useState<FormDataType>();
   const { toast } = useToast()
   const router = useRouter();
 
-  const handleFormSubmit = async (prevState: any, formData: FormData) => {
+  const handleFormSubmit = async (prevState: any, formDataSubmit: FormData) => {
     try {
       const formValues = {
-        title: formData.get("title") as string,
-        subtitle: formData.get("subtitle") as string,
-        description: formData.get("description") as string,
-        thumbnail: formData.get("thumbnail") as string,
-        image: formData.get("image") as string,
+        title: formDataSubmit.get("title") as string,
+        subtitle: formDataSubmit.get("subtitle") as string,
+        description: formDataSubmit.get("description") as string,
+        thumbnail: formDataSubmit.get("thumbnail") as string,
+        image: formDataSubmit.get("image") as string,
         pitch,
       }
 
@@ -43,7 +37,7 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
 
       console.log(formValues);
 
-      const response = await createConstruction(prevState, formData, pitch);
+      const response = await updateConstruction(prevState, formDataSubmit, pitch, formData?._id!);
 
       if (response.status === "SUCCESS") {
         toast({
@@ -92,12 +86,19 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
     }
   );
 
+  const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+    setFormData({
+      ...formData!,
+      [e.target.name]: e.target.value
+    })
+  }
+
   useEffect(() => {
     if (post) {
+      const { _id, title, subtitle, description, thumbnail, image, } = post;
 
-      const { title, subtitle, description, thumbnail, image, } = post;
-
-      setFormData({ ...formData, title, subtitle, description, thumbnail, image });
+      setFormData({ ...formData!, _id, title, subtitle, description, thumbnail, image });
 
       if (post.pitch) {
         setPitch(post.pitch)
@@ -117,10 +118,11 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         <Input
           id={"title"}
           name={"title"}
-          value={formData?.title}
           className={"startup-form_input"}
-          required
           placeholder={"Construction Title"}
+          required
+          value={formData?.title}
+          onChange={handleChangeForm}
         />
         {errors.title && (
           <p className={"startup-form_error"}>{errors.title}</p>
@@ -133,10 +135,11 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         <Input
           id={"subtitle"}
           name={"subtitle"}
-          value={formData?.subtitle}
           className={"startup-form_input"}
-          required
           placeholder={"Construction Subtitle"}
+          required
+          value={formData?.subtitle}
+          onChange={handleChangeForm}
         />
         {errors.subtitle && (
           <p className={"startup-form_error"}>{errors.subtitle}</p>
@@ -149,10 +152,11 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         <Textarea
           id={"description"}
           name={"description"}
-          value={formData?.description}
           className={"startup-form_textarea"}
-          required
           placeholder={"Construction Description"}
+          required
+          value={formData?.description}
+          onChange={handleChangeForm}
         />
         {errors.description && (
           <p className={"startup-form_error"}>{errors.description}</p>
@@ -166,10 +170,11 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         <Input
           id={"thumbnail"}
           name={"thumbnail"}
-          value={formData?.thumbnail}
           className={"startup-form_input"}
-          required
           placeholder={"Construction Thumbnail URL"}
+          required
+          value={formData?.thumbnail}
+          onChange={handleChangeForm}
         />
         {errors.thumbnail && (
           <p className={"startup-form_error"}>{errors.thumbnail}</p>
@@ -183,10 +188,11 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         <Input
           id={"image"}
           name={"image"}
-          value={formData?.image}
           className={"startup-form_input"}
-          required
           placeholder={"Construction Image URL"}
+          value={formData?.image}
+          required
+          onChange={handleChangeForm}
         />
         {errors.image && (
           <p className={"startup-form_error"}>{errors.image}</p>

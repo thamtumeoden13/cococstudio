@@ -62,7 +62,7 @@
 }
 
 .root {
-  @apply relative dark:bg-black-100 bg-white flex justify-center items-center flex-col mx-auto sm:px-10 px-5 overflow-x-hidden;
+  @apply relative flex flex-col items-center justify-center px-5 mx-auto overflow-x-hidden bg-white dark:bg-black-100 sm:px-10;
 }
 
 .root-container {
@@ -138,7 +138,7 @@
 
   /* END of Typography */
   .flex-between {
-    @apply flex justify-between items-center;
+    @apply flex items-center justify-between;
   }
 
   .text-30-extrabold {
@@ -170,7 +170,7 @@
   }
 
   .text-14-normal {
-    @apply font-normal text-sm text-white-100/80;
+    @apply text-sm font-normal text-white-100/80;
   }
 
   .pink_container {
@@ -178,7 +178,7 @@
   }
 
   .tag {
-    @apply bg-secondary px-6 py-3 font-ibm-plex font-bold rounded-sm uppercase relative tag-tri;
+    @apply relative px-6 py-3 font-bold uppercase rounded-sm bg-secondary font-ibm-plex tag-tri;
   }
 
   .heading {
@@ -194,7 +194,7 @@
   }
 
   .section_container {
-    @apply px-6 py-10 max-w-7xl mx-auto;
+    @apply px-6 py-10 mx-auto max-w-7xl;
   }
 
   .card_grid {
@@ -202,11 +202,11 @@
   }
 
   .card_grid-md {
-    @apply grid md:grid-cols-3 sm:grid-cols-2 gap-5;
+    @apply grid gap-5 md:grid-cols-3 sm:grid-cols-2;
   }
 
   .card_grid-sm {
-    @apply grid sm:grid-cols-2 gap-5;
+    @apply grid gap-5 sm:grid-cols-2;
   }
 
   .card_grid-xs {
@@ -214,12 +214,12 @@
   }
 
   .no-result {
-    @apply text-black-100 text-sm font-normal;
+    @apply text-sm font-normal text-black-100;
   }
 
   /* profile */
   .profile_container {
-    @apply w-full pb-10 pt-20 px-6 max-w-7xl mx-auto lg:flex-row flex-col flex gap-10;
+    @apply flex flex-col w-full gap-10 px-6 pt-20 pb-10 mx-auto max-w-7xl lg:flex-row;
   }
 
   .profile_card {
@@ -236,11 +236,11 @@
 
   /* idea details */
   .divider {
-    @apply border-dotted bg-zinc-400 max-w-4xl my-10 mx-auto;
+    @apply max-w-4xl mx-auto my-10 border-dotted bg-zinc-400;
   }
 
   .view_skeleton {
-    @apply bg-zinc-400 h-10 w-24 rounded-lg fixed bottom-3 right-3;
+    @apply fixed w-24 h-10 rounded-lg bg-zinc-400 bottom-3 right-3;
   }
 
   /* navbar */
@@ -262,7 +262,7 @@
   }
 
   .search-input {
-    @apply flex-1 font-bold placeholder:font-semibold placeholder:text-black-100 w-full h-auto outline-none;
+    @apply flex-1 w-full h-auto font-bold outline-none placeholder:font-semibold placeholder:text-black-100;
   }
 
   .search-btn {
@@ -321,7 +321,7 @@
 
   /* startupform */
   .startup-form {
-    @apply max-w-2xl mx-auto bg-white my-10 space-y-8 px-6;
+    @apply max-w-2xl px-6 mx-auto my-10 space-y-8 bg-white;
   }
 
   .startup-form_label {
@@ -329,15 +329,15 @@
   }
 
   .startup-form_input {
-    @apply border-[3px] border-black px-5 py-7 text-[18px] text-black font-semibold rounded-full mt-3 placeholder:text-black-300 !important;
+    @apply border-[3px] border-black px-5 py-7 text-[18px] text-black font-semibold rounded-full mt-3 placeholder:text-black-300 ;
   }
 
   .startup-form_textarea {
-    @apply border-[3px] border-black p-5 text-[18px] text-black font-semibold rounded-[20px] mt-3 placeholder:text-black-300 !important;
+    @apply border-[3px] border-black p-5 text-[18px] text-black font-semibold rounded-[20px] mt-3 placeholder:text-black-300 ;
   }
 
   .startup-form_error {
-    @apply text-red-500 mt-2 ml-5;
+    @apply mt-2 ml-5 text-red-500;
   }
 
   .startup-form_editor {
@@ -350,7 +350,7 @@
 
   /* view */
   .view-container {
-    @apply flex justify-end items-center mt-5 fixed bottom-3;
+    @apply fixed flex items-center justify-end mt-5 bottom-3;
   }
 
   .view-text {
@@ -420,7 +420,7 @@
   }
 
   .caption {
-    @apply small-2 mb-5 uppercase text-p3;
+    @apply mb-5 uppercase small-2 text-p3;
   }
 
   .scroll-hide::-webkit-scrollbar {
@@ -441,11 +441,11 @@
   }
 
   .nav-li {
-    @apply relative flex flex-1 items-center justify-between max-lg:flex-col max-lg:items-start;
+    @apply relative flex items-center justify-between flex-1 max-lg:flex-col max-lg:items-start;
   }
 
   .nav-logo {
-    @apply relative flex flex-1 items-center justify-center;
+    @apply relative flex items-center justify-center flex-1;
   }
 
   .dot {
@@ -489,7 +489,7 @@
   }
 
   .pricing-head_btn {
-    @apply base-bold relative z-2 h-16 flex-1 uppercase text-p5 transition-colors duration-500 hover:text-p4;
+    @apply relative flex-1 h-16 uppercase transition-colors duration-500 base-bold z-2 text-p5 hover:text-p4;
   }
 
   .pricing-head_btn_before {
@@ -559,7 +559,7 @@
   }
 
   .download_tech-icon {
-    @apply relative z-2 flex size-full items-center justify-center transition-all duration-500;
+    @apply relative flex items-center justify-center transition-all duration-500 z-2 size-full;
   }
 
   .download_tech-icon_before {
@@ -589,7 +589,7 @@
   }
 
   .social-icon {
-    @apply flex size-10 items-center justify-center rounded-full border-2 border-s4/25 bg-s1/5 transition-all duration-500 hover:border-s4;
+    @apply flex items-center justify-center transition-all duration-500 border-2 rounded-full size-10 border-s4/25 bg-s1/5 hover:border-s4;
   }
 
   .footer-gradient {

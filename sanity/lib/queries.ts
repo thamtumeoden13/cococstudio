@@ -349,3 +349,31 @@ select[]->{
     }, 
   }
 }`);
+
+export const CATEGORY_BY_ID_QUERY =
+  defineQuery(`*[_type == "category" && _id == $id][0]{
+_id,
+title,
+slug,
+select[]->{
+    _id,
+    _createdAt,
+    _key,
+    title,
+    subtitle,
+    slug,
+    description,
+    image,
+    thumbnail,
+    author->{
+      _id,
+      name,
+      slug,
+      image,
+      bio
+    },
+    construction->{
+      _id, title, subtitle, description, image, thumbnail, slug
+    }, 
+  }
+}`);

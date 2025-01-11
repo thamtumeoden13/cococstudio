@@ -13,7 +13,7 @@ const FooterTable = async () => {
 
   return (
     <section className={"section_container !justify-items-center !mt-0"}>
-      <TableComponent data={footerCategory} title='Footer' />
+      <TableComponent data={footerCategory} title='Footer' action={['Delete']}/>
     </section>
   )
 }

@@ -13,7 +13,7 @@ const NavRouterTable = async () => {
 
   return (
     <section className={"section_container !justify-items-center !mt-0"}>
-      <TableComponent data={navProjectRouter} title='Nav Router' />
+      <TableComponent data={navProjectRouter} title='Nav Router' action={['Delete']} />
     </section>
   )
 }
