@@ -23,6 +23,20 @@ export const ParallaxScroll = ({
   );
   const id = useId();
   const ref = useRef<HTMLDivElement>(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 640); // Kiểm tra nếu màn hình <= 640px
+    };
+
+    handleResize(); // Gọi lần đầu tiên khi component mount
+    window.addEventListener("resize", handleResize); // Lắng nghe thay đổi kích thước màn hình
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Dọn dẹp sự kiện
+    };
+  }, []);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -166,7 +180,7 @@ export const ParallaxScroll = ({
             {firstPart.map((el, idx) => (
               <motion.div
                 className="justify-items-center hover:cursor-pointer"
-                style={{ y: translateFirst }} // Apply the translateY motion value here
+                style={{ y: isSmallScreen ? 0 : translateFirst }} // Apply the translateY motion value here
                 key={"grid-1" + idx}
                 onClick={() => setActive(el)}
               >
@@ -184,7 +198,7 @@ export const ParallaxScroll = ({
             {secondPart.map((el, idx) => (
               <motion.div
                 className="justify-items-center hover:cursor-pointer"
-                style={{ y: translateSecond }}
+                style={{ y: isSmallScreen ? 0 : translateSecond }}
                 key={"grid-2" + idx}
                 onClick={() => setActive(el)}
               >
@@ -202,7 +216,7 @@ export const ParallaxScroll = ({
             {thirdPart.map((el, idx) => (
               <motion.div
                 className="justify-items-center hover:cursor-pointer"
-                style={{ y: translateThird }}
+                style={{ y: isSmallScreen ? 0 : translateThird }}
                 key={"grid-3" + idx}
                 onClick={() => setActive(el)}
               >
