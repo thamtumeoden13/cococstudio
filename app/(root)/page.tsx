@@ -8,21 +8,20 @@ import Experience from "@/components/Experience";
 import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 import { FocusCards } from "@/components/ui/focus-cards";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
-import { ContactButton } from "@/components/shared/ContactButton";
+import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
 
-export default async function Home({ searchParams }: {
+export default async function Home({ searchParams }: Readonly<{
   searchParams: Promise<{ query?: string }>
-}) {
+}>) {
 
   const query = (await searchParams).query;
 
-  const params = { search: query || null };
+  const params = { search: query ?? null };
 
   const session = await auth();
 
   console.log(`session -> ${session?.id}`);
 
-  // const posts = await client.fetch(STARTUPS_QUERY);
 
   const [searchForProjects, searchForProjectDetails, { select: homeHeroPost }] = await Promise.all([
     client.fetch(PROJECTS_BY_QUERY, params),
@@ -31,35 +30,35 @@ export default async function Home({ searchParams }: {
   ])
 
   return (
-    <>
+    <BackgroundBeamsWithCollision className="flex flex-col pb-10 bg-white-100">
       <MarkupSchema post={{}} path="" />
 
-      <section className="section_container !max-w-full mt-16 bg-black-200 justify-items-center !overflow-hidden">
+      <section className="section_container !max-w-full !w-full mt-16 bg-black-200 justify-items-center !overflow-hidden">
         <AppleCardsCarousel data={homeHeroPost} />
       </section>
 
-      <section className={"section_container"}>
-        <div className="flex flex-col items-center justify-center relative">
+      <section className={"section_container "}>
+        <div className="relative flex flex-col items-center justify-center">
           <TypewriterEffectSmooth words={words_1} cursorClassName="bg-primary" />
         </div>
-        <Experience />
+        <Experience className="px-0" />
       </section>
 
-      <section className={"section_container my-16 bg-white border border-neutral-100 rounded-xl relative"}>
+      <section className={"section_container my-16 bg-white border border-neutral-100 rounded-xl"}>
         <div className="flex flex-col items-center justify-center ">
           <TypewriterEffectSmooth words={words_2} cursorClassName="bg-primary" />
         </div>
-        <ParallaxScroll cards={searchForProjects} path={"du-an"} />
+        <div className="z-0 gradient-02" />
+        <ParallaxScroll cards={searchForProjects} path={"du-an"} className="!px-4" />
       </section>
       <section className={"section_container bg-white border border-neutral-100 rounded-xl relative"}>
         <div className="flex flex-col items-center justify-center ">
           <TypewriterEffectSmooth words={words_3} cursorClassName="bg-primary" />
         </div>
-        <FocusCards cards={searchForProjectDetails} path="/chi-tiet-du-an" />
+        <FocusCards cards={searchForProjectDetails} path="/chi-tiet-du-an" className="!px-14" />
       </section>
 
-      <ContactButton />
-    </>
+    </BackgroundBeamsWithCollision>
   );
 }
 

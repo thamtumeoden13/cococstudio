@@ -1,11 +1,10 @@
 "use client";
+
 import React, { useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { motion } from "framer-motion";
+import { AnimatePresence, useScroll, useTransform, motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useOutsideClick } from "@/hooks/use-outside-click";
-import { FollowerPointerCard } from "./following-pointer";
 import { ProjectDetail } from "@/sanity/types";
 
 type CardType = Omit<ProjectDetail, "author">;
@@ -69,7 +68,7 @@ export const ParallaxScroll = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/20 h-full w-full z-10"
+            className="fixed inset-0 z-10 w-full h-full bg-black/20"
           />
         )}
       </AnimatePresence>
@@ -91,7 +90,7 @@ export const ParallaxScroll = ({
                   duration: 0.05,
                 },
               }}
-              className="flex absolute top-2 right-2 lg:hidden items-center justify-center bg-white rounded-full h-6 w-6"
+              className="absolute flex items-center justify-center w-6 h-6 bg-white rounded-full top-2 right-2 lg:hidden"
               onClick={() => setActive(null)}
             >
               <CloseIcon />
@@ -107,23 +106,22 @@ export const ParallaxScroll = ({
                   width={280}
                   height={200}
                   src={active.thumbnail!}
-                  alt={""}
-                  role="presentation"
-                  className="w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-cover"
+                  alt=""
+                  className="object-cover w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg"
                 />
               </motion.div>
               <div>
-                <div className="flex justify-between items-start p-4">
+                <div className="flex items-start justify-between p-4">
                   <div className="">
                     <motion.h3
                       layoutId={`title-${active.title}-${id}`}
-                      className="font-medium text-neutral-700 dark:text-neutral-200 text-base"
+                      className="text-base font-medium text-neutral-700 dark:text-neutral-200"
                     >
                       {active.title}
                     </motion.h3>
                     <motion.p
                       layoutId={`description-${active.description}-${id}`}
-                      className="text-neutral-600 dark:text-neutral-400 text-base"
+                      className="text-base text-neutral-600 dark:text-neutral-400"
                     >
                       {active.subtitle}
                     </motion.p>
@@ -135,12 +133,12 @@ export const ParallaxScroll = ({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     href={`${path}/${active.slug?.current}`}
-                    className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
+                    className="px-4 py-3 text-sm font-bold text-white bg-green-500 rounded-full"
                   >
-                    {"Visit"}
+                    {"Xem chi tiết"}
                   </motion.a>
                 </div>
-                <div className="pt-4 relative px-4">
+                <div className="relative px-4 pt-4">
                   <motion.div
                     layout
                     initial={{ opacity: 0 }}
@@ -161,7 +159,7 @@ export const ParallaxScroll = ({
         ref={gridRef}
       >
         <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center  max-w-7xl mx-auto gap-10 px-10"
+          className="grid items-center grid-cols-1 gap-10 px-10 mx-auto md:grid-cols-2 lg:grid-cols-3 max-w-7xl"
           ref={gridRef}
         >
           <div className="grid gap-10">
@@ -177,7 +175,7 @@ export const ParallaxScroll = ({
                   className="h-[414px] w-full object-cover object-left-top rounded-lg gap-5 !m-0 !p-0"
                   height="400"
                   width="400"
-                  alt={el.subtitle || "Cốc Cốc Studio"}
+                  alt={el.subtitle ?? "Cốc Cốc Studio"}
                 />
               </motion.div>
             ))}
@@ -195,7 +193,7 @@ export const ParallaxScroll = ({
                   className="h-[414px] w-full object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
                   height="400"
                   width="400"
-                  alt={el.subtitle || "Cốc Cốc Studio"}
+                  alt={el.subtitle ?? "Cốc Cốc Studio"}
                 />
               </motion.div>
             ))}
@@ -203,7 +201,7 @@ export const ParallaxScroll = ({
           <div className="grid gap-10">
             {thirdPart.map((el, idx) => (
               <motion.div
-                className="justify-items-center  hover:cursor-pointer"
+                className="justify-items-center hover:cursor-pointer"
                 style={{ y: translateThird }}
                 key={"grid-3" + idx}
                 onClick={() => setActive(el)}
@@ -213,7 +211,7 @@ export const ParallaxScroll = ({
                   className="h-[414px] w-full object-cover object-left-top rounded-lg gap-10 !m-0 !p-0"
                   height="400"
                   width="400"
-                  alt={el.subtitle || "Cốc Cốc Studio"}
+                  alt={el.subtitle ?? "Cốc Cốc Studio"}
                 />
               </motion.div>
             ))}
@@ -248,7 +246,7 @@ export const CloseIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-4 w-4 text-black"
+      className="w-4 h-4 text-black"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M18 6l-12 12" />
