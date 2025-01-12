@@ -1631,6 +1631,23 @@
           "type": "string"
         }
       },
+      "type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "github"
+            },
+            {
+              "type": "string",
+              "value": "google"
+            }
+          ]
+        },
+        "optional": true
+      },
       "id": {
         "type": "objectAttribute",
         "value": {

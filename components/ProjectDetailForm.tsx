@@ -6,31 +6,27 @@ import { Textarea } from "@/components/ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
-import { formProjectSchema } from "@/lib/validation";
+import { formProjectDetailSchema } from "@/lib/validation";
 import z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { createProjectDetail } from "@/lib/actions";
+import { createProjectDetail, updateProjectDetail } from "@/lib/actions";
 import { Combobox, ComboboxDataType } from "./shared/ComboBox";
-import { client } from "@/sanity/lib/client";
+import { client, clientNoCache } from "@/sanity/lib/client";
 import { PROJECTS_BY_QUERY } from "@/sanity/lib/queries";
-import { ProjectDetail } from '@/sanity/types';
+import { Author, Project, ProjectDetail } from '@/sanity/types';
 
-type FormDataType = {
-  title?: string;
-  subtitle?: string;
-  description?: string;
-  thumbnail?: string;
-  image?: string;
-}
+type FormDataType = Omit<ProjectDetail, "author" | "construction">;
+type ProjectDetailFormType = Omit<ProjectDetail, "author" | "project"> & { author?: Author } & { project?: Project };
 
-const ProjectDetailForm = ({ post }: { post?: ProjectDetail }) => {
+const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState<string>("");
   const [formData, setFormData] = useState<FormDataType | null>(null);
 
   const [selected, setSelected] = useState<ComboboxDataType | null>(null);
-  const [constructions, setConstructions] = useState<ComboboxDataType[]>([])
+  const [initValue, setInitValue] = useState<string>('');
+  const [projects, setProjects] = useState<ComboboxDataType[]>([])
   const { toast } = useToast()
   const router = useRouter();
 
@@ -46,11 +42,12 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetail }) => {
         pitch,
       }
 
-      await formProjectSchema.parseAsync(formValues);
-
       console.log(formValues);
+      await formProjectDetailSchema.parseAsync(formValues);
 
-      const response = await createProjectDetail(prevState, formData, pitch, selected!._id);
+      const response = post
+        ? await updateProjectDetail(prevState, formData, pitch, selected!._id, post._id)
+        : await createProjectDetail(prevState, formData, pitch, selected!._id);
 
       if (response.status === "SUCCESS") {
         toast({
@@ -99,11 +96,21 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetail }) => {
     }
   );
 
+
+  const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+    setFormData({
+      ...formData!,
+      [e.target.name]: e.target.value
+    })
+  }
+
+
   useEffect(() => {
     const getConstructions = async () => {
-      const result = await client.fetch(PROJECTS_BY_QUERY, { search: null });
+      const result = await clientNoCache.fetch(PROJECTS_BY_QUERY, { search: null });
 
-      setConstructions(result || [])
+      setProjects(result || [])
     }
 
     getConstructions();
@@ -113,12 +120,15 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetail }) => {
   useEffect(() => {
     if (post) {
 
-      const { title, subtitle, description, thumbnail, image, } = post;
+      const { title, subtitle, description, thumbnail, image, project } = post;
 
-      setFormData({ ...formData, title, subtitle, description, thumbnail, image });
+      setFormData({ ...formData!, title, subtitle, description, thumbnail, image });
 
       if (post.pitch) {
         setPitch(post.pitch)
+      }
+      if (project) {
+        setInitValue(project._id);
       }
     }
   }, [post])
@@ -135,10 +145,11 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetail }) => {
         <Input
           id={"title"}
           name={"title"}
-          value={formData?.title}
           className={"startup-form_input"}
           required
           placeholder={"Project Title"}
+          value={formData?.title}
+          onChange={handleChangeForm}
         />
         {errors.title && (
           <p className={"startup-form_error"}>{errors.title}</p>
@@ -151,10 +162,11 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetail }) => {
         <Input
           id={"subtitle"}
           name={"subtitle"}
-          value={formData?.subtitle}
           className={"startup-form_input"}
           required
           placeholder={"Project Subtitle"}
+          value={formData?.subtitle}
+          onChange={handleChangeForm}
         />
         {errors.subtitle && (
           <p className={"startup-form_error"}>{errors.subtitle}</p>
@@ -167,10 +179,11 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetail }) => {
         <Textarea
           id={"description"}
           name={"description"}
-          value={formData?.description}
           className={"startup-form_textarea"}
           required
           placeholder={"Project Description"}
+          value={formData?.description}
+          onChange={handleChangeForm}
         />
         {errors.description && (
           <p className={"startup-form_error"}>{errors.description}</p>
@@ -184,10 +197,11 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetail }) => {
         <Input
           id={"thumbnail"}
           name={"thumbnail"}
-          value={formData?.thumbnail}
           className={"startup-form_input"}
           required
           placeholder={"Project Thumbnail URL"}
+          value={formData?.thumbnail}
+          onChange={handleChangeForm}
         />
         {errors.thumbnail && (
           <p className={"startup-form_error"}>{errors.thumbnail}</p>
@@ -201,10 +215,11 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetail }) => {
         <Input
           id={"image"}
           name={"image"}
-          value={formData?.image}
           className={"startup-form_input"}
           required
           placeholder={"Project Image URL"}
+          value={formData?.image}
+          onChange={handleChangeForm}
         />
         {errors.image && (
           <p className={"startup-form_error"}>{errors.image}</p>
@@ -213,10 +228,11 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetail }) => {
 
       <div>
         <label htmlFor="image" className={"startup-form_label"}>
-          {"Construction"}
+          {"Project"}
         </label>
         <Combobox
-          data={constructions}
+          data={projects}
+          initValue={initValue}
           className={"startup-form_input justify-between"}
           onChange={(value: ComboboxDataType) => { setSelected(value) }}
         />

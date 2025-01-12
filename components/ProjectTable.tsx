@@ -3,23 +3,21 @@
 import React, { useEffect, useState } from 'react'
 import { PROJECTS_BY_QUERY } from '@/sanity/lib/queries';
 import { TableComponent } from './shared/Table';
-import { client } from '@/sanity/lib/client';
+import { client, clientNoCache } from '@/sanity/lib/client';
 import { useRouter } from 'next/navigation';
 import { Project } from '@/sanity/types';
 import { deleteById } from '@/lib/actions';
 import { toast } from '@/hooks/use-toast';
 import { PlusCircleIcon } from 'lucide-react';
 
-const ProjectTable = ({ role }: { role?: string }) => {
+const ProjectTable = ({ title, role }: { title: string, role?: string }) => {
   const router = useRouter();
 
   const [projects, setProjects] = useState<Project[] | []>([])
 
   const getProjects = async () => {
     const params = { search: null }
-    const searchForProjects = await client
-      .withConfig({ useCdn: false })
-      .fetch(PROJECTS_BY_QUERY, params);
+    const searchForProjects = await clientNoCache.fetch(PROJECTS_BY_QUERY, params);
     setProjects(searchForProjects);
   }
 
@@ -56,18 +54,18 @@ const ProjectTable = ({ role }: { role?: string }) => {
     getProjects();
   }, [])
 
-  if (!projects) return null;
+  if (!projects) return <div>Loading...</div>;
 
   return (
     <section className={"section_container !justify-items-center !mt-0 overflow-auto h-full"}>
       <div className='absolute top-0 flex items-center justify-end w-full h-24 gap-10 py-4 right-10 '>
-        <p>Dự Án</p>
-        <PlusCircleIcon className={"size-12 text-white hover:cursor-pointer"} onClick={handleAddProject} />
+        <p>{title}</p>
+        {(role == 'admin' || role == 'editor') && <PlusCircleIcon className={"size-12 text-white hover:cursor-pointer"} onClick={handleAddProject} />}
       </div>
       <div className='flex justify-end w-full h-full'>
         <TableComponent
           data={projects}
-          title='Dự Án'
+          title={title}
           path='du-an'
           actions={role == 'admin' || role == 'editor' ? ['Edit', 'Delete'] : []}
           onDelete={handleDelete}

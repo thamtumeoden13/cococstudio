@@ -37,7 +37,9 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
 
       console.log(formValues);
 
-      const response = await updateConstruction(prevState, formDataSubmit, pitch, formData?._id!);
+      const response = post
+        ? await updateConstruction(prevState, formDataSubmit, pitch, formData?._id!)
+        : await createConstruction(prevState, formDataSubmit, pitch);
 
       if (response.status === "SUCCESS") {
         toast({

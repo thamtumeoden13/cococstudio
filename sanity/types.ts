@@ -294,6 +294,7 @@ export type Author = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  type?: "github" | "google";
   id?: string;
   name?: string;
   username?: string;

@@ -4,9 +4,10 @@ import { auth } from "@/auth";
 import { parseServerActionResponse } from "@/lib/utils";
 import slugify from "slugify";
 import { writeClient } from "@/sanity/lib/write-client";
-import { client } from "@/sanity/lib/client";
-import { CATEGORY_BY_ID_QUERY, CONSTRUCTION_BY_SLUG_QUERY, PROJECT_BY_SLUG_QUERY, PROJECT_DETAIL_BY_SLUG_QUERY, PROJECT_DETAILS_BY_QUERY } from "@/sanity/lib/queries";
+import { client, clientNoCache } from "@/sanity/lib/client";
+import { CATEGORY_BY_ID_QUERY, CONSTRUCTION_BY_SLUG_QUERY, PROJECT_BY_SLUG_QUERY, PROJECT_DETAIL_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import { v4 as uuidv4 } from 'uuid';
+import { Author } from "@/sanity/types";
 
 export const createPitch = async (state: any, form: FormData, pitch: string,) => {
   const session = await auth();
@@ -74,7 +75,7 @@ export const createConstruction = async (state: any, form: FormData, pitch: stri
   const baseSlug = slugify(title as string, { lower: true, strict: true });
   let uniqueSlug = baseSlug;
 
-  const resultQuery = await client.fetch(CONSTRUCTION_BY_SLUG_QUERY, { slug: baseSlug });
+  const resultQuery = await clientNoCache.fetch(CONSTRUCTION_BY_SLUG_QUERY, { slug: baseSlug });
 
   console.log(resultQuery);
 
@@ -135,7 +136,7 @@ export const updateConstruction = async (state: any, form: FormData, pitch: stri
   const baseSlug = slugify(title as string, { lower: true, strict: true });
   let uniqueSlug = baseSlug;
 
-  const resultQuery = await client.fetch(CONSTRUCTION_BY_SLUG_QUERY, { slug: baseSlug });
+  const resultQuery = await clientNoCache.fetch(CONSTRUCTION_BY_SLUG_QUERY, { slug: baseSlug });
 
   console.log(resultQuery);
 
@@ -260,7 +261,7 @@ export const updateProject = async (state: any, form: FormData, pitch: string, c
   const baseSlug = slugify(title as string, { lower: true, strict: true });
   let uniqueSlug = baseSlug;
 
-  const resultQuery = await client.fetch(PROJECT_BY_SLUG_QUERY, { slug: baseSlug });
+  const resultQuery = await clientNoCache.fetch(PROJECT_BY_SLUG_QUERY, { slug: baseSlug });
 
   console.log(resultQuery);
 
@@ -390,7 +391,7 @@ export const updateProjectDetail = async (state: any, form: FormData, pitch: str
   const baseSlug = slugify(title as string, { lower: true, strict: true });
   let uniqueSlug = baseSlug;
 
-  const resultQuery = await client.fetch(PROJECT_DETAIL_BY_SLUG_QUERY, { slug: baseSlug });
+  const resultQuery = await clientNoCache.fetch(PROJECT_DETAIL_BY_SLUG_QUERY, { slug: baseSlug });
 
   console.log(resultQuery);
 
@@ -448,9 +449,7 @@ export const updateCategory = async (state: any, _id: string, projectId: string,
     status: "ERROR"
   });
 
-  const { select: homeHeroPost } = await client
-    .withConfig({ useCdn: false })
-    .fetch(CATEGORY_BY_ID_QUERY, { id: _id });
+  const { select: homeHeroPost } = await clientNoCache.fetch(CATEGORY_BY_ID_QUERY, { id: _id });
 
   console.log(homeHeroPost);
 
@@ -517,6 +516,33 @@ export const deleteById = async (_id: string) => {
 
   try {
     const result = await writeClient.delete(_id);
+
+    return parseServerActionResponse({
+      result,
+      error: "",
+      status: "SUCCESS",
+    })
+  } catch (error) {
+
+    return parseServerActionResponse({
+      error: JSON.stringify(error),
+      status: "ERROR",
+    });
+  }
+}
+
+export const updateRoleByAdmin = async (post: Author) => {
+  const session = await auth();
+
+  if (!session) return parseServerActionResponse({
+    error: "Not signed in",
+    status: "ERROR"
+  });
+
+  try {
+    const result = await writeClient.patch(post._id)
+      .set({ ...post })
+      .commit()
 
     return parseServerActionResponse({
       result,

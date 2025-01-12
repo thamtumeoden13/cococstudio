@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation'
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import { constructionNavList, projectNavList } from "@/constants";
 import { client } from "@/sanity/lib/client";

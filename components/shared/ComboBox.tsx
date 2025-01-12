@@ -23,17 +23,19 @@ import { Construction } from "@/sanity/types"
 export type ComboboxDataType = Pick<Construction, "title" | "_id" | "slug">
 
 export function Combobox({
+  initValue,
   data,
   className,
   onChange
-}:
-  {
-    data: ComboboxDataType[];
-    className?: string;
-    onChange?: (value: ComboboxDataType) => void;
-  }) {
+}: Readonly<{
+  initValue?: string;
+  data: ComboboxDataType[];
+  className?: string;
+  onChange?: (value: ComboboxDataType) => void;
+}>) {
+
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const [value, setValue] = React.useState(initValue ?? "")
 
   React.useEffect(() => {
     if (value && onChange) {
@@ -41,6 +43,12 @@ export function Combobox({
       onChange(selected!)
     }
   }, [value])
+
+  React.useEffect(() => {
+    if (initValue) {
+      setValue(initValue)
+    }
+  }, [initValue])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

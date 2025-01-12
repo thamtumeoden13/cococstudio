@@ -1,24 +1,23 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import { PROJECT_DETAILS_BY_QUERY } from '@/sanity/lib/queries';
+import { AUTHORS_BY_QUERY } from '@/sanity/lib/queries';
 import { TableComponent } from './shared/Table';
 import { client, clientNoCache } from '@/sanity/lib/client';
-import { useRouter } from 'next/navigation';
-import { ProjectDetail } from '@/sanity/types';
+import { Author, ProjectDetail } from '@/sanity/types';
 import { toast } from '@/hooks/use-toast';
-import { deleteById } from '@/lib/actions';
-import { PlusCircleIcon } from 'lucide-react';
+import { deleteById, updateRoleByAdmin } from '@/lib/actions';
 
-const ProjectDetailTable = ({ title, role }: { title: string, role?: string }) => {
-  const router = useRouter();
+const PermissionTable = ({ title, role, }: { title: string, role?: string }) => {
 
-  const [projects, setProjects] = useState<ProjectDetail[] | []>([])
+  const [users, setUsers] = useState<Author[] | []>([])
 
-  const getProjectDetails = async () => {
+  const getUsers = async () => {
     const params = { search: null }
-    const searchForProjects = await clientNoCache.fetch(PROJECT_DETAILS_BY_QUERY, params);
-    setProjects(searchForProjects);
+    const searchUsers = await clientNoCache.fetch(AUTHORS_BY_QUERY, params);
+
+    console.log('PermissionTable -> getUsers', searchUsers)
+    setUsers(searchUsers);
   }
 
   const handleDelete = async (post: ProjectDetail) => {
@@ -36,38 +35,52 @@ const ProjectDetailTable = ({ title, role }: { title: string, role?: string }) =
       }
 
       toast({ title: "Success", description: "Your item has been deleted successfully" });
-
-      getProjectDetails();
+      getUsers();
     }
   }
 
-  const handleEdit = async (post: ProjectDetail) => {
-    console.log('TableComponent -> path', post)
-    router.push(`/auth/chi-tiet-du-an/${post.slug?.current}`)
-  }
+  const handleEdit = async (post: Author) => {
+    console.log('handleEdit Author -> post', post)
+    const { error, status } = await updateRoleByAdmin(post)
 
-  const handleAddProjectDetail = async () => {
-    router.push(`/auth/chi-tiet-du-an/create`)
+    if (status === 'ERROR') {
+      toast({
+        title: "Error",
+        description: error,
+        variant: "destructive",
+      })
+      return;
+    }
+
+    toast({
+      title: "Success",
+      description: "Your Role has been updated successfully",
+      // variant: "destructive",
+    });
+
+    getUsers();
+
   }
 
   useEffect(() => {
-    getProjectDetails();
+    getUsers();
   }, [])
 
-  if (!projects) return <div>Loading...</div>;
+  if (!users) return null;
 
   return (
     <section className={"section_container !justify-items-center !mt-0 overflow-auto h-full"}>
       <div className='absolute top-0 flex items-center justify-end w-full h-24 gap-10 py-4 right-10 '>
-        <p>{title}</p>
-        {(role == 'admin' || role == 'editor') && <PlusCircleIcon className={"size-12 text-white hover:cursor-pointer"} onClick={handleAddProjectDetail} />}
+        <p> {title}</p>
       </div>
       <div className='flex justify-end w-full h-full'>
         <TableComponent
-          data={projects}
+          data={users}
+          headers={['Name', 'Email', 'Image', 'Role']}
+          customType={'author'}
           title={title}
           path='chi-tiet-du-an'
-          actions={role == 'admin' || role == 'editor' ? ['Edit', 'Delete'] : []}
+          actions={['Delete', 'Edit']}
           onDelete={handleDelete}
           onEdit={handleEdit}
         />
@@ -75,4 +88,4 @@ const ProjectDetailTable = ({ title, role }: { title: string, role?: string }) =
     </section>
   )
 }
-export default ProjectDetailTable
+export default PermissionTable

@@ -14,15 +14,17 @@ import { createProject, updateProject } from "@/lib/actions";
 import { Combobox, ComboboxDataType } from "./shared/ComboBox";
 import { client } from "@/sanity/lib/client";
 import { CONSTRUCTIONS_BY_QUERY } from "@/sanity/lib/queries";
-import { Project } from '@/sanity/types';
+import { Author, Construction, Project } from '@/sanity/types';
 
-type FormDataType = Omit<Project, "author">;
+type FormDataType = Omit<Project, "author" | "construction">;
+type ProjectFormType = Omit<Project, "author" | "construction"> & { author?: Author } & { construction?: Construction };
 
-const ProjectForm = ({ post }: { post?: Project }) => {
+const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState<string>("");
   const [formData, setFormData] = useState<FormDataType | null>(null);
   const [selected, setSelected] = useState<ComboboxDataType | null>(null);
+  const [initValue, setInitValue] = useState<string>('');
   const [constructions, setConstructions] = useState<ComboboxDataType[]>([])
   const { toast } = useToast()
   const router = useRouter();
@@ -44,7 +46,9 @@ const ProjectForm = ({ post }: { post?: Project }) => {
 
       console.log(formValues);
 
-      const response = await updateProject(prevState, formDataSubmit, pitch, selected!._id, formData?._id!);
+      const response = post
+        ? await updateProject(prevState, formDataSubmit, pitch, selected!._id, formData?._id!)
+        : await createProject(prevState, formDataSubmit, pitch, selected!._id);
 
       if (response.status === "SUCCESS") {
         toast({
@@ -115,14 +119,18 @@ const ProjectForm = ({ post }: { post?: Project }) => {
 
   useEffect(() => {
     if (post) {
-
-      const { _id, title, subtitle, description, thumbnail, image, } = post;
+      const { _id, title, subtitle, description, thumbnail, image, pitch, construction } = post;
 
       setFormData({ ...formData!, _id, title, subtitle, description, thumbnail, image });
 
-      if (post.pitch) {
-        setPitch(post.pitch)
+      if (pitch) {
+        setPitch(pitch)
       }
+
+      if (construction) {
+        setInitValue(construction._id)
+      }
+
     }
   }, [post])
 
@@ -225,6 +233,7 @@ const ProjectForm = ({ post }: { post?: Project }) => {
         </label>
         <Combobox
           data={constructions}
+          initValue={initValue}
           className={"startup-form_input justify-between"}
           onChange={(value: ComboboxDataType) => { setSelected(value) }}
         />

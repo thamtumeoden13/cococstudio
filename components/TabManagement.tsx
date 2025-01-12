@@ -5,6 +5,7 @@ import ProjectTable from "./ProjectTable";
 import ProjectDetailTable from "./ProjectDetailTable";
 import CategoryTable from "./CategoryTable";
 import { Author } from "@/sanity/types";
+import PermissionTable from "./PermissionTable";
 
 export const TabManagement = async ({ user }: { user: Author }) => {
 
@@ -18,7 +19,7 @@ export const TabManagement = async ({ user }: { user: Author }) => {
       value: "hang-muc",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <ConstructionTable role={role} />
+          <ConstructionTable title='Hạng Mục' role={role} />
         </div>
       ),
     },
@@ -27,7 +28,7 @@ export const TabManagement = async ({ user }: { user: Author }) => {
       value: "du-an",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <ProjectTable role={role} />
+          <ProjectTable title="Dự Án" role={role} />
         </div>
       ),
     },
@@ -36,7 +37,7 @@ export const TabManagement = async ({ user }: { user: Author }) => {
       value: "chi-tiet-bai-viet",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <ProjectDetailTable role={role} />
+          <ProjectDetailTable title="Bài Viết" role={role} />
         </div>
       ),
     },
@@ -76,6 +77,18 @@ export const TabManagement = async ({ user }: { user: Author }) => {
             title="Footer"
             role={role}
           />
+        </div>
+      ),
+    },
+    {
+      title: "Quyền Truy Cập",
+      value: "permission",
+      content: (
+        <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
+          {role === 'admin' ?
+            <PermissionTable title="Quyền Truy Cập" role={role} />
+            : 'Bạn không có quyền truy cập'
+          }
         </div>
       ),
     },

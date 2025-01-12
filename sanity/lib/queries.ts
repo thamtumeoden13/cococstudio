@@ -38,6 +38,18 @@ export const STARTUP_VIEWS_QUERY = defineQuery(`
   }
 `);
 
+export const AUTHORS_BY_QUERY =
+  defineQuery(`*[_type == "author" && !defined($search) || title match $search] | order(_createdAt desc) {
+    _id,
+    id,
+    name,
+    username,
+    email,
+    image,
+    bio,
+    role
+}`);
+
 export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(`
 *[_type == "author" && id == $id][0]{
     _id,
@@ -46,7 +58,8 @@ export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(`
     username,
     email,
     image,
-    bio
+    bio,
+    role
   }
 `);
 

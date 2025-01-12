@@ -8,6 +8,18 @@ export const author = defineType({
   icon: UsersIcon,
   fields: [
     defineField({
+      name: 'type',
+      title: 'Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Github', value: 'github' },
+          { title: 'Google', value: 'google' },
+        ],
+      },
+      initialValue: 'github',
+    }),
+    defineField({
       name: 'id',
       title: 'ID',
       type: 'string',

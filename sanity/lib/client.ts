@@ -9,3 +9,12 @@ export const client = createClient({
   useCdn: true,
   token,
 })
+
+
+export const clientNoCache = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: true,
+  token,
+})
