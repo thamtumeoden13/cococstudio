@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createProject, updateProject } from "@/lib/actions";
 import { Combobox, ComboboxDataType } from "./shared/ComboBox";
-import { client } from "@/sanity/lib/client";
+import { client, clientNoCache } from "@/sanity/lib/client";
 import { CONSTRUCTIONS_BY_QUERY } from "@/sanity/lib/queries";
 import { Author, Construction, Project } from '@/sanity/types';
 
@@ -31,13 +31,16 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
 
   const handleFormSubmit = async (prevState: any, formDataSubmit: FormData) => {
     try {
+
+      const constructionId = selected?._id ?? initValue;
+
       const formValues = {
         title: formDataSubmit.get("title") as string,
         subtitle: formDataSubmit.get("subtitle") as string,
         description: formDataSubmit.get("description") as string,
         thumbnail: formDataSubmit.get("thumbnail") as string,
         image: formDataSubmit.get("image") as string,
-        constructionId: selected?._id,
+        constructionId,
         pitch,
       }
 
@@ -47,8 +50,8 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
       console.log(formValues);
 
       const response = post
-        ? await updateProject(prevState, formDataSubmit, pitch, selected!._id, formData?._id!)
-        : await createProject(prevState, formDataSubmit, pitch, selected!._id);
+        ? await updateProject(prevState, formDataSubmit, pitch, constructionId, formData?._id!)
+        : await createProject(prevState, formDataSubmit, pitch, constructionId);
 
       if (response.status === "SUCCESS") {
         toast({
@@ -108,7 +111,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
 
   useEffect(() => {
     const getConstructions = async () => {
-      const result = await client.fetch(CONSTRUCTIONS_BY_QUERY, { search: null });
+      const result = await clientNoCache.fetch(CONSTRUCTIONS_BY_QUERY, { search: null });
 
       setConstructions(result || [])
     }

@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { client, clientNoCache } from "@/sanity/lib/client";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
@@ -213,7 +213,7 @@ export const generateUniqueSlug = async ({ title, query }: { title: string, quer
   let baseSlug = slugify({ title });
   let uniqueSlug = baseSlug;
 
-  const { data } = await client.fetch(query, { slug: baseSlug });
+  const { data } = await clientNoCache.fetch(query, { slug: baseSlug });
 
   if (data) {
     uniqueSlug = `${baseSlug}-${data.length}`;

@@ -2,7 +2,7 @@ import React from 'react'
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import ProjectForm from "@/components/ProjectForm";
-import { client } from '@/sanity/lib/client';
+import { client, clientNoCache } from '@/sanity/lib/client';
 import { PROJECT_BY_SLUG_QUERY } from '@/sanity/lib/queries';
 
 
@@ -13,7 +13,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   
   const slug = (await params).slug;
 
-  const post = await client.fetch(PROJECT_BY_SLUG_QUERY, { slug })
+  const post = await clientNoCache.fetch(PROJECT_BY_SLUG_QUERY, { slug })
 
   if (!post) return redirect("/auth");
 

@@ -3,7 +3,7 @@ import { auth, signIn, signOut } from "@/auth";
 import { LogOut, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
-import { client } from '@/sanity/lib/client';
+import { client, clientNoCache } from '@/sanity/lib/client';
 import { AUTHOR_BY_ID_QUERY } from '@/sanity/lib/queries';
 import { TabManagement } from '@/components/TabManagement';
 import Image from 'next/image';
@@ -16,7 +16,7 @@ const AuthPage = async () => {
   console.log('AuthPage -> session', session)
   let user = null;
   if (session?.id) {
-    user = await client.fetch(AUTHOR_BY_ID_QUERY, { id: session?.id });
+    user = await clientNoCache.fetch(AUTHOR_BY_ID_QUERY, { id: session?.id });
   }
 
   return (

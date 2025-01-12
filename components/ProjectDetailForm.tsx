@@ -32,22 +32,27 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
 
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
+
+      const projectId = selected?._id ?? initValue;
+
       const formValues = {
         title: formData.get("title") as string,
         subtitle: formData.get("subtitle") as string,
         description: formData.get("description") as string,
         thumbnail: formData.get("thumbnail") as string,
         image: formData.get("image") as string,
-        projectId: selected?._id,
+        projectId,
         pitch,
       }
 
       console.log(formValues);
       await formProjectDetailSchema.parseAsync(formValues);
 
+      console.log('post', post?._id);
+
       const response = post
-        ? await updateProjectDetail(prevState, formData, pitch, selected!._id, post._id)
-        : await createProjectDetail(prevState, formData, pitch, selected!._id);
+        ? await updateProjectDetail(prevState, formData, pitch, projectId, post._id)
+        : await createProjectDetail(prevState, formData, pitch, projectId);
 
       if (response.status === "SUCCESS") {
         toast({
@@ -60,6 +65,8 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
       router.push(`/auth`)
       return response;
     } catch (error) {
+
+      console.error('ProjectDetailForm -> handleFormSubmit', error)
       if (error instanceof z.ZodError) {
         const fieldErrors = error.flatten().fieldErrors;
 

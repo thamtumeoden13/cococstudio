@@ -198,7 +198,7 @@ export const createProject = async (state: any, form: FormData, pitch: string, c
   const baseSlug = slugify(title as string, { lower: true, strict: true });
   let uniqueSlug = baseSlug;
 
-  const resultQuery = await client.fetch(PROJECT_BY_SLUG_QUERY, { slug: baseSlug });
+  const resultQuery = await clientNoCache.fetch(PROJECT_BY_SLUG_QUERY, { slug: baseSlug });
 
   console.log(resultQuery);
 
@@ -328,7 +328,7 @@ export const createProjectDetail = async (state: any, form: FormData, pitch: str
   const baseSlug = slugify(title as string, { lower: true, strict: true });
   let uniqueSlug = baseSlug;
 
-  const resultQuery = await client.fetch(PROJECT_DETAIL_BY_SLUG_QUERY, { slug: baseSlug });
+  const resultQuery = await clientNoCache.fetch(PROJECT_DETAIL_BY_SLUG_QUERY, { slug: baseSlug });
 
   console.log(resultQuery);
 

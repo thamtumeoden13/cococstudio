@@ -15,6 +15,6 @@ export const clientNoCache = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true,
+  useCdn: false,
   token,
 })
