@@ -10,5 +10,6 @@ import { projectDetail } from "@/sanity/schemaTypes/projectDetail";
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     author, startup, playlist, category,
-    construction, project, projectDetail],
+    construction, project, projectDetail,
+  ],
 }

@@ -19,6 +19,10 @@ export const category = defineType({
       },
     }),
     defineField({
+      name: 'pitch',
+      type: 'markdown',
+    }),
+    defineField({
       name: "select",
       type: "array",
       of: [

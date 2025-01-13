@@ -23,14 +23,6 @@ const nextConfig: NextConfig = {
     buildActivity: true,
     buildActivityPosition: "bottom-right",
   },
-  async rewrites() {
-    return [
-      {
-        source: "/studio/:path*",
-        destination: "/studio/index.html",
-      },
-    ];
-  },
 };
 
 export default nextConfig;

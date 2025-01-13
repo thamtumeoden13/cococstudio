@@ -342,6 +342,7 @@ export const CATEGORY_BY_SLUG_QUERY =
 _id,
 title,
 slug,
+pitch,
 select[]->{
     _id,
     _createdAt,

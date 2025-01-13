@@ -235,6 +235,7 @@ export type Category = {
   _rev: string;
   title?: string;
   slug?: Slug;
+  pitch?: string;
   select?: Array<{
     _ref: string;
     _type: "reference";

@@ -1307,6 +1307,13 @@
         },
         "optional": true
       },
+      "pitch": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "select": {
         "type": "objectAttribute",
         "value": {
