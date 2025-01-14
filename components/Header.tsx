@@ -9,7 +9,7 @@ import Link from "next/link";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import { constructionNavList, projectNavList } from "@/constants";
 import { client } from "@/sanity/lib/client";
-import { CATEGORY_BY_SLUG_QUERY } from "@/sanity/lib/queries";
+import { CATEGORY_BY_SLUG_QUERY, CONSTRUCTIONS_BY_QUERY } from "@/sanity/lib/queries";
 import { Author, Construction, Project } from "@/sanity/types";
 
 export type ProjectCardType = Omit<Project, "author" | "construction"> & { author?: Author } & { construction?: Construction };
@@ -28,6 +28,7 @@ const Header = () => {
   const [active, setActive] = useState<string | null>(null);
 
   const [navProjectRouter, setNavProjectRouter] = useState<ProjectCardType[]>([]);
+  const [navConstructionRouter, setNavConstructionRouter] = useState<Construction[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,8 +39,15 @@ const Header = () => {
       setNavProjectRouter(navProjectRouter)
     }
 
-    window.addEventListener("scroll", handleScroll);
+    const getNavConstructionRouter = async () => {
+      const navConstructionRouter = await client.fetch(CONSTRUCTIONS_BY_QUERY, { search: null });
+      setNavConstructionRouter(navConstructionRouter)
+    }
     getNavProjectRouter();
+    getNavConstructionRouter();
+
+
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -112,13 +120,13 @@ const Header = () => {
                     setIsOpen={setIsOpen}
                   >
                     <div className="  text-sm grid grid-cols-2 gap-10 p-4">
-                      {constructionNavList.map(({ title, href, src, description }) => (
+                      {navConstructionRouter.map(({ _id, title, slug, image, thumbnail, subtitle }) => (
                         <ProductItem
-                          key={title}
-                          title={title}
-                          href={href}
-                          src={src}
-                          description={description}
+                          key={_id}
+                          title={title!}
+                          href={`/hang-muc/${slug?.current}`}
+                          src={thumbnail!}
+                          description={subtitle!}
                         />
                       ))}
                     </div>
@@ -148,8 +156,9 @@ const Header = () => {
                     setIsOpen={setIsOpen}
                   >
                     <div className="  text-sm grid grid-cols-2 gap-10 p-4">
-                      {navProjectRouter.map(({ title, slug, image,thumbnail, subtitle }) => (
+                      {navProjectRouter.map(({ _id, title, slug, image, thumbnail, subtitle }) => (
                         <ProductItem
+                          key={_id}
                           title={title!}
                           href={`/du-an/${slug?.current}`}
                           src={thumbnail!}
