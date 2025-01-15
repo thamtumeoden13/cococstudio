@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-type Testimonial = {
-  quote: string;
+export type Testimonial = {
   name: string;
   designation: string;
+  quote: string;
   src: string;
 };
 export const AnimatedTestimonials = ({
@@ -121,7 +121,7 @@ export const AnimatedTestimonials = ({
             <motion.p className="text-lg text-gray-500 mt-8 dark:text-neutral-300">
               {testimonials[active].quote.split(" ").map((word, index) => (
                 <motion.span
-                  key={index}
+                  key={index + word}
                   initial={{
                     filter: "blur(10px)",
                     opacity: 0,

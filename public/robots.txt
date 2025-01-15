@@ -2,6 +2,8 @@
 User-agent: *
 Allow: /
 Disallow: /auth/
+Disallow: /_next/static/media/
+
 
 # Chỉ định host
 Host: https://cococstudio.com

@@ -15,9 +15,12 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Image, { ImageProps } from "next/image";
 import { useOutsideClick } from "@/hooks/use-outside-click";
-import { Author, Construction, Project } from "@/sanity/types";
+import { Author, Construction, Project, ProjectDetail } from "@/sanity/types";
 import { BlurImage } from "../shared/CloudinaryImage";
 import { useRouter } from "next/navigation";
+import { client } from "@/sanity/lib/client";
+import { PROJECT_DETAILS_BY_PROJECT_QUERY, PROJECT_DETAILS_BY_QUERY } from "@/sanity/lib/queries";
+import { AnimatedTestimonials, Testimonial } from "./animated-testimonials";
 
 interface CarouselProps {
   items: JSX.Element[];
@@ -167,10 +170,13 @@ export const AppleCard = ({
   layout?: boolean;
   className?: string;
 }) => {
-  const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { onCardClose, currentIndex } = useContext(CarouselContext);
   const router = useRouter();
+
+  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [cardContent, setCardContent] = useState<React.ReactNode | null>(null);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -194,10 +200,38 @@ export const AppleCard = ({
   const handleOpen = (card: AppleCardType) => {
     if (card.content) {
       setOpen(true);
+      setIsLoading(true);
+      getProjectDetails(card)
     } else if (card.path) {
       router.push(`/${card.path}/${card.slug!.current}`)
     }
   };
+
+  const getProjectDetails = async (card: AppleCardType) => {
+    const params = { id: card._id }
+    const searchForProjects = await client.fetch(PROJECT_DETAILS_BY_PROJECT_QUERY, params);
+
+    console.log(searchForProjects);
+
+    let testimonials_2: Testimonial[] = [{
+      name: card.title!,
+      designation: card.subtitle!,
+      quote: card.description!,
+      src: card.thumbnail!,
+    }];
+
+    if (searchForProjects?.length) {
+      testimonials_2 = searchForProjects.map((post: ProjectDetail) => ({
+        name: post.title!,
+        designation: post.subtitle!,
+        quote: post.description!,
+        src: post.thumbnail!,
+      }));
+    }
+
+    const content = <AnimatedTestimonials testimonials={testimonials_2} />
+    setCardContent(content);
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -241,7 +275,7 @@ export const AppleCard = ({
               >
                 {card.title}
               </motion.p>
-              {card.content && <div className="py-10">{card.content}</div>}
+              {card.content && <div className="py-10"><AppleCardContent>{cardContent}</AppleCardContent></div>}
               {card.pitch && <div className="py-10">{card.pitch}</div>}
             </motion.div>
           </div>
@@ -279,3 +313,17 @@ export const AppleCard = ({
     </>
   );
 };
+
+export const AppleCardContent = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={cn("p-8", className)}>
+      {children}
+    </div>
+  );
+}
