@@ -155,7 +155,7 @@ const Contact = ({ className }: { className?: string }) => {
             rows={7}
             id="message"
             name='message'
-            placeholder="vui lòng cho chúng tôi biết yêu cầu của bạn"
+            placeholder="Vui lòng cho chúng tôi biết yêu cầu của bạn"
             className='px-6 py-4 font-medium text-black border-none rounded-lg outline-none bg-tertiary placeholder:text-primary'
           />
           {errors.message && (

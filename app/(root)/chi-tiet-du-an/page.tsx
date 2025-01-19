@@ -48,17 +48,6 @@ export default async function Home({ searchParams }: {
           )}
         </ul>
       </section>
-      {/* {searchForProjects?.length > 0 ? (
-        searchForProjects.map((post: StartupCardType) => (
-          <ProjectDetailList key={post?._id} post={post} />
-        ))
-      ) : (
-        <section className={"section_container"}>
-          <p className={"no-result"}>
-            Không tìm thấy dự án
-          </p>
-        </section>
-      )} */}
 
       <SanityLive />
     </>
