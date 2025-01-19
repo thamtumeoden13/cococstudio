@@ -1,15 +1,15 @@
 import React from 'react'
 import { EyeIcon } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Author, Construction } from "@/sanity/types";
+import { Author, Construction, ProjectDetail } from "@/sanity/types";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { CloudinaryImage } from "./shared/CloudinaryImage";
+import { cn } from '@/lib/utils';
 
-export type SimpleCardType = Omit<Construction, "author"> & { author?: Author };
+export type SimpleCardType = Omit<ProjectDetail, "author"> & { author?: Author };
 
-const SimpleCard = ({ post, path }: { post: SimpleCardType, path: string }) => {
+const SimpleCard = ({ post, path, className }: { post: SimpleCardType, path: string, className?: string }) => {
   const {
     title,
     subtitle,
@@ -18,7 +18,7 @@ const SimpleCard = ({ post, path }: { post: SimpleCardType, path: string }) => {
   } = post;
 
   return (
-    <li className={"simple-card group"}>
+    <li className={cn("simple-card group", className)}>
       <div className={"flex-between mt-5 gap-5"}>
         <div className={"flex-1 h-20"}>
           <Link href={`/${path}/${slug?.current}`}>
@@ -38,7 +38,7 @@ const SimpleCard = ({ post, path }: { post: SimpleCardType, path: string }) => {
       <Link href={`/${path}/${slug?.current}`}>
         <CloudinaryImage
           src={thumbnail!}
-          alt={subtitle || "Cốc Cốc Studio"}
+          alt={subtitle ?? "Cốc Cốc Studio"}
           width={280}
           height={200}
           className={"simple-card_img"}
@@ -48,6 +48,7 @@ const SimpleCard = ({ post, path }: { post: SimpleCardType, path: string }) => {
       <div className={"flex-between gap-3 mt-5"}>
         <div className={"flex gap-1.5"}>
           <EyeIcon className={"size-6 text-primary"} />
+          <span className='text-16-medium'>{post?.views}</span>
         </div>
         <Button className={"simple-card_btn"} asChild>
           <Link href={`/${path}/${slug?.current}`}>

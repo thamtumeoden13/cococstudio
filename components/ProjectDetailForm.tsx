@@ -147,7 +147,7 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
     >
       <div>
         <label htmlFor="title" className={"startup-form_label"}>
-          {"Title"}
+          {"Tiêu Đề"}
         </label>
         <Input
           id={"title"}
@@ -164,7 +164,7 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
       </div>
       <div>
         <label htmlFor="subtitle" className={"startup-form_label"}>
-          {"Subtitle"}
+          {"Phụ Đề"}
         </label>
         <Input
           id={"subtitle"}
@@ -181,14 +181,14 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
       </div>
       <div>
         <label htmlFor="description" className={"startup-form_label"}>
-          {"Description"}
+          {"Mô Tả"}
         </label>
         <Textarea
           id={"description"}
           name={"description"}
           className={"startup-form_textarea"}
           required
-          placeholder={"Project Description"}
+          placeholder={"Vui lòng nhập mô tả"}
           value={formData?.description}
           onChange={handleChangeForm}
         />
@@ -199,14 +199,14 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
 
       <div>
         <label htmlFor="thumbnail" className={"startup-form_label"}>
-          {"Thumbnail URL"}
+          {"Ảnh Bìa"}
         </label>
         <Input
           id={"thumbnail"}
           name={"thumbnail"}
           className={"startup-form_input"}
           required
-          placeholder={"Project Thumbnail URL"}
+          placeholder={"Project Ảnh Bìa"}
           value={formData?.thumbnail}
           onChange={handleChangeForm}
         />
@@ -217,7 +217,7 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
 
       <div>
         <label htmlFor="image" className={"startup-form_label"}>
-          {"Image URL"}
+          {"Hình Ảnh"}
         </label>
         <Input
           id={"image"}
@@ -250,7 +250,7 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
 
       <div data-color-mode={"light"}>
         <label htmlFor="pitch" className={"startup-form_label"}>
-          {"Pitch"}
+          {"Bài Viết"}
         </label>
         <MDEditor
           value={pitch}
@@ -272,7 +272,7 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
         className={"startup-form_btn text-white"}
         disabled={isPending}
       >
-        {isPending ? "Submitting..." : "Submit Your Pitch"}
+        {isPending ? "Đang Gửi..." : "Gửi Bài Viết"}
         <Send className={"size-6 ml-2"} />
       </Button>
     </form>

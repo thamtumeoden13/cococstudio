@@ -10,17 +10,15 @@ import ProjectList from "@/components/ProjectList";
 import ProjectDetailList from "@/components/ProjectDetailList";
 import MarkupSchema from "@/components/shared/MarkupSchema";
 import { Metadata } from "next/types";
-// import BreadcrumbComponent from "@/components/shared/Breadcrumb";
+import { SimpleCardType } from "@/components/SimpleCard";
 
 export default async function Projects({ searchParams }: {
-  searchParams: Promise<{ query?: string }>
+  readonly searchParams: Promise<{ query?: string }>
 }) {
 
   const query = (await searchParams).query;
 
   const params = { search: query || null };
-
-  const session = await auth();
 
   console.log(`params -> ${JSON.stringify(params)}`);
 
@@ -31,7 +29,7 @@ export default async function Projects({ searchParams }: {
     <>
       <MarkupSchema path={`du-an`} />
 
-      <section className={"pink_container !min-h-[230px] mt-32"}>
+      <section className={"pink_container"}>
         <h1 className={"heading"}>
           Kết Nối Với Chúng Tôi
         </h1>
@@ -43,7 +41,7 @@ export default async function Projects({ searchParams }: {
       </section>
 
       {searchForProjects?.length > 0 ? (
-        searchForProjects.map((post: StartupCardType) => (
+        searchForProjects.map((post: SimpleCardType) => (
           <ProjectDetailList key={post?._id} post={post} />
         ))
       ) : (

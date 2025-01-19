@@ -23,7 +23,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
     <>
       <MarkupSchema post={data} path={`hang-muc/${slug}`} />
 
-      <section className={"pink_container !min-h-[230px] mt-32"}>
+      <section className={"pink_container !min-h-[320px] !mt-18 md:mt-24 "}>
         <p className={"tag"}>{formatDate(data?._createdAt)}</p>
 
         <h1 className={"heading"}>{data.title}</h1>

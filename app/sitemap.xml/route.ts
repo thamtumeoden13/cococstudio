@@ -22,7 +22,7 @@ async function fetchPosts() {
   console.log({ searchForConstructions, searchForProjects, searchForProjectDetails })
 
   const sitemapConstructions = searchForConstructions?.map((post: PostType) => ({
-    loc: `${baseUrl}/hang-muc/${post.slug?.current}`,
+    loc: `${baseUrl}/san-pham/${post.slug?.current}`,
     lastmod: new Date(post._updatedAt).toISOString(),
   })) || [];
 
@@ -41,23 +41,15 @@ async function fetchPosts() {
 
 export async function GET() {
   const dynamicRoutes = await fetchPosts();
-  // console.log("Fetched dynamic routes: ", JSON.stringify(dynamicRoutes, null, 2));
-  // const staticRoutes = [
-  //   { url: `${baseUrl}/`, lastModified: new Date() },
-  //   { url: `${baseUrl}/hang-muc`, lastModified: new Date() },
-  //   { url: `${baseUrl}/du-an`, lastModified: new Date() },
-  //   { url: `${baseUrl}/chi-tiet-du-an`, lastModified: new Date() },
-  //   { url: `${baseUrl}/thong-tin`, lastModified: new Date() },
-  // ];
+  
   const staticRoutes = [
     { loc: `${baseUrl}/`, lastmod: new Date().toISOString() },
-    { loc: `${baseUrl}/hang-muc`, lastmod: new Date().toISOString() },
+    { loc: `${baseUrl}/san-pham`, lastmod: new Date().toISOString() },
     { loc: `${baseUrl}/du-an`, lastmod: new Date().toISOString() },
     { loc: `${baseUrl}/chi-tiet-du-an`, lastmod: new Date().toISOString() },
     { loc: `${baseUrl}/thong-tin`, lastmod: new Date().toISOString() },
   ];
 
-  // return [...staticRoutes];
   return getServerSideSitemap([
     {
       loc: `${baseUrl}`,
@@ -69,25 +61,3 @@ export async function GET() {
     ...dynamicRoutes
   ])
 }
-
-
-// export async function GET(request: Request) {
-//   // Method to source urls from cms
-//   const urls = await getAllPosts()
-
-//   const post = urls?.map((post:any) =>{
-//     return{
-//         loc: `https://www.example.com/blog/${post?.slug}`,
-//         lastmod: post?.updatedAt.toISOString()
-//     }
-//   })
-//   return getServerSideSitemap([
-//     {
-//       loc: `https://example.com`,
-//       lastmod: new Date().toISOString(),
-//       // changefreq
-//       // priority
-//     },
-//     ...post
-//   ])
-// }

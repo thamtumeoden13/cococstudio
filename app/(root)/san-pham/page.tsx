@@ -1,26 +1,27 @@
 import SearchForm from "@/components/SearchForm";
-import { PROJECT_DETAILS_BY_QUERY } from "@/sanity/lib/queries";
+import { CONSTRUCTIONS_BY_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import ConstructionList from "@/components/ConstructionList";
 import MarkupSchema from "@/components/shared/MarkupSchema";
 import { Metadata } from "next/types";
-import SimpleCard, { SimpleCardType } from "@/components/SimpleCard";
+import { SimpleCardType } from "@/components/SimpleCard";
 
-export default async function Home({ searchParams }: {
-  readonly searchParams: Promise<{ query?: string }>
-}) {
+export default async function Product({ searchParams }: Readonly<{
+  searchParams: Promise<{ query?: string }>
+}>) {
 
   const query = (await searchParams).query;
 
   const params = { search: query ?? null };
 
+  console.log(`params: ${query}`)
 
-  const { data: searchForProjects } = await sanityFetch({ query: PROJECT_DETAILS_BY_QUERY, params });
-
-  console.log('searchForProjects', searchForProjects)
+  const { data: searchForConstructions } = await sanityFetch({ query: CONSTRUCTIONS_BY_QUERY, params });
+  console.log(`searchForConstructions -> ${JSON.stringify(params)}: ${searchForConstructions}`)
 
   return (
     <>
-      <MarkupSchema path={`chi-tiet-du-an`} />
+      <MarkupSchema path="san-pham" />
 
       <section className={"pink_container"}>
         <h1 className={"heading"}>
@@ -28,38 +29,24 @@ export default async function Home({ searchParams }: {
         </h1>
 
         <p className={"sub-heading !max-w-3xl"}>
-          Hãy Chọn Dự Án Mà Bạn Quan Tâm.
+          Hãy Chọn Sản Phẩm Mà Bạn Quan Tâm.
         </p>
-        <SearchForm query={query} path="chi-tiet-du-an" search="Dự Án" />
+
+        <SearchForm query={query} path="san-pham" search="sản phẩm" />
       </section>
-      <section className={"section_container justify-items-center"}>
-        <p className={"text-30-semibold"}>
-          {query ? `Tìm kiếm cho "${query}"` : 'Tất cả dự án'}
-        </p>
-        <ul className={"mt-7 card_grid"}>
-          {searchForProjects?.length > 0 ? (
-            searchForProjects.map((post: SimpleCardType) => (
-              <SimpleCard key={post?._id} post={post} path="chi-tiet-du-an" />
-            ))
-          ) : (
-            <p className={"no-result"}>
-              Không tìm thấy dự án phù hợp
-            </p>
-          )}
-        </ul>
-      </section>
-      {/* {searchForProjects?.length > 0 ? (
-        searchForProjects.map((post: StartupCardType) => (
-          <ProjectDetailList key={post?._id} post={post} />
+
+
+      {searchForConstructions?.length > 0 ? (
+        searchForConstructions.map((post: SimpleCardType) => (
+          <ConstructionList key={post?._id} post={post} />
         ))
       ) : (
         <section className={"section_container"}>
           <p className={"no-result"}>
-            Không tìm thấy dự án
+            Không tìm thấy sản phẩm phù hợp
           </p>
         </section>
-      )} */}
-
+      )}
       <SanityLive />
     </>
   );

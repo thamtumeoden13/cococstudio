@@ -27,7 +27,7 @@ const Navbar = async () => {
                 await signOut({redirectTo: "/"});
               }}>
                 <button type={"submit"}>
-                  <span className={"max-sm:hidden"}>Logout</span>
+                  <span className={"max-sm:hidden"}>Đăng Xuất</span>
                   <LogOut className={"size-6 sm:hidden text-red-500"}/>
                 </button>
               </form>
@@ -47,7 +47,7 @@ const Navbar = async () => {
               await signIn('github');
             }}>
               <button type={"submit"}>
-                Login
+                Đăng Nhập
               </button>
             </form>
           )}

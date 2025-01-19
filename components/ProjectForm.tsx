@@ -144,7 +144,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
     >
       <div>
         <label htmlFor="title" className={"startup-form_label"}>
-          {"Title"}
+          {"Tiêu Đề"}
         </label>
         <Input
           id={"title"}
@@ -161,7 +161,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
       </div>
       <div>
         <label htmlFor="subtitle" className={"startup-form_label"}>
-          {"Subtitle"}
+          {"Phụ Đề"}
         </label>
         <Input
           id={"subtitle"}
@@ -178,7 +178,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
       </div>
       <div>
         <label htmlFor="description" className={"startup-form_label"}>
-          {"Description"}
+          {"Mô Tả"}
         </label>
         <Textarea
           id={"description"}
@@ -186,7 +186,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
           value={formData?.description}
           className={"startup-form_textarea"}
           required
-          placeholder={"Project Description"}
+          placeholder={"Vui lòng nhập mô tả"}
           onChange={handleChangeForm}
         />
         {errors.description && (
@@ -196,7 +196,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
 
       <div>
         <label htmlFor="thumbnail" className={"startup-form_label"}>
-          {"Thumbnail URL"}
+          {"Ảnh Bìa"}
         </label>
         <Input
           id={"thumbnail"}
@@ -204,7 +204,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
           value={formData?.thumbnail}
           className={"startup-form_input"}
           required
-          placeholder={"Project Thumbnail URL"}
+          placeholder={"Project Ảnh Bìa"}
           onChange={handleChangeForm}
         />
         {errors.thumbnail && (
@@ -214,7 +214,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
 
       <div>
         <label htmlFor="image" className={"startup-form_label"}>
-          {"Image URL"}
+          {"Hình Ảnh"}
         </label>
         <Input
           id={"image"}
@@ -232,7 +232,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
 
       <div>
         <label htmlFor="image" className={"startup-form_label"}>
-          {"Construction"}
+          {"Sản Phẩm"}
         </label>
         <Combobox
           data={constructions}
@@ -247,7 +247,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
 
       <div data-color-mode={"light"}>
         <label htmlFor="pitch" className={"startup-form_label"}>
-          {"Pitch"}
+          {"Bài Viết"}
         </label>
         <MDEditor
           value={pitch}
@@ -269,7 +269,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
         className={"startup-form_btn text-white"}
         disabled={isPending}
       >
-        {isPending ? "Submitting..." : "Submit Your Pitch"}
+        {isPending ? "Đang Gửi..." : "Gửi Bài Viết"}
         <Send className={"size-6 ml-2"} />
       </Button>
     </form>

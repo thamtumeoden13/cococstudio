@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { CONSTRUCTIONS_BY_QUERY } from '@/sanity/lib/queries';
 import { TableComponent } from './shared/Table';
-import { client, clientNoCache } from '@/sanity/lib/client';
+import { clientNoCache } from '@/sanity/lib/client';
 import { Construction } from '@/sanity/types';
 import { useRouter } from 'next/navigation';
 import { deleteById } from '@/lib/actions';
@@ -43,11 +43,11 @@ const ConstructionTable = ({ title, role }: { title: string, role?: string }) =>
 
   const handleEdit = async (post: Construction) => {
     console.log('TableComponent -> path', post)
-    router.push(`/auth/hang-muc/${post.slug?.current}`)
+    router.push(`/auth/san-pham/${post.slug?.current}`)
   }
 
   const handleAddConstruction = async () => {
-    router.push(`/auth/hang-muc/create`)
+    router.push(`/auth/san-pham/create`)
   }
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const ConstructionTable = ({ title, role }: { title: string, role?: string }) =>
         <TableComponent
           data={constructions}
           title={title}
-          path='hang-muc'
+          path='san-pham'
           actions={role == 'admin' || role == 'editor' ? ['Edit', 'Delete'] : []}
           onDelete={handleDelete}
           onEdit={handleEdit}

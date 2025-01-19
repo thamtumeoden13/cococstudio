@@ -15,11 +15,11 @@ export const TabManagement = async ({ user }: { user: Author }) => {
 
   const tabs = [
     {
-      title: "Hạng Mục",
-      value: "hang-muc",
+      title: "Sản Phẩm",
+      value: "san-pham",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
-          <ConstructionTable title='Hạng Mục' role={role} />
+          <ConstructionTable title='Sản Phẩm' role={role} />
         </div>
       ),
     },
@@ -42,39 +42,52 @@ export const TabManagement = async ({ user }: { user: Author }) => {
       ),
     },
     {
-      title: "Home Hero",
-      value: "home-hero",
+      title: "Danh Mục Trang Chủ",
+      value: "danh-muc-trang-chu",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
           <CategoryTable
-            slug="home-hero"
-            title="Trang Chủ"
+            slug="danh-muc-trang-chu"
+            title="Danh Mục Trang Chủ"
             role={role}
           />
         </div>
       ),
     },
     {
-      title: "Nav Router",
-      value: "nav-router",
+      title: "Danh Mục Sản Phẩm",
+      value: "danh-muc-san-pham",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
           <CategoryTable
-            slug="nav-router"
-            title="Nav Router"
+            slug="danh-muc-san-pham"
+            title="Danh Mục Sản Phẩm"
             role={role}
           />
         </div>
       ),
     },
     {
-      title: "Footer",
-      value: "footer",
+      title: "Danh Mục Dự Án",
+      value: "danh-muc-du-an",
       content: (
         <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
           <CategoryTable
-            slug="footer"
-            title="Footer"
+            slug="danh-muc-du-an"
+            title="Danh Mục Dự Án"
+            role={role}
+          />
+        </div>
+      ),
+    },
+    {
+      title: "Danh Mục Cuối Trang",
+      value: "danh-muc-cuoi-trang",
+      content: (
+        <div className="relative w-full h-full p-10 text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-700 to-green-900">
+          <CategoryTable
+            slug="danh-muc-cuoi-trang"
+            title="Danh Mục Cuối Trang"
             role={role}
           />
         </div>

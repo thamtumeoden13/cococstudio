@@ -6,10 +6,12 @@ import { category } from "@/sanity/schemaTypes/category";
 import { construction } from "@/sanity/schemaTypes/construction";
 import { project } from "@/sanity/schemaTypes/project";
 import { projectDetail } from "@/sanity/schemaTypes/projectDetail";
+import { product } from '@/sanity/schemaTypes/product';
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     author, startup, playlist, category,
-    construction, project, projectDetail,
+    construction, product,
+    project, projectDetail,
   ],
 }

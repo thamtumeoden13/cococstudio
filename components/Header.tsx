@@ -2,50 +2,63 @@
 
 import { Link as LinkScroll } from "react-scroll";
 import { useEffect, useState } from "react";
-import { usePathname } from 'next/navigation'
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
-import { constructionNavList, projectNavList } from "@/constants";
+import { Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import { client } from "@/sanity/lib/client";
-import { CATEGORY_BY_SLUG_QUERY, CONSTRUCTIONS_BY_QUERY } from "@/sanity/lib/queries";
+import { CATEGORY_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import { Author, Construction, Project } from "@/sanity/types";
 
 export type ProjectCardType = Omit<Project, "author" | "construction"> & { author?: Author } & { construction?: Construction };
 
 const Header = () => {
 
-  const pathname = usePathname()
-  console.log({ pathname })
-
-  const isScrolled = pathname.includes('/user/');
-
   const [hasScrolled, setHasScrolled] = useState(false);
+
+  const [scrollDirection, setScrollDirection] = useState<string | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
 
   const [active, setActive] = useState<string | null>(null);
 
   const [navProjectRouter, setNavProjectRouter] = useState<ProjectCardType[]>([]);
-  const [navConstructionRouter, setNavConstructionRouter] = useState<Construction[]>([]);
+  const [navDesignRouter, setNavDesignRouter] = useState<ProjectCardType[]>([]);
+
+  let prevScrollY = 0;
+
+  const handleIsOpen = (isOpen:boolean) =>{
+    setIsOpen(isOpen)
+    if(isOpen){
+      setActive(null)
+    }
+  }
 
   useEffect(() => {
     const handleScroll = () => {
-      setHasScrolled(window.scrollY > 32);
+      const currentScrollY = window.scrollY;
+      setHasScrolled(currentScrollY > 32);
+
+      if (currentScrollY > prevScrollY) {
+        setScrollDirection("down");
+      } else if (currentScrollY < prevScrollY) {
+        setScrollDirection("up");
+      }
+
+      prevScrollY = currentScrollY;
     };
+    const getNavDesignRouter = async () => {
+      const { select: navDesignRouter } = await client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "danh-muc-san-pham" });
+      setNavDesignRouter(navDesignRouter)
+    }
+
     const getNavProjectRouter = async () => {
-      const { select: navProjectRouter } = await client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "nav-router" });
+      const { select: navProjectRouter } = await client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "danh-muc-du-an" });
       setNavProjectRouter(navProjectRouter)
     }
 
-    const getNavConstructionRouter = async () => {
-      const navConstructionRouter = await client.fetch(CONSTRUCTIONS_BY_QUERY, { search: null });
-      setNavConstructionRouter(navConstructionRouter)
-    }
+    getNavDesignRouter();
     getNavProjectRouter();
-    getNavConstructionRouter();
-
 
     window.addEventListener("scroll", handleScroll);
 
@@ -89,9 +102,9 @@ const Header = () => {
   return (
     <header
       className={clsx(
-        "fixed top-0 left-0 z-50 w-full py-10 transition-all duration-500" +
-        " max-lg:py-4 bg-black",
-        (hasScrolled || isScrolled) && "py-2 bg-black-200" + " backdrop-blur-[8px]",
+        "fixed top-0 left-0 z-50 w-full py-10 transition-all duration-500 max-lg:py-4 bg-black opacity-0",
+        hasScrolled && "py-2 bg-black-200" + " backdrop-blur-[8px]",
+        scrollDirection === "down" ? "opacity-0" : "opacity-100",
       )}
     >
       <div className={"container flex h-14 items-center max-lg:px-5"}>
@@ -115,18 +128,21 @@ const Header = () => {
                 <li className={"nav-li max-lg:mb-4"}>
                   <NavLink name={"Trang Chủ"} route={"/"} />
                   <div className={"dot"} />
-                  <MenuItem setActive={setActive} active={active}
-                    item="construction" name={"Hạng Mục"} route={"/hang-muc"}
-                    setIsOpen={setIsOpen}
+
+                  <MenuItem
+                    setActive={setActive} active={active}
+                    item="product" name={"Sản Phẩm"} route={"/san-pham"}
+                    setIsOpen={handleIsOpen}
                   >
-                    <div className="  text-sm grid grid-cols-2 gap-10 p-4">
-                      {navConstructionRouter.map(({ _id, title, slug, image, thumbnail, subtitle }) => (
+                    <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-10 p-4 text-md ">
+                      {navDesignRouter.map(({ _id, title, slug, image, thumbnail, subtitle }) => (
                         <ProductItem
                           key={_id}
                           title={title!}
-                          href={`/hang-muc/${slug?.current}`}
+                          href={`/du-an/${slug?.current}`}
                           src={thumbnail!}
                           description={subtitle!}
+                          setIsOpen={handleIsOpen}
                         />
                       ))}
                     </div>
@@ -146,16 +162,14 @@ const Header = () => {
                       height={30}
                     />
                   </Link>
-                  {/* </LinkScroll> */}
                 </li>
 
                 <li className={"nav-li"}>
-                  <MenuItem
-                    setActive={setActive} active={active}
+                  <MenuItem setActive={setActive} active={active}
                     item="project" name={"Dự Án"} route={"/du-an"}
-                    setIsOpen={setIsOpen}
+                    setIsOpen={handleIsOpen}
                   >
-                    <div className="  text-sm grid grid-cols-2 gap-10 p-4">
+                    <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-10 p-4 text-md ">
                       {navProjectRouter.map(({ _id, title, slug, image, thumbnail, subtitle }) => (
                         <ProductItem
                           key={_id}
@@ -163,6 +177,7 @@ const Header = () => {
                           href={`/du-an/${slug?.current}`}
                           src={thumbnail!}
                           description={subtitle!}
+                          setIsOpen={handleIsOpen}
                         />
                       ))}
                     </div>
@@ -181,7 +196,6 @@ const Header = () => {
               <Image
                 src="/images/bg-outlines.svg"
                 alt=""
-                role="presentation"
                 width={960}
                 height={380}
                 className={"relative z-2"}
@@ -189,7 +203,6 @@ const Header = () => {
               <Image
                 src="/images/bg-outlines-fill.png"
                 alt=""
-                role="presentation"
                 width={960}
                 height={380}
                 className={"absolute inset-0 mix-blend-soft-light opacity-5"}
@@ -202,7 +215,7 @@ const Header = () => {
           className={
             "lg:hidden z-2 size-10 border-2 border-s4/25 rounded-full flex justify-center items-center"
           }
-          onClick={() => setIsOpen((prevState) => !prevState)}
+          onClick={() => handleIsOpen(!isOpen)}
         >
           <img
             src={`/images/${isOpen ? "close" : "magic"}.svg`}

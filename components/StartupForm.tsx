@@ -87,7 +87,7 @@ const StartupForm = () => {
     >
       <div>
         <label htmlFor="title" className={"startup-form_label"}>
-          {"Title"}
+          {"Tiêu Đề"}
         </label>
         <Input
           id={"title"}
@@ -102,7 +102,7 @@ const StartupForm = () => {
       </div>
       <div>
         <label htmlFor="description" className={"startup-form_label"}>
-          {"Description"}
+          {"Mô Tả"}
         </label>
         <Textarea
           id={"description"}
@@ -134,7 +134,7 @@ const StartupForm = () => {
 
       <div>
         <label htmlFor="link" className={"startup-form_label"}>
-          {"Image URL"}
+          {"Hình Ảnh"}
         </label>
         <Input
           id={"link"}
@@ -150,7 +150,7 @@ const StartupForm = () => {
 
       <div data-color-mode={"light"}>
         <label htmlFor="pitch" className={"startup-form_label"}>
-          {"Pitch"}
+          {"Bài Viết"}
         </label>
         <MDEditor
           value={pitch}
@@ -172,7 +172,7 @@ const StartupForm = () => {
         className={"startup-form_btn text-white"}
         disabled={isPending}
       >
-        {isPending ? "Submitting..." : "Submit Your Pitch"}
+        {isPending ? "Đang Gửi..." : "Gửi Bài Viết"}
         <Send className={"size-6 ml-2"}/>
       </Button>
     </form>

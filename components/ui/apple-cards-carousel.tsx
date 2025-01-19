@@ -13,13 +13,12 @@ import {
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import Image, { ImageProps } from "next/image";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { Author, Construction, Project, ProjectDetail } from "@/sanity/types";
 import { BlurImage } from "../shared/CloudinaryImage";
 import { useRouter } from "next/navigation";
 import { client } from "@/sanity/lib/client";
-import { PROJECT_DETAILS_BY_PROJECT_QUERY, PROJECT_DETAILS_BY_QUERY } from "@/sanity/lib/queries";
+import { PROJECT_DETAILS_BY_PROJECT_QUERY } from "@/sanity/lib/queries";
 import { AnimatedTestimonials, Testimonial } from "./animated-testimonials";
 
 interface CarouselProps {

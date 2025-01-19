@@ -38,7 +38,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
     <>
       <MarkupSchema path={`chi-tiet-du-an/${slug}`} post={post} />
 
-      <section className={"pink_container !min-h-[230px] mt-32"}>
+      <section className={"pink_container !min-h-[320px] !mt-18 md:mt-24 "}>
         <p className={"tag"}>{formatDate(post?._createdAt)}</p>
 
         <h1 className={"heading"}>{post.title}</h1>
@@ -77,8 +77,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
         {detailsByProjectId &&
           <section className={"section_container !py-0 "}>
             <h4 className="heading-half w-full md:w-[32rem] text-left">
-              Bài Viết{'  '}
-              <span className="text-purple">{"Liên Quan"}</span>
+              <span className="">{"Bài Viết Liên Quan"}</span>
             </h4>
             <CarouselPlugin data={detailsByProjectId} className="py-10 max-w-7xl" />
           </section>

@@ -48,7 +48,6 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         })
       }
 
-      // router.push(`/hang-muc/${response.result.slug.current}`)
       router.push(`/auth`)
       return response;
     } catch (error) {
@@ -115,13 +114,13 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
     >
       <div>
         <label htmlFor="title" className={"startup-form_label"}>
-          {"Title"}
+          {"Tiêu Đề"}
         </label>
         <Input
           id={"title"}
           name={"title"}
           className={"startup-form_input"}
-          placeholder={"Construction Title"}
+          placeholder={"Product Title"}
           required
           value={formData?.title}
           onChange={handleChangeForm}
@@ -132,13 +131,13 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
       </div>
       <div>
         <label htmlFor="subtitle" className={"startup-form_label"}>
-          {"Subtitle"}
+          {"Phụ Đề"}
         </label>
         <Input
           id={"subtitle"}
           name={"subtitle"}
           className={"startup-form_input"}
-          placeholder={"Construction Subtitle"}
+          placeholder={"Product Subtitle"}
           required
           value={formData?.subtitle}
           onChange={handleChangeForm}
@@ -149,13 +148,13 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
       </div>
       <div>
         <label htmlFor="description" className={"startup-form_label"}>
-          {"Description"}
+          {"Mô Tả"}
         </label>
         <Textarea
           id={"description"}
           name={"description"}
           className={"startup-form_textarea"}
-          placeholder={"Construction Description"}
+          placeholder={"Product Mô Tả"}
           required
           value={formData?.description}
           onChange={handleChangeForm}
@@ -167,13 +166,13 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
 
       <div>
         <label htmlFor="thumbnail" className={"startup-form_label"}>
-          {"Thumbnail URL"}
+          {"Ảnh Bìa"}
         </label>
         <Input
           id={"thumbnail"}
           name={"thumbnail"}
           className={"startup-form_input"}
-          placeholder={"Construction Thumbnail URL"}
+          placeholder={"Product Ảnh Bìa"}
           required
           value={formData?.thumbnail}
           onChange={handleChangeForm}
@@ -185,13 +184,13 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
 
       <div>
         <label htmlFor="image" className={"startup-form_label"}>
-          {"Image URL"}
+          {"Hình Ảnh"}
         </label>
         <Input
           id={"image"}
           name={"image"}
           className={"startup-form_input"}
-          placeholder={"Construction Image URL"}
+          placeholder={"Product Image URL"}
           value={formData?.image}
           required
           onChange={handleChangeForm}
@@ -203,7 +202,7 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
 
       <div data-color-mode={"light"}>
         <label htmlFor="pitch" className={"startup-form_label"}>
-          {"Pitch"}
+          {"Bài Viết"}
         </label>
         <MDEditor
           value={pitch}
@@ -225,7 +224,7 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         className={"startup-form_btn text-white"}
         disabled={isPending}
       >
-        {isPending ? "Submitting..." : "Submit Your Pitch"}
+        {isPending ? "Đang Gửi..." : "Gửi Bài Viết"}
         <Send className={"size-6 ml-2"} />
       </Button>
     </form>

@@ -15,7 +15,7 @@ import { Combobox, ComboboxDataType } from "./ComboBox";
 import { useEffect, useState } from "react";
 
 export const TableComponent = ({
-  headers = ['Title', 'Permalink', 'Thumbnail', 'Description'],
+  headers = ['Tiêu Đề', 'Đường Dẫn', 'Ảnh Bìa', 'Mô Tả'],
   customType = '',
   data, title, className, path,
   actions = [],
@@ -101,7 +101,7 @@ export const TableComponent = ({
           {headers.map((header, index) => (
             <TableHead key={header} className="text-20-medium !text-white">{header}</TableHead>
           ))}
-          {!!actions.length && <TableHead className="text-20-medium !text-white">Action</TableHead>}
+          {!!actions.length && <TableHead className="text-20-medium !text-white">Thao Tác</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>

@@ -26,7 +26,7 @@ export default async function Home({ searchParams }: Readonly<{
   const [searchForProjects, searchForProjectDetails, { select: homeHeroPost }] = await Promise.all([
     client.fetch(PROJECTS_BY_QUERY, params),
     client.fetch(PROJECT_DETAILS_BY_QUERY, params),
-    client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "home-hero" })
+    client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "danh-muc-trang-chu" })
   ])
 
   return (
