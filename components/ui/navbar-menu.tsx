@@ -21,7 +21,7 @@ const NavLink = ({ name, route, isMobile }: { name: string, route?: string, isMo
       <Link
         href={route}
         className={
-          "base-bold text-p4 uppercase transition-colors duration-500 cursor-pointer hover:text-p1 max-lg:my-4 max-lg:h5"
+          "max-w-200px base-bold text-p4 uppercase transition-colors duration-500 cursor-pointer hover:text-p1 max-lg:my-4 max-lg:h5"
         }
       // onClick={() => setIsOpen(false)}
       >
@@ -75,23 +75,22 @@ export const MenuItem = ({
   };
 
 
-  // Kiểm tra kích thước màn hình
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024); // Tailwind `lg` breakpoint là 1024px
+      setIsMobile(window.innerWidth <= 1024);
     };
 
-    handleResize(); // Gọi khi component mount
-    window.addEventListener("resize", handleResize); // Lắng nghe thay đổi kích thước
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize); // Dọn dẹp listener
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
     <div
-      className="relative "
+      className="relative"
       onMouseEnter={!isMobile ? handleEvent : undefined}
       onClick={isMobile ? handleEvent : undefined}
     >
@@ -170,7 +169,7 @@ export const ProductItem = ({
           className="flex-shrink-0 rounded-md shadow-2xl w-[140px] h-[100px]"
         />
         <div>
-          <h4 className="mb-1 text-xl font-bold text-black hover:text-p1">
+          <h4 className="mb-1 text-xl font-bold text-black hover:text-p1 md:max-w-48">
             {title}
           </h4>
           <p className="text-neutral-700 text-sm max-w-[10rem] hover:text-p1">
@@ -179,7 +178,7 @@ export const ProductItem = ({
         </div>
       </Link>
       <Link href={href} className="flex space-x-2 lg:hidden" onClick={() => setIsOpen(false)}>
-        <h4 className="mb-1 text-xl font-bold text-white hover:text-p1">
+        <h4 className="mb-1 text-xl font-bold text-white hover:text-p1 max-w-sm md:max-w-md">
           {title}
         </h4>
       </Link>

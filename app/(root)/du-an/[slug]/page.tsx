@@ -73,6 +73,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   // Fetch dữ liệu sản phẩm từ API hoặc database
   const data = await client.fetch(PROJECT_BY_SLUG_QUERY, { slug })
 
+  if (!data) return null
+
   return {
     title: `${data.title} - Cốc Cốc Studio`,
     description: `${data.description}`,
