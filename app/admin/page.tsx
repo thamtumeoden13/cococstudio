@@ -1,11 +1,38 @@
-"use client";
 import Image from "next/image";
-import { Plus, Calendar, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, Calendar, ArrowUp, ArrowDown, EyeIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  CONSTRUCTIONS_BY_QUERY,
+  PROJECT_DETAILS_BY_QUERY,
+  PROJECTS_BY_QUERY,
+} from "@/sanity/lib/queries";
+import { sanityFetch } from "@/sanity/lib/live";
+import { Author, Project, ProjectDetail } from "@/sanity/types";
+import { formatDate } from "@/lib/utils";
 
-export default function Dashboard() {
+type ProjectDetailFormType = Omit<ProjectDetail, "author" | "project"> & {
+  author?: Author;
+} & { project?: Project };
+
+export default async function Dashboard() {
+  const [searchForConstructions, searchForProjects, searchForProjectDetails] =
+    await Promise.all([
+      sanityFetch({ query: CONSTRUCTIONS_BY_QUERY, params: { search: null } }),
+      sanityFetch({ query: PROJECTS_BY_QUERY, params: { search: null } }),
+      sanityFetch({
+        query: PROJECT_DETAILS_BY_QUERY,
+        params: { search: null },
+      }),
+    ]);
+
+  const { data: dataConstructions } = searchForConstructions;
+  const { data: dataProjects } = searchForProjects;
+  const { data: dataArticles } = searchForProjectDetails;
+
+  console.log("dataArticles", typeof dataArticles);
+
   return (
     <div className="w-full min-h-screen bg-slate-50">
       {/* Stats Cards */}
@@ -13,60 +40,60 @@ export default function Dashboard() {
         <Card className="bg-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-medium text-gray-600">Borrowed Books</h3>
+              <h3 className="font-medium text-gray-600">Tổng Sản Phẩm</h3>
               <div className="flex items-center text-amber-500">
                 <ArrowDown className="w-4 h-4 mr-1" />
                 <span>2</span>
               </div>
             </div>
-            <p className="text-3xl font-bold">145</p>
+            <p className="text-3xl font-bold">{dataConstructions.length}</p>
           </CardContent>
         </Card>
 
         <Card className="bg-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-medium text-gray-600">Total Users</h3>
+              <h3 className="font-medium text-gray-600">Tổng Dự Án</h3>
               <div className="flex items-center text-green-500">
                 <ArrowUp className="w-4 h-4 mr-1" />
                 <span>4</span>
               </div>
             </div>
-            <p className="text-3xl font-bold">317</p>
+            <p className="text-3xl font-bold">{dataProjects.length}</p>
           </CardContent>
         </Card>
 
         <Card className="bg-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-medium text-gray-600">Total Books</h3>
+              <h3 className="font-medium text-gray-600">Tổng Bài Viết</h3>
               <div className="flex items-center text-green-500">
                 <ArrowUp className="w-4 h-4 mr-1" />
                 <span>2</span>
               </div>
             </div>
-            <p className="text-3xl font-bold">163</p>
+            <p className="text-3xl font-bold">{dataArticles.length}</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Main Content */}
       <div className="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2">
-        {/* Borrow Requests */}
+        {/* Articles Requests */}
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-gray-900">
-              Borrow Requests
+              Bài Viết Chờ Duyệt
             </h2>
             <Button variant="link" className="text-indigo-600">
-              View all
+              Xem tất cả
             </Button>
           </div>
           <Card className="bg-white">
             <CardContent className="p-6 flex flex-col items-center justify-center min-h-[200px] text-center">
               <div className="mb-4">
                 <Image
-                  src="/placeholder.svg?height=100&width=100"
+                  src="/icons/verified.svg"
                   alt="No requests"
                   width={100}
                   height={100}
@@ -74,11 +101,11 @@ export default function Dashboard() {
                 />
               </div>
               <h3 className="mb-1 text-lg font-medium text-gray-900">
-                No Pending Book Requests
+                Không Có Bài Viết
               </h3>
               <p className="text-sm text-gray-500">
-                There are no borrow book requests awaiting your review at this
-                time.
+                Không có yêu cầu bài viết nào đang đợi bạn đánh giá và duyệt tại
+                thời điểm này.
               </p>
             </CardContent>
           </Card>
@@ -88,10 +115,10 @@ export default function Dashboard() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-gray-900">
-              Recently Added Books
+              Các Bài Viết Gần Đây
             </h2>
             <Button variant="link" className="text-indigo-600">
-              View all
+              Xem tất cả
             </Button>
           </div>
           <Card className="bg-white">
@@ -105,105 +132,90 @@ export default function Dashboard() {
               </Button>
 
               <div className="space-y-4">
-                {[
-                  {
-                    title: "The Great Reclamation: A Novel by Rachel Heng",
-                    author: "Rachel Heng",
-                    genre: "Strategic, Fantasy",
-                    date: "12/01/24",
-                    cover: "/placeholder.svg?height=60&width=45",
-                  },
-                  {
-                    title: "Inside Evil: Inside Evil Series, Book 1",
-                    author: "Rachel Heng",
-                    genre: "Strategic, Fantasy",
-                    date: "12/01/24",
-                    cover: "/placeholder.svg?height=60&width=45",
-                  },
-                  {
-                    title: "Jayne Castle - People in Glass Houses",
-                    author: "Rachel Heng",
-                    genre: "Strategic, Fantasy",
-                    date: "12/01/24",
-                    cover: "/placeholder.svg?height=60&width=45",
-                  },
-                  {
-                    title: "The Great Reclamation: A Novel by Rachel Heng",
-                    author: "Rachel Heng",
-                    genre: "Strategic, Fantasy",
-                    date: "12/01/24",
-                    cover: "/placeholder.svg?height=60&width=45",
-                  },
-                  {
-                    title: "Inside Evil: Inside Evil Series, Book 1",
-                    author: "Rachel Heng",
-                    genre: "Strategic, Fantasy",
-                    date: "12/01/24",
-                    cover: "/placeholder.svg?height=60&width=45",
-                  },
-                  {
-                    title: "Jayne Castle - People in Glass Houses",
-                    author: "Rachel Heng",
-                    genre: "Strategic, Fantasy",
-                    date: "12/01/24",
-                    cover: "/placeholder.svg?height=60&width=45",
-                  },
-                ].map((book, index) => (
-                  <div key={index} className="flex gap-3">
-                    <Image
-                      src={book.cover || "/placeholder.svg"}
-                      alt={book.title}
-                      width={45}
-                      height={60}
-                      className="object-cover rounded-sm"
-                    />
-                    <div>
-                      <h4 className="font-medium text-gray-900">
-                        {book.title}
-                      </h4>
-                      <p className="text-sm text-gray-600">
-                        By {book.author} • {book.genre}
-                      </p>
-                      <div className="flex items-center mt-1 text-xs text-gray-500">
-                        <Calendar className="w-3 h-3 mr-1" />
-                        {book.date}
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                {dataArticles?.length &&
+                  dataArticles
+                    .slice(0, 6)
+                    .map(
+                      ({
+                        _id,
+                        thumbnail,
+                        title,
+                        author,
+                        _createdAt,
+                      }: ProjectDetailFormType) => (
+                        <div key={_id} className="flex gap-3">
+                          <Image
+                            src={thumbnail || "/placeholder.svg"}
+                            alt={title!}
+                            width={45}
+                            height={60}
+                            className="object-cover rounded-sm"
+                          />
+                          <div>
+                            <h4 className="font-medium text-gray-900">
+                              {title}
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              By {author?.name} • {author?.username}
+                            </p>
+                            <div className="flex items-center mt-1 text-xs text-gray-500">
+                              <Calendar className="w-3 h-3 mr-1" />
+                              {formatDate(_createdAt)}
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    )}
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
 
-      {/* Account Requests */}
+      {/* Articles Top Views */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-900">
-            Account Requests
+            Bài viết xem nhiều nhất
           </h2>
           <Button variant="link" className="text-indigo-600">
-            View all
+            Xem tất cả
           </Button>
         </div>
         <Card className="bg-white">
-          <CardContent className="p-6 flex flex-col items-center justify-center min-h-[200px] text-center">
-            <div className="mb-4">
-              <Image
-                src="/placeholder.svg?height=100&width=100"
-                alt="No requests"
-                width={100}
-                height={100}
-                className="opacity-30"
-              />
-            </div>
-            <h3 className="mb-1 text-lg font-medium text-gray-900">
-              No Pending Account Requests
-            </h3>
-            <p className="text-sm text-gray-500">
-              There are currently no account requests awaiting approval.
-            </p>
+          <CardContent className="p-6 grid grid-cols-2 gap-4">
+            {dataArticles?.length &&
+              dataArticles
+                .slice(0, 6)
+                .map(
+                  ({
+                    _id,
+                    thumbnail,
+                    title,
+                    author,
+                    views
+                  }: ProjectDetailFormType) => (
+                    <div key={_id} className="flex gap-3">
+                      <Image
+                        src={thumbnail || "/placeholder.svg"}
+                        alt={title!}
+                        width={45}
+                        height={60}
+                        className="object-cover rounded-sm"
+                      />
+                      <div>
+                        <h4 className="font-medium text-gray-900">{title}</h4>
+                        <p className="text-sm text-gray-600">
+                          By {author?.name} • {author?.username}
+                        </p>
+                        <div className="flex items-center mt-1 ">
+                          <EyeIcon className="w-3 h-3 mr-1 text-red-500" />
+                          <span className="text-sm text-gray-500 font-bold">{views}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                )}
           </CardContent>
         </Card>
       </div>
