@@ -1,4 +1,4 @@
-import { client, clientNoCache } from "@/sanity/lib/client";
+import { clientNoCache } from "@/sanity/lib/client";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
@@ -16,7 +16,6 @@ export function formatDate(date: string) {
 export function parseServerActionResponse<T>(response: T) {
   return JSON.parse(JSON.stringify(response));
 }
-
 
 // ERROR HANDLER
 export const handleError = (error: unknown) => {
@@ -40,7 +39,7 @@ export const navVariants = {
     opacity: 0,
     y: -50,
     transition: {
-      type: 'spring',
+      type: "spring",
       stiffness: 300,
       damping: 140,
     },
@@ -49,17 +48,22 @@ export const navVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring',
+      type: "spring",
       stiffness: 80,
       delay: 1,
     },
   },
 };
 
-export const slideIn = (direction: string, type: string, delay: number, duration: number) => ({
+export const slideIn = (
+  direction: string,
+  type: string,
+  delay: number,
+  duration: number
+) => ({
   hidden: {
-    x: direction === 'left' ? '-100%' : direction === 'right' ? '100%' : 0,
-    y: direction === 'up' ? '100%' : direction === 'down' ? '100%' : 0,
+    x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
+    y: direction === "up" ? "100%" : direction === "down" ? "100%" : 0,
   },
   show: {
     x: 0,
@@ -68,12 +72,15 @@ export const slideIn = (direction: string, type: string, delay: number, duration
       type,
       delay,
       duration,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 });
 
-export const staggerContainer = (staggerChildren?: number, delayChildren?: number) => ({
+export const staggerContainer = (
+  staggerChildren?: number,
+  delayChildren?: number
+) => ({
   hidden: {},
   show: {
     transition: {
@@ -92,7 +99,7 @@ export const textVariant = (delay: number) => ({
     y: 0,
     opacity: 1,
     transition: {
-      type: 'spring',
+      type: "spring",
       duration: 1.25,
       delay,
     },
@@ -118,16 +125,21 @@ export const textVariant2 = {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'tween',
-      ease: 'easeIn',
+      type: "tween",
+      ease: "easeIn",
     },
   },
 };
 
-export const fadeIn = (direction: string, type: string, delay: number, duration: number) => ({
+export const fadeIn = (
+  direction: string,
+  type: string,
+  delay: number,
+  duration: number
+) => ({
   hidden: {
-    x: direction === 'left' ? 100 : direction === 'right' ? -100 : 0,
-    y: direction === 'up' ? 100 : direction === 'down' ? -100 : 0,
+    x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
+    y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
     opacity: 0,
   },
   show: {
@@ -138,21 +150,21 @@ export const fadeIn = (direction: string, type: string, delay: number, duration:
       type,
       delay,
       duration,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 });
 
 export const planetVariants = (direction: string) => ({
   hidden: {
-    x: direction === 'left' ? '-100%' : '100%',
+    x: direction === "left" ? "-100%" : "100%",
     rotate: 120,
   },
   show: {
     x: 0,
     rotate: 0,
     transition: {
-      type: 'spring',
+      type: "spring",
       duration: 1.8,
       delay: 0.5,
     },
@@ -168,10 +180,10 @@ export const zoomIn = (delay: number, duration: string) => ({
     scale: 1,
     opacity: 1,
     transition: {
-      type: 'tween',
+      type: "tween",
       delay,
       duration,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 });
@@ -181,7 +193,7 @@ export const footerVariants = {
     opacity: 0,
     y: 50,
     transition: {
-      type: 'spring',
+      type: "spring",
       stiffness: 300,
       damping: 140,
     },
@@ -190,7 +202,7 @@ export const footerVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring',
+      type: "spring",
       stiffness: 80,
       delay: 0.5,
     },
@@ -198,19 +210,25 @@ export const footerVariants = {
 };
 
 const MAX_SLUG_LENGTH = 100;
-type SearchFn = (subString: string) => Promise<boolean>;
+export type SearchFn = (subString: string) => Promise<boolean>;
 
 const slugify = ({ title }: { title: string }) => {
   return title
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-    .replace(/\s+/g, '-') // Replace spaces with dashes
-    .replace(/-+/g, '-'); // Remove multiple dashes
+    .replace(/[^a-z0-9\s-]/g, "") // Remove special characters
+    .replace(/\s+/g, "-") // Replace spaces with dashes
+    .replace(/-+/g, "-"); // Remove multiple dashes
 };
 
-export const generateUniqueSlug = async ({ title, query }: { title: string, query: string }) => {
-  let baseSlug = slugify({ title });
+export const generateUniqueSlug = async ({
+  title,
+  query,
+}: {
+  title: string;
+  query: string;
+}) => {
+  const baseSlug = slugify({ title });
   let uniqueSlug = baseSlug;
 
   const { data } = await clientNoCache.fetch(query, { slug: baseSlug });
@@ -222,4 +240,11 @@ export const generateUniqueSlug = async ({ title, query }: { title: string, quer
   uniqueSlug = uniqueSlug.slice(0, MAX_SLUG_LENGTH);
 
   return uniqueSlug;
+};
+
+export const getInitials = (name: string) => {
+  const [firstName, lastName] = name.split(" ");
+  return `${firstName.charAt(0)}${lastName.charAt(0)}`
+    .toUpperCase()
+    .slice(0, 2);
 };

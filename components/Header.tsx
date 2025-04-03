@@ -151,7 +151,7 @@ const Header = () => {
                       setIsOpen={handleIsOpen}
                     >
                       <div className="grid grid-cols-2 gap-10 p-4 max-lg:grid-cols-1 text-md ">
-                        {navDesignRouter.map(({ _id, title, slug, image, thumbnail, subtitle }) => (
+                        {navDesignRouter.map(({ _id, title, slug, thumbnail, subtitle }) => (
                           <ProductItem
                             key={_id}
                             title={title!}
@@ -186,7 +186,7 @@ const Header = () => {
                       setIsOpen={handleIsOpen}
                     >
                       <div className="grid grid-cols-2 gap-10 p-4 max-lg:grid-cols-1 text-md ">
-                        {navConstructionRouter.map(({ _id, title, slug, image, thumbnail, subtitle }) => (
+                        {navConstructionRouter.map(({ _id, title, slug, thumbnail, subtitle }) => (
                           <ProductItem
                             key={_id}
                             title={title!}

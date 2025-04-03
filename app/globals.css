@@ -361,6 +361,19 @@
     @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-full;
   }
 
+  /* Auth */
+  .auth-container {
+    @apply relative flex flex-col-reverse text-light-100 sm:flex-row;
+  }
+
+  .auth-form {
+    @apply flex items-center flex-1 h-full min-h-screen px-5 py-10 my-auto bg-top bg-cover bg-dark-200;
+  }
+
+  .auth-box {
+    @apply flex flex-col max-w-xl gap-6 p-10 mx-auto rounded-lg;
+  }
+
   .pattern {
     background-image: linear-gradient(to right,
         transparent 49.5%,
