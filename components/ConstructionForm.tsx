@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import React, { useState, useActionState, useEffect } from 'react'
+import React, { useState, useActionState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
@@ -11,7 +11,8 @@ import z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createConstruction, updateConstruction } from "@/lib/actions";
-import { Construction } from '@/sanity/types';
+import { Construction } from "@/sanity/types";
+import { CloudinaryImage } from "./shared/CloudinaryImage";
 
 type FormDataType = Omit<Construction, "author">;
 
@@ -19,10 +20,13 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState("");
   const [formData, setFormData] = useState<FormDataType>();
-  const { toast } = useToast()
+  const { toast } = useToast();
   const router = useRouter();
 
-  const handleFormSubmit = async (prevState: any, formDataSubmit: FormData) => {
+  const handleFormSubmit = async (
+    prevState: { error: string; status: string },
+    formDataSubmit: FormData
+  ) => {
     try {
       const formValues = {
         title: formDataSubmit.get("title") as string,
@@ -31,24 +35,29 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         thumbnail: formDataSubmit.get("thumbnail") as string,
         image: formDataSubmit.get("image") as string,
         pitch,
-      }
+      };
 
       await formConstructionSchema.parseAsync(formValues);
 
       console.log(formValues);
 
       const response = post
-        ? await updateConstruction(prevState, formDataSubmit, pitch, formData?._id!)
+        ? await updateConstruction(
+            prevState,
+            formDataSubmit,
+            pitch,
+            formData!._id!
+          )
         : await createConstruction(prevState, formDataSubmit, pitch);
 
       if (response.status === "SUCCESS") {
         toast({
           title: "Success",
           description: "Your construction pitch has been created successfully",
-        })
+        });
       }
 
-      router.push(`/auth`)
+      router.push(`/admin/products`);
       return response;
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -60,7 +69,7 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
           title: "Error",
           description: "Please check your inputs and try again",
           variant: "destructive",
-        })
+        });
 
         return { ...prevState, error: "Validation failed", status: "ERROR" };
       }
@@ -69,135 +78,171 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         title: "Error",
         description: "An unexpected error has occurred",
         variant: "destructive",
-      })
+      });
 
       return {
         ...prevState,
         error: "An unexpected error has occurred",
         status: "ERROR",
-      }
+      };
     }
-  }
+  };
 
-  const [state, formAction, isPending] = useActionState(
-    handleFormSubmit,
-    {
-      error: "",
-      status: "INITIAL",
-    }
-  );
+  const [, formAction, isPending] = useActionState(handleFormSubmit, {
+    error: "",
+    status: "INITIAL",
+  });
 
-  const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-
+  const handleChangeForm = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData!,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   useEffect(() => {
     if (post) {
-      const { _id, title, subtitle, description, thumbnail, image, } = post;
+      const { _id, title, subtitle, description, thumbnail, image } = post;
 
-      setFormData({ ...formData!, _id, title, subtitle, description, thumbnail, image });
+      setFormData({
+        ...formData!,
+        _id,
+        title,
+        subtitle,
+        description,
+        thumbnail,
+        image,
+      });
 
       if (post.pitch) {
-        setPitch(post.pitch)
+        setPitch(post.pitch);
       }
     }
-  }, [post])
+  }, [post]);
 
   return (
-    <form
-      action={formAction}
-      className={"startup-form"}
-    >
-      <div>
-        <label htmlFor="title" className={"startup-form_label"}>
-          {"Tiêu Đề"}
-        </label>
-        <Input
-          id={"title"}
-          name={"title"}
-          className={"startup-form_input"}
-          placeholder={"Product Title"}
-          required
-          value={formData?.title}
-          onChange={handleChangeForm}
-        />
-        {errors.title && (
-          <p className={"startup-form_error"}>{errors.title}</p>
-        )}
+    <form action={formAction} className={"startup-form"}>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div>
+          <label htmlFor="title" className={"startup-form_label"}>
+            {"Tiêu Đề"}
+          </label>
+          <Input
+            id={"title"}
+            name={"title"}
+            className={"startup-form_input"}
+            placeholder={"Product Title"}
+            required
+            value={formData?.title}
+            onChange={handleChangeForm}
+          />
+          {errors.title && (
+            <p className={"startup-form_error"}>{errors.title}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="subtitle" className={"startup-form_label"}>
+            {"Phụ Đề"}
+          </label>
+          <Input
+            id={"subtitle"}
+            name={"subtitle"}
+            className={"startup-form_input"}
+            placeholder={"Product Subtitle"}
+            required
+            value={formData?.subtitle}
+            onChange={handleChangeForm}
+          />
+          {errors.subtitle && (
+            <p className={"startup-form_error"}>{errors.subtitle}</p>
+          )}
+        </div>
       </div>
-      <div>
-        <label htmlFor="subtitle" className={"startup-form_label"}>
-          {"Phụ Đề"}
-        </label>
-        <Input
-          id={"subtitle"}
-          name={"subtitle"}
-          className={"startup-form_input"}
-          placeholder={"Product Subtitle"}
-          required
-          value={formData?.subtitle}
-          onChange={handleChangeForm}
-        />
-        {errors.subtitle && (
-          <p className={"startup-form_error"}>{errors.subtitle}</p>
-        )}
-      </div>
-      <div>
-        <label htmlFor="description" className={"startup-form_label"}>
-          {"Mô Tả"}
-        </label>
-        <Textarea
-          id={"description"}
-          name={"description"}
-          className={"startup-form_textarea"}
-          placeholder={"Product Mô Tả"}
-          required
-          value={formData?.description}
-          onChange={handleChangeForm}
-        />
-        {errors.description && (
-          <p className={"startup-form_error"}>{errors.description}</p>
-        )}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div>
+          <label htmlFor="thumbnail" className={"startup-form_label"}>
+            {"Ảnh Đại Diện(tỉ lệ 3:4)"}
+          </label>
+          <div>
+            <Input
+              id={"thumbnail"}
+              name={"thumbnail"}
+              className={"startup-form_input"}
+              placeholder={"Product Ảnh Bìa"}
+              required
+              value={formData?.thumbnail}
+              onChange={handleChangeForm}
+            />
+
+            {formData?.thumbnail && (
+              <div className="w-[280px] h-[200px] overflow-hidden mt-2 p-2 border border-black-100">
+                <CloudinaryImage
+                  src={formData.thumbnail}
+                  alt={""}
+                  width={280}
+                  height={200}
+                  className="object-cover w-full rounded-lg"
+                />
+              </div>
+            )}
+          </div>
+          {errors.thumbnail && (
+            <p className={"startup-form_error"}>{errors.thumbnail}</p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="image" className={"startup-form_label"}>
+            {"Hình Ảnh(tỉ lệ 6:9)"}
+          </label>
+          <div>
+            <Input
+              id={"image"}
+              name={"image"}
+              className={"startup-form_input"}
+              placeholder={"Product Image URL"}
+              value={formData?.image}
+              required
+              onChange={handleChangeForm}
+            />
+            {formData?.image && (
+              <div className="w-[116px] h-[200px] overflow-hidden mt-2 p-2 border border-black-100">
+                <CloudinaryImage
+                  src={formData.image}
+                  alt={""}
+                  width={200}
+                  height={200}
+                  className="object-cover w-full rounded-lg"
+                />
+              </div>
+            )}
+          </div>
+          {errors.image && (
+            <p className={"startup-form_error"}>{errors.image}</p>
+          )}
+        </div>
       </div>
 
-      <div>
-        <label htmlFor="thumbnail" className={"startup-form_label"}>
-          {"Ảnh Bìa"}
-        </label>
-        <Input
-          id={"thumbnail"}
-          name={"thumbnail"}
-          className={"startup-form_input"}
-          placeholder={"Product Ảnh Bìa"}
-          required
-          value={formData?.thumbnail}
-          onChange={handleChangeForm}
-        />
-        {errors.thumbnail && (
-          <p className={"startup-form_error"}>{errors.thumbnail}</p>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="image" className={"startup-form_label"}>
-          {"Hình Ảnh"}
-        </label>
-        <Input
-          id={"image"}
-          name={"image"}
-          className={"startup-form_input"}
-          placeholder={"Product Image URL"}
-          value={formData?.image}
-          required
-          onChange={handleChangeForm}
-        />
-        {errors.image && (
-          <p className={"startup-form_error"}>{errors.image}</p>
-        )}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div>
+          <label htmlFor="description" className={"startup-form_label"}>
+            {"Mô Tả"}
+          </label>
+          <Textarea
+            id={"description"}
+            name={"description"}
+            className={"startup-form_textarea"}
+            placeholder={"Product Mô Tả"}
+            required
+            value={formData?.description}
+            onChange={handleChangeForm}
+          />
+          {errors.description && (
+            <p className={"startup-form_error"}>{errors.description}</p>
+          )}
+        </div>
       </div>
 
       <div data-color-mode={"light"}>
@@ -212,10 +257,11 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
           height={300}
           style={{ borderRadius: 20, overflow: "hidden" }}
           textareaProps={{
-            placeholder: "Briefly describe your idea and what problem is solves",
+            placeholder:
+              "Briefly describe your idea and what problem is solves",
           }}
           previewOptions={{
-            disallowedElements: ["style"]
+            disallowedElements: ["style"],
           }}
         />
       </div>
@@ -228,6 +274,6 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         <Send className={"size-6 ml-2"} />
       </Button>
     </form>
-  )
-}
-export default ConstructionForm
+  );
+};
+export default ConstructionForm;

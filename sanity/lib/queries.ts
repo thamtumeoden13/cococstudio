@@ -268,6 +268,7 @@ export const PROJECT_DETAILS_BY_QUERY =
   image,
   thumbnail,
   pitch,
+  published,
 }`);
 
 export const PROJECT_DETAIL_BY_ID_QUERY =
@@ -288,6 +289,7 @@ export const PROJECT_DETAIL_BY_ID_QUERY =
   image,
   thumbnail,
   pitch,
+  published,
 }`);
 
 export const PROJECT_DETAILS_BY_PROJECT_QUERY =
@@ -308,6 +310,7 @@ export const PROJECT_DETAILS_BY_PROJECT_QUERY =
   image,
   thumbnail,
   pitch,
+  published,
 }`);
 
 export const PROJECT_DETAIL_BY_SLUG_QUERY =
@@ -328,15 +331,15 @@ export const PROJECT_DETAIL_BY_SLUG_QUERY =
   image,
   thumbnail,
   pitch,
+  published,
 }`);
 
 export const PROJECT_DETAIL_VIEWS_QUERY = defineQuery(`
   *[_type == "projectDetail" && _id == $id][0]{
     _id,
-    views
+      views
     }
   `);
-
 
 export const CATEGORY_BY_SLUG_QUERY =
   defineQuery(`*[_type == "category" && slug.current == $slug][0]{

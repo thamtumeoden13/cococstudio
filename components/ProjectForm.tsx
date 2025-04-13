@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import React, { useState, useActionState, useEffect } from 'react'
+import React, { useState, useActionState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 import { formProjectSchema } from "@/lib/validation";
@@ -12,26 +11,32 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createProject, updateProject } from "@/lib/actions";
 import { Combobox, ComboboxDataType } from "./shared/ComboBox";
-import { client, clientNoCache } from "@/sanity/lib/client";
+import { clientNoCache } from "@/sanity/lib/client";
 import { CONSTRUCTIONS_BY_QUERY } from "@/sanity/lib/queries";
-import { Author, Construction, Project } from '@/sanity/types';
+import { Author, Construction, Project } from "@/sanity/types";
+import MDEditorComponent from "./shared/MDEditor";
+import { CloudinaryImage } from "./shared/CloudinaryImage";
 
 type FormDataType = Omit<Project, "author" | "construction">;
-type ProjectFormType = Omit<Project, "author" | "construction"> & { author?: Author } & { construction?: Construction };
+type ProjectFormType = Omit<Project, "author" | "construction"> & {
+  author?: Author;
+} & { construction?: Construction };
 
 const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState<string>("");
   const [formData, setFormData] = useState<FormDataType | null>(null);
   const [selected, setSelected] = useState<ComboboxDataType | null>(null);
-  const [initValue, setInitValue] = useState<string>('');
-  const [constructions, setConstructions] = useState<ComboboxDataType[]>([])
-  const { toast } = useToast()
+  const [initValue, setInitValue] = useState<string>("");
+  const [constructions, setConstructions] = useState<ComboboxDataType[]>([]);
+  const { toast } = useToast();
   const router = useRouter();
 
-  const handleFormSubmit = async (prevState: any, formDataSubmit: FormData) => {
+  const handleFormSubmit = async (
+    prevState: { error: string; status: string },
+    formDataSubmit: FormData
+  ) => {
     try {
-
       const constructionId = selected?._id ?? initValue;
 
       const formValues = {
@@ -42,26 +47,32 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
         image: formDataSubmit.get("image") as string,
         constructionId,
         pitch,
-      }
+      };
 
-      console.log('handleFormSubmit', formValues);
+      console.log("handleFormSubmit", formValues);
       await formProjectSchema.parseAsync(formValues);
 
       console.log(formValues);
 
       const response = post
-        ? await updateProject(prevState, formDataSubmit, pitch, constructionId, formData?._id!)
+        ? await updateProject(
+            prevState,
+            formDataSubmit,
+            pitch,
+            constructionId,
+            formData!._id!
+          )
         : await createProject(prevState, formDataSubmit, pitch, constructionId);
 
       if (response.status === "SUCCESS") {
         toast({
           title: "Success",
           description: "Your project pitch has been created successfully",
-        })
+        });
       }
 
       // router.push(`/du-an/${selected?.slug?.current}`)
-      router.push(`/auth`)
+      router.push(`/admin/projects`);
 
       return response;
     } catch (error) {
@@ -74,7 +85,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
           title: "Error",
           description: "Please check your inputs and try again",
           variant: "destructive",
-        })
+        });
 
         return { ...prevState, error: "Validation failed", status: "ERROR" };
       }
@@ -83,185 +94,220 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
         title: "Error",
         description: "An unexpected error has occurred",
         variant: "destructive",
-      })
+      });
 
       return {
         ...prevState,
         error: "An unexpected error has occurred",
         status: "ERROR",
-      }
+      };
     }
-  }
+  };
 
-  const [state, formAction, isPending] = useActionState(
-    handleFormSubmit,
-    {
-      error: "",
-      status: "INITIAL",
-    }
-  );
+  const [, formAction, isPending] = useActionState(handleFormSubmit, {
+    error: "",
+    status: "INITIAL",
+  });
 
-  const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-
+  const handleChangeForm = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData!,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   useEffect(() => {
     const getConstructions = async () => {
-      const result = await clientNoCache.fetch(CONSTRUCTIONS_BY_QUERY, { search: null });
+      const result = await clientNoCache.fetch(CONSTRUCTIONS_BY_QUERY, {
+        search: null,
+      });
 
-      setConstructions(result || [])
-    }
+      setConstructions(result || []);
+    };
 
     getConstructions();
-
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (post) {
-      const { _id, title, subtitle, description, thumbnail, image, pitch, construction } = post;
+      const {
+        _id,
+        title,
+        subtitle,
+        description,
+        thumbnail,
+        image,
+        pitch,
+        construction,
+      } = post;
 
-      setFormData({ ...formData!, _id, title, subtitle, description, thumbnail, image });
+      setFormData({
+        ...formData!,
+        _id,
+        title,
+        subtitle,
+        description,
+        thumbnail,
+        image,
+      });
 
       if (pitch) {
-        setPitch(pitch)
+        setPitch(pitch);
       }
 
       if (construction) {
-        setInitValue(construction._id)
+        setInitValue(construction._id);
       }
-
     }
-  }, [post])
+  }, [post]);
 
   return (
-    <form
-      action={formAction}
-      className={"startup-form"}
-    >
-      <div>
-        <label htmlFor="title" className={"startup-form_label"}>
-          {"Tiêu Đề"}
-        </label>
-        <Input
-          id={"title"}
-          name={"title"}
-          value={formData?.title}
-          onChange={handleChangeForm}
-          className={"startup-form_input"}
-          required
-          placeholder={"Project Title"}
-        />
-        {errors.title && (
-          <p className={"startup-form_error"}>{errors.title}</p>
-        )}
+    <form action={formAction} className={"startup-form"}>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div>
+          <label htmlFor="title" className={"startup-form_label"}>
+            {"Tiêu Đề"}
+          </label>
+          <Input
+            id={"title"}
+            name={"title"}
+            value={formData?.title}
+            onChange={handleChangeForm}
+            className={"startup-form_input"}
+            required
+            placeholder={"Project Title"}
+          />
+          {errors.title && (
+            <p className={"startup-form_error"}>{errors.title}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="subtitle" className={"startup-form_label"}>
+            {"Phụ Đề"}
+          </label>
+          <Input
+            id={"subtitle"}
+            name={"subtitle"}
+            value={formData?.subtitle}
+            className={"startup-form_input"}
+            required
+            placeholder={"Project Subtitle"}
+            onChange={handleChangeForm}
+          />
+          {errors.subtitle && (
+            <p className={"startup-form_error"}>{errors.subtitle}</p>
+          )}
+        </div>
       </div>
-      <div>
-        <label htmlFor="subtitle" className={"startup-form_label"}>
-          {"Phụ Đề"}
-        </label>
-        <Input
-          id={"subtitle"}
-          name={"subtitle"}
-          value={formData?.subtitle}
-          className={"startup-form_input"}
-          required
-          placeholder={"Project Subtitle"}
-          onChange={handleChangeForm}
-        />
-        {errors.subtitle && (
-          <p className={"startup-form_error"}>{errors.subtitle}</p>
-        )}
-      </div>
-      <div>
-        <label htmlFor="description" className={"startup-form_label"}>
-          {"Mô Tả"}
-        </label>
-        <Textarea
-          id={"description"}
-          name={"description"}
-          value={formData?.description}
-          className={"startup-form_textarea"}
-          required
-          placeholder={"Vui lòng nhập mô tả"}
-          onChange={handleChangeForm}
-        />
-        {errors.description && (
-          <p className={"startup-form_error"}>{errors.description}</p>
-        )}
-      </div>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div>
+          <label htmlFor="thumbnail" className={"startup-form_label"}>
+            {"Ảnh Đại Diện(tỉ lệ 3:4)"}
+          </label>
+          <div>
+            <Input
+              id={"thumbnail"}
+              name={"thumbnail"}
+              value={formData?.thumbnail}
+              className={"startup-form_input"}
+              required
+              placeholder={"Project Ảnh Bìa"}
+              onChange={handleChangeForm}
+            />
 
-      <div>
-        <label htmlFor="thumbnail" className={"startup-form_label"}>
-          {"Ảnh Bìa"}
-        </label>
-        <Input
-          id={"thumbnail"}
-          name={"thumbnail"}
-          value={formData?.thumbnail}
-          className={"startup-form_input"}
-          required
-          placeholder={"Project Ảnh Bìa"}
-          onChange={handleChangeForm}
-        />
-        {errors.thumbnail && (
-          <p className={"startup-form_error"}>{errors.thumbnail}</p>
-        )}
-      </div>
+            {formData?.thumbnail && (
+              <div className="w-[280px] h-[200px] overflow-hidden mt-2 p-2 border border-black-100">
+                <CloudinaryImage
+                  src={formData.thumbnail}
+                  alt={""}
+                  width={280}
+                  height={200}
+                  className="object-cover w-full rounded-lg"
+                />
+              </div>
+            )}
+          </div>
+          {errors.thumbnail && (
+            <p className={"startup-form_error"}>{errors.thumbnail}</p>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="image" className={"startup-form_label"}>
-          {"Hình Ảnh"}
-        </label>
-        <Input
-          id={"image"}
-          name={"image"}
-          value={formData?.image}
-          className={"startup-form_input"}
-          required
-          placeholder={"Project Image URL"}
-          onChange={handleChangeForm}
-        />
-        {errors.image && (
-          <p className={"startup-form_error"}>{errors.image}</p>
-        )}
+        <div>
+          <label htmlFor="image" className={"startup-form_label"}>
+            {"Hình Ảnh(tỉ lệ 6:9)"}
+          </label>
+          <div>
+            <Input
+              id={"image"}
+              name={"image"}
+              value={formData?.image}
+              className={"startup-form_input"}
+              required
+              placeholder={"Project Image URL"}
+              onChange={handleChangeForm}
+            />
+            {formData?.image && (
+              <div className="w-[116px] h-[200px] overflow-hidden mt-2 p-2 border border-black-100">
+                <CloudinaryImage
+                  src={formData.image}
+                  alt={""}
+                  width={200}
+                  height={200}
+                  className="object-cover w-full rounded-lg"
+                />
+              </div>
+            )}
+          </div>
+          {errors.image && (
+            <p className={"startup-form_error"}>{errors.image}</p>
+          )}
+        </div>
       </div>
-
-      <div>
-        <label htmlFor="image" className={"startup-form_label"}>
-          {"Sản Phẩm"}
-        </label>
-        <Combobox
-          data={constructions}
-          initValue={initValue}
-          className={"startup-form_input justify-between"}
-          onChange={(value: ComboboxDataType) => { setSelected(value) }}
-        />
-        {errors.image && (
-          <p className={"startup-form_error"}>{errors.image}</p>
-        )}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div>
+          <label htmlFor="image" className={"startup-form_label"}>
+            {"Sản Phẩm"}
+          </label>
+          <Combobox
+            data={constructions}
+            initValue={initValue}
+            className={"startup-form_input justify-between"}
+            onChange={(value: ComboboxDataType) => {
+              setSelected(value);
+            }}
+          />
+          {errors.image && (
+            <p className={"startup-form_error"}>{errors.image}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="description" className={"startup-form_label"}>
+            {"Mô Tả"}
+          </label>
+          <Textarea
+            id={"description"}
+            name={"description"}
+            value={formData?.description}
+            className={"startup-form_textarea"}
+            required
+            placeholder={"Vui lòng nhập mô tả"}
+            onChange={handleChangeForm}
+          />
+          {errors.description && (
+            <p className={"startup-form_error"}>{errors.description}</p>
+          )}
+        </div>
       </div>
 
       <div data-color-mode={"light"}>
         <label htmlFor="pitch" className={"startup-form_label"}>
           {"Bài Viết"}
         </label>
-        <MDEditor
+        <MDEditorComponent
           value={pitch}
           onChange={(value) => setPitch(value as string)}
-          id={"pitch"}
-          preview={"edit"}
-          height={300}
-          style={{ borderRadius: 20, overflow: "hidden" }}
-          textareaProps={{
-            placeholder: "Briefly describe your idea and what problem is solves",
-          }}
-          previewOptions={{
-            disallowedElements: ["style"]
-          }}
         />
       </div>
       <Button
@@ -273,6 +319,6 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
         <Send className={"size-6 ml-2"} />
       </Button>
     </form>
-  )
-}
-export default ProjectForm
+  );
+};
+export default ProjectForm;
