@@ -458,47 +458,47 @@ export const navigationLinks = [
     {
       img: "/icons/admin/home.svg",
       route: "/admin",
-      text: "Home",
+      text: "Tổng Quan",
     },
     {
       img: "/icons/admin/book.svg",
       route: "/admin/products",
-      text: "All Products",
+      text: "Sản Phẩm",
     },
     {
       img: "/icons/admin/bookmark.svg",
       route: "/admin/projects",
-      text: "All Projects",
+      text: "Dự Án",
     },
     {
-      img: "/icons/admin/users.svg",
+      img: "/icons/admin/receipt.svg",
       route: "/admin/articles",
-      text: "All Articles",
+      text: "Bài Viết",
     },
     {
-      img: "/icons/admin/user.svg",
+      img: "/icons/admin/calendar.svg",
       route: "/admin/dashboard-categories",
-      text: "Dashboard Categories",
+      text: "Danh Mục Trang Chủ",
     },
     {
-      img: "/icons/admin/user.svg",
+      img: "/icons/admin/calendar.svg",
       route: "/admin/product-categories",
-      text: "Product Categories",
+      text: "Danh Mục Sản Phẩm",
     },
     {
-      img: "/icons/admin/user.svg",
+      img: "/icons/admin/calendar.svg",
       route: "/admin/project-categories",
-      text: "Project Categories",
+      text: "Danh Mục Dự Án",
     },
     {
-      img: "/icons/admin/user.svg",
+      img: "/icons/admin/calendar.svg",
       route: "/admin/footer-categories",
-      text: "Footer Categories",
+      text: "Danh Mục Cuối Trang",
     },
     {
       img: "/icons/admin/user.svg",
       route: "/admin/permissions",
-      text: "Permissions",
+      text: "Quyền Hạn",
     },
   ];
   
