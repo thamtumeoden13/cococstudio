@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import UserStartup, { StartupCardSkeleton } from "@/components/UserStartup";
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;

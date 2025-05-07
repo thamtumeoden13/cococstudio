@@ -15,9 +15,9 @@ const nextConfig: NextConfig = {
       hostname: "*"
     }]
   },
-  experimental: {
-    ppr: "incremental",
-  },
+  // experimental: {
+  //   ppr: "incremental",
+  // },
   devIndicators: {
     appIsrStatus: true,
     buildActivity: true,

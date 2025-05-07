@@ -14,7 +14,7 @@ import { CloudinaryImage } from "@/components/shared/CloudinaryImage";
 
 const md = markdownit();
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 
 const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const slug = (await params).slug;

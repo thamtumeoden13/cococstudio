@@ -3,7 +3,7 @@ import { signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 
 const AuthPage = async () => {
   return (

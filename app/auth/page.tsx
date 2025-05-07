@@ -8,7 +8,7 @@ import { AUTHOR_BY_ID_QUERY } from '@/sanity/lib/queries';
 import { TabManagement } from '@/components/TabManagement';
 import Image from 'next/image';
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 
 const AuthPage = async () => {
   const session = await auth();
