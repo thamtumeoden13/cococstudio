@@ -32,7 +32,7 @@ async function fetchPosts() {
   })) || [];
 
   const sitemapProjectDetails = searchForProjectDetails?.map((post: PostType) => ({
-    loc: `${baseUrl}/chi-tiet-du-an/${post.slug?.current}`,
+    loc: `${baseUrl}/bai-viet/${post.slug?.current}`,
     lastmod: new Date(post._updatedAt).toISOString(),
   })) || [];
 
@@ -46,7 +46,7 @@ export async function GET() {
     { loc: `${baseUrl}/`, lastmod: new Date().toISOString() },
     { loc: `${baseUrl}/san-pham`, lastmod: new Date().toISOString() },
     { loc: `${baseUrl}/du-an`, lastmod: new Date().toISOString() },
-    { loc: `${baseUrl}/chi-tiet-du-an`, lastmod: new Date().toISOString() },
+    { loc: `${baseUrl}/bai-viet`, lastmod: new Date().toISOString() },
     { loc: `${baseUrl}/thong-tin`, lastmod: new Date().toISOString() },
   ];
 

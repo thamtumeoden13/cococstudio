@@ -72,7 +72,7 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
         });
       }
 
-      // router.push(`/chi-tiet-du-an/${selected?.slug?.current}`)
+      // router.push(`/bai-viet/${selected?.slug?.current}`)
       router.push(`/admin/articles`);
       return response;
     } catch (error) {

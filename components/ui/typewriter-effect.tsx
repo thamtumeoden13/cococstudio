@@ -143,21 +143,21 @@ export const TypewriterEffectSmooth = ({
   return (
     <div className={cn("flex space-x-1 my-6 items-center", className)}>
       <motion.div
-        className="overflow-hidden py-2"
-        initial={{
-          width: "0%",
-        }}
-        whileInView={{
-          width: "fit-content",
-        }}
-        transition={{
-          duration: 2,
-          ease: "linear",
-          delay: 1,
-        }}
+        className="py-2 overflow-hidden"
+        // initial={{
+        //   width: "0%",
+        // }}
+        // whileInView={{
+        //   width: "fit-content",
+        // }}
+        // transition={{
+        //   duration: 2,
+        //   ease: "linear",
+        //   delay: 1,
+        // }}
       >
         <div
-          className="text-3xl lg:text-5xl font-bold"
+          className="text-3xl font-bold lg:text-5xl"
           style={{
             whiteSpace: "nowrap",
           }}
@@ -165,7 +165,7 @@ export const TypewriterEffectSmooth = ({
           {renderWords()}{" "}
         </div>{" "}
       </motion.div>
-      <motion.span
+      {/* <motion.span
         initial={{
           opacity: 0,
         }}
@@ -182,7 +182,7 @@ export const TypewriterEffectSmooth = ({
           "block rounded-sm w-[4px]  h-8 lg:h-12 xl:h-16 bg-blue-500",
           cursorClassName
         )}
-      ></motion.span>
+      ></motion.span> */}
     </div>
   );
 };
@@ -195,13 +195,13 @@ export const TitleComponent = ({
   title: string;
   avatar: string;
 }) => (
-  <div className="flex space-x-2 items-center">
+  <div className="flex items-center space-x-2">
     <Image
       src={avatar}
       height="20"
       width="20"
       alt="thumbnail"
-      className="rounded-full border-2 border-white"
+      className="border-2 border-white rounded-full"
     />
     <p>{title}</p>
   </div>

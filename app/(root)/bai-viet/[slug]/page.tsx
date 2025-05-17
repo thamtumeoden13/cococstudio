@@ -36,9 +36,9 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <>
-      <MarkupSchema path={`chi-tiet-du-an/${slug}`} post={post} />
+      <MarkupSchema path={`bai-viet/${slug}`} post={post} />
 
-      <section className={"pink_container !min-h-[320px] !mt-18 md:mt-24 "}>
+      <section className={"pink_container !min-h-[320px] !mt-16"}>
         <p className={"tag"}>{formatDate(post?._createdAt)}</p>
 
         <h1 className={"heading"}>{post.title}</h1>
@@ -74,14 +74,14 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
         <hr className={"divider !max-w-full"} />
 
-        {detailsByProjectId &&
+        {/* {detailsByProjectId &&
           <section className={"section_container !py-0 "}>
             <h4 className="heading-half w-full md:w-[32rem] text-left">
               <span className="">{"Bài Viết Liên Quan"}</span>
             </h4>
             <CarouselPlugin data={detailsByProjectId} className="py-10 max-w-7xl" />
           </section>
-        }
+        } */}
 
         <Suspense fallback={<Skeleton className={"view_skeleton"} />}>
           <View query={PROJECT_DETAIL_VIEWS_QUERY} id={post._id} />
@@ -108,7 +108,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: `${data.title} - Cốc Cốc Studio`,
       description: `${data.description}`,
-      url: `http://cococstudio.com/chi-tiet-du-an/${slug}`,
+      url: `http://cococstudio.com/bai-viet/${slug}`,
       images: [
         {
           url: data.thumbnail,

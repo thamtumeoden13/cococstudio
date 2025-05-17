@@ -26,20 +26,21 @@ interface CarouselProps {
   initialScroll?: number;
 }
 
-export type AppleCardType = Omit<Project, "author" | "construction">
-  & { author?: Author }
-  & { construction?: Construction }
-  & { content?: React.ReactNode }
-  & { path?: string }
-
+export type AppleCardType = Omit<ProjectDetail, "author" | "project"> & {
+  author?: Author;
+} & { project?: Project } & { content?: React.ReactNode } & { path?: string };
 
 export const CarouselContext = createContext<{
   onCardClose: (index: number) => void;
   currentIndex: number;
 }>({
-  onCardClose: () => { },
+  onCardClose: () => {},
   currentIndex: 0,
 });
+
+const isMobile = () => {
+  return window && window.innerWidth < 768;
+};
 
 export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
   const carouselRef = React.useRef<HTMLDivElement>(null);
@@ -64,13 +65,13 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
 
   const scrollLeft = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -300, behavior: "smooth" });
+      carouselRef.current.scrollBy({ left: -400, behavior: "smooth" });
     }
   };
 
   const scrollRight = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 300, behavior: "smooth" });
+      carouselRef.current.scrollBy({ left: 400, behavior: "smooth" });
     }
   };
 
@@ -87,17 +88,13 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
     }
   };
 
-  const isMobile = () => {
-    return window && window.innerWidth < 768;
-  };
-
   return (
     <CarouselContext.Provider
       value={{ onCardClose: handleCardClose, currentIndex }}
     >
       <div className="relative w-full">
         <div
-          className="flex w-full overflow-x-scroll overscroll-x-auto py-10 scroll-smooth [scrollbar-width:none]"
+          className="flex w-full overflow-x-scroll overscroll-x-auto py-8 scroll-smooth [scrollbar-width:none]"
           ref={carouselRef}
           onScroll={checkScrollability}
         >
@@ -105,52 +102,34 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
             className={cn(
               "absolute right-0  z-[1000] h-auto  w-[5%] overflow-hidden bg-gradient-to-l"
             )}
-          ></div>
+          />
 
           <div
             className={cn(
-              "flex flex-row justify-start gap-4 pl-4",
-              "max-w-7xl mx-auto" // remove max-w-4xl if you want the carousel to span the full width of its container
+              "flex flex-row justify-start gap-4 mx-auto max-w-full md:max-w-[96rem] "
             )}
           >
             {items.map((item, index) => (
-              <motion.div
-                // initial={{
-                //   opacity: 0,
-                //   y: 20,
-                // }}
-                // animate={{
-                //   opacity: 1,
-                //   y: 0,
-                //   transition: {
-                //     duration: 0.5,
-                //     delay: 0.2 * index,
-                //     ease: "easeOut",
-                //     once: true,
-                //   },
-                // }}
-                key={"card" + index}
-                className="last:pr-[5%] rounded-3xl"
-              >
+              <motion.div key={"card" + index} className="rounded-xl">
                 {item}
               </motion.div>
             ))}
           </div>
         </div>
-        <div className="flex justify-end gap-2 mr-10">
+        <div className="justify-end hidden gap-2 mb-4 mr-10 lg:flex">
           <button
-            className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className="relative z-40 flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full disabled:opacity-50"
             onClick={scrollLeft}
             disabled={!canScrollLeft}
           >
-            <IconArrowNarrowLeft className="h-6 w-6 text-gray-500" />
+            <IconArrowNarrowLeft className="w-6 h-6 text-gray-500" />
           </button>
           <button
-            className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className="relative z-40 flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full disabled:opacity-50"
             onClick={scrollRight}
             disabled={!canScrollRight}
           >
-            <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
+            <IconArrowNarrowRight className="w-6 h-6 text-gray-500" />
           </button>
         </div>
       </div>
@@ -200,37 +179,52 @@ export const AppleCard = ({
     if (card.content) {
       setOpen(true);
       setIsLoading(true);
-      getProjectDetails(card)
+      getProjectDetails(card);
     } else if (card.path) {
-      router.push(`/${card.path}/${card.slug!.current}`)
+      router.push(`/${card.path}/${card.slug!.current}`);
     }
   };
 
   const getProjectDetails = async (card: AppleCardType) => {
-    const params = { id: card._id }
-    const searchForProjects = await client.fetch(PROJECT_DETAILS_BY_PROJECT_QUERY, params);
+    const params = { id: card._id };
+    const searchForProjects = await client.fetch(
+      PROJECT_DETAILS_BY_PROJECT_QUERY,
+      params
+    );
 
     console.log(searchForProjects);
 
-    let testimonials_2: Testimonial[] = [{
-      name: card.title!,
-      designation: card.subtitle!,
-      quote: card.description!,
-      src: card.thumbnail!,
-    }];
+    let testimonials_2: Testimonial[] = [
+      {
+        name: card.title!,
+        designation: card.subtitle!,
+        quote: card.description!,
+        src: card.thumbnail!,
+        path: card.slug?.current,
+      },
+    ];
 
-    if (searchForProjects?.length) {
-      testimonials_2 = searchForProjects.map((post: ProjectDetail) => ({
-        name: post.title!,
-        designation: post.subtitle!,
-        quote: post.description!,
-        src: post.thumbnail!,
-      }));
-    }
+    // if (searchForProjects?.length) {
+    //   testimonials_2 = searchForProjects.map((post: ProjectDetail) => ({
+    //     name: post.title!,
+    //     designation: post.subtitle!,
+    //     quote: post.description!,
+    //     src: post.thumbnail!,
+    //     path: post.slug?.current,
+    //   }));
+    // }
 
-    const content = <AnimatedTestimonials testimonials={testimonials_2} />
+    const path = `/bai-viet/${card.slug?.current}`;
+
+    const content = (
+      <AnimatedTestimonials
+        testimonials={testimonials_2}
+        path={path}
+        onChange={handleClose}
+      />
+    );
     setCardContent(content);
-  }
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -246,7 +240,7 @@ export const AppleCard = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="bg-black/80 backdrop-blur-lg h-full w-full fixed inset-0"
+              className="fixed inset-0 w-full h-full bg-black/80 backdrop-blur-lg"
             />
             <motion.div
               initial={{ opacity: 0 }}
@@ -254,28 +248,31 @@ export const AppleCard = ({
               exit={{ opacity: 0 }}
               ref={containerRef}
               layoutId={layout ? `card-${card._id}` : undefined}
-              className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit  z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative"
+              className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative"
             >
               <button
-                className="sticky top-4 h-8 w-8 right-0 ml-auto bg-black dark:bg-white rounded-full flex items-center justify-center"
+                className="sticky right-0 flex items-center justify-center w-8 h-8 ml-auto bg-black rounded-full top-4 dark:bg-white"
                 onClick={handleClose}
               >
-                <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" />
+                <IconX className="w-6 h-6 text-neutral-100 dark:text-neutral-900" />
               </button>
               <motion.p
                 layoutId={layout ? `category-${card.title}` : undefined}
-                className="text-base font-medium text-black dark:text-white"
+                className="text-base font-medium text-primary px-[2rem]"
               >
-                {card?.construction?.title}
+                {card?.project?.title}
               </motion.p>
               <motion.p
                 layoutId={layout ? `title-${card.title}` : undefined}
-                className="text-2xl md:text-5xl font-semibold text-neutral-700 mt-4 dark:text-white"
+                className="mt-4 text-2xl font-semibold md:text-3xl text-neutral-700 dark:text-white px-[2rem]"
               >
                 {card.title}
               </motion.p>
-              {card.content && <div className="py-10"><AppleCardContent>{cardContent}</AppleCardContent></div>}
-              {card.pitch && <div className="py-10">{card.pitch}</div>}
+              {card.content && (
+                <AppleCardContent className="p-0">
+                  {cardContent}
+                </AppleCardContent>
+              )}
             </motion.div>
           </div>
         )}
@@ -283,30 +280,27 @@ export const AppleCard = ({
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={() => handleOpen(card)}
-        className={cn("rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[40rem] md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10", className)}
+        className={cn(
+          "rounded-2xl bg-gray-100 dark:bg-neutral-900 h-[28rem] w-[20rem] md:h-[40rem] md:w-[24rem] overflow-hidden flex flex-col items-start justify-start relative z-10",
+          className
+        )}
       >
-        <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
-        <div className="relative z-40 p-8">
-          <motion.p
-            layoutId={layout ? `category-${card.construction?._id}` : undefined}
-            className="text-white text-sm md:text-base font-medium font-sans text-left"
-          >
-            {card.construction?.title}
-          </motion.p>
+        <div className="absolute inset-x-0 top-0 z-30 h-full pointer-events-none bg-gradient-to-b from-black/50 via-transparent to-transparent" />
+        <div className="absolute bottom-0 z-40 p-2 backdrop-blur-sm">
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
-            className="text-white text-xl md:text-3xl font-semibold max-w-xs text-left [text-wrap:balance] font-sans mt-2"
+            className="text-white text-sm md:text-xl font-semibold max-w-xs text-left [text-wrap:balance] font-sans mt-2"
           >
             {card.title}
           </motion.p>
         </div>
         <BlurImage
-          src={card.image!}
+          src={isMobile() ? card.image! : card.thumbnail!}
           alt={card.title!}
           fill
           loading="eager"
           priority={true}
-          className="object-cover absolute z-10 inset-0"
+          className="absolute inset-0 z-10 object-cover"
         />
       </motion.button>
     </>
@@ -320,9 +314,5 @@ export const AppleCardContent = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  return (
-    <div className={cn("p-8", className)}>
-      {children}
-    </div>
-  );
-}
+  return <div className={cn("p-8", className)}>{children}</div>;
+};

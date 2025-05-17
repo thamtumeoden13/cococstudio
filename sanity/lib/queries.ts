@@ -396,3 +396,12 @@ select[]->{
     }, 
   }
 }`);
+
+export const GET_SERVICES =
+  defineQuery(`*[_type == "service" ] | order(_createdAt desc) {
+  _id, 
+  title, 
+  description,
+  image,
+  local_image,
+}`);

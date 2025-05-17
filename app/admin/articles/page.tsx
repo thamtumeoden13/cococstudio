@@ -335,10 +335,10 @@ export default function UsersTable() {
       cell: ({ row }) => {
         const request = row.original;
         return (
-          <Button variant="link" className="px-2 h-auto p-0 text-blue-500">
+          <Button variant="link" className="h-auto p-0 px-2 text-blue-500">
             <Link
               target="_blank"
-              href={`/chi-tiet-du-an/${request?.slug?.current}`}
+              href={`/bai-viet/${request?.slug?.current}`}
             >
               View Article
             </Link>
@@ -412,7 +412,7 @@ export default function UsersTable() {
                 </Button>
               </div>
               <Button
-                className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                className="text-white bg-indigo-600 hover:bg-indigo-700"
                 asChild
               >
                 <Link href="/admin/articles/new">

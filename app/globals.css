@@ -194,7 +194,7 @@
   }
 
   .section_container {
-    @apply px-6 py-10 mx-auto max-w-7xl;
+    @apply px-6 py-10 mx-auto max-w-[96rem];
   }
 
   .card_grid {
@@ -429,7 +429,7 @@
   /* END of Gradients */
   /* START of Common */
   .container {
-    @apply mx-auto max-w-[1252px] px-16 max-xl:px-10 max-lg:px-6 max-sm:px-4;
+    @apply mx-auto max-w-[96rem] px-16 max-xl:px-10 max-lg:px-6 max-sm:px-4;
   }
 
   .caption {
@@ -454,11 +454,11 @@
   }
 
   .nav-li {
-    @apply relative flex items-center justify-between flex-1 max-lg:flex-col max-lg:items-start;
+    @apply relative flex items-center justify-center flex-1 max-lg:flex-col max-lg:items-start;
   }
 
   .nav-logo {
-    @apply relative flex items-center justify-center flex-1;
+    @apply relative flex items-center justify-start flex-1;
   }
 
   .dot {

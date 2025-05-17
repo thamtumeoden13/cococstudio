@@ -1,35 +1,38 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
-import {  socials } from '../constants';
-import styles from '@/styles';
-import { footerVariants } from '@/lib/utils';
-import Image from 'next/image';
-import { Button } from './shared/MovingBorder';
-import { IconDirectionSign } from '@tabler/icons-react';
-import Link from 'next/link';
-import { HoverBorderGradient } from './ui/hover-border-gradient';
+import { socials } from "../constants";
+import styles from "@/styles";
+import { footerVariants } from "@/lib/utils";
+import Image from "next/image";
+import { Button } from "./shared/MovingBorder";
+import { IconDirectionSign } from "@tabler/icons-react";
+import Link from "next/link";
+import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import { useEffect, useState } from "react";
 import { client } from "@/sanity/lib/client";
 import { Author, Construction, Project } from "@/sanity/types";
 import { CATEGORY_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import ContactModal from "./shared/ContactModal";
 
-export type ProjectCardType = Omit<Project, "author" | "construction"> & { author?: Author } & { construction?: Construction };
+export type ProjectCardType = Omit<Project, "author" | "construction"> & {
+  author?: Author;
+} & { construction?: Construction };
 
 const Footer = () => {
-
   const [footerCategory, setFooterCategory] = useState<ProjectCardType[]>([]);
 
   useEffect(() => {
     const getNavProjectRouter = async () => {
-      const { select: footerCategory } = await client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "danh-muc-cuoi-trang" });
-      setFooterCategory(footerCategory)
-    }
+      const { select: footerCategory } = await client.fetch(
+        CATEGORY_BY_SLUG_QUERY,
+        { slug: "danh-muc-cuoi-trang" }
+      );
+      setFooterCategory(footerCategory);
+    };
 
     getNavProjectRouter();
-
   }, []);
 
   return (
@@ -37,7 +40,7 @@ const Footer = () => {
       variants={footerVariants}
       initial="hidden"
       whileInView="show"
-      className={`${styles.paddings} py-8 relative bg-black overflow-hidden`}
+      className={`${styles.paddings} !py-4 relative bg-black overflow-hidden`}
     >
       <div className="footer-gradient" />
       <div
@@ -45,7 +48,7 @@ const Footer = () => {
       >
         <div
           // className="flex flex-wrap items-center justify-between gap-5"
-          className='grid grid-cols-1 gap-5 md:grid-cols-2'
+          className="grid grid-cols-1 gap-5 md:grid-cols-2"
         >
           {/* <h4
 					className="font-bold md:text-[64px] text-[44px] text-white"
@@ -55,10 +58,10 @@ const Footer = () => {
           <div className="flex flex-col">
             <Image
               src={"/logo-cococstudio.png"}
-              alt='Cốc Cốc Studio'
+              alt="Cốc Cốc Studio"
               width={500}
               height={500}
-              className='object-cover w-[200px] h-[200px]'
+              className="object-cover w-[160px] h-[160px]"
             />
             {/* <TextGenerateEffect
               className="font-medium text-left my-1 text-white-100 text-[20px] md:text-md lg:text-lg"
@@ -76,11 +79,11 @@ const Footer = () => {
               idxTranfer={2}
             /> */}
           </div>
-          <div
-            className="flex flex-col items-start gap-5"
-          >
-            <h4 className="w-full font-extrabold text-[24px] text-white">Dự Án</h4>
-            <div className='flex flex-wrap items-center gap-2'>
+          <div className="flex flex-col items-start gap-5">
+            <h4 className="w-full font-extrabold text-[24px] text-white">
+              Dự Án
+            </h4>
+            <div className="flex flex-wrap items-center gap-2">
               {footerCategory.map(({ title, slug }) => (
                 <Button
                   key={title}
@@ -88,9 +91,14 @@ const Footer = () => {
                   borderRadius="1.75rem"
                   className="flex-1 text-white border-slate-800"
                 >
-                  <Link href={`/du-an/${slug?.current}`} className='flex gap-2 p-2'>
+                  <Link
+                    href={`/du-an/${slug?.current}`}
+                    className="flex gap-2 p-2"
+                  >
                     <IconDirectionSign className="w-6 h-6 text-white" />
-                    <span className="font-normal text-[16px] text-white hover:text-purple">{title}</span>
+                    <span className="font-normal text-[16px] text-white hover:text-purple">
+                      {title}
+                    </span>
                   </Link>
                 </Button>
               ))}
@@ -98,15 +106,13 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col">
-          <div className="mb-[50px] h-[2px] bg-white opacity-10" />
-          <div
-            className="flex flex-wrap items-center justify-between gap-4"
-          >
+          <div className="h-[2px] bg-white opacity-10" />
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <ContactModal />
-            <p className="font-normal text-[14px] text-white opacity-50">
+            <p className="md:flex-1 text-center font-normal text-[14px] text-white opacity-50">
               Copyright © 2024 Cococ Studio. All rights reserved.
             </p>
-            <div className="flex gap-4">
+            <div className="flex justify-end flex-1 gap-4 md:gap-8 md:justify-center">
               {socials.map((social, index) => (
                 <HoverBorderGradient
                   key={social.name}
@@ -126,7 +132,7 @@ const Footer = () => {
         </div>
       </div>
     </motion.footer>
-  )
+  );
 };
 
 export default Footer;

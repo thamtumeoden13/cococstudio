@@ -105,6 +105,7 @@ export const formProjectDetailSchema = z.object({
 
 export const formContactSchema = z.object({
   name: z.string().min(3).max(1000),
+  phone: z.string().min(10).max(15),
   email: z.string().email(),
   message: z.string().min(10)
 })

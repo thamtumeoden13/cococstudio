@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { client } from "@/sanity/lib/client";
-import { CATEGORY_BY_SLUG_QUERY, PROJECT_DETAILS_BY_QUERY, PROJECTS_BY_QUERY, } from "@/sanity/lib/queries";
+import { CATEGORY_BY_SLUG_QUERY, GET_SERVICES, PROJECT_DETAILS_BY_QUERY, PROJECTS_BY_QUERY, } from "@/sanity/lib/queries";
 import { auth } from "@/auth";
 import MarkupSchema from "@/components/shared/MarkupSchema";
 import { AppleCardsCarousel } from "@/components/AppleCardsCarousel";
@@ -23,42 +23,42 @@ export default async function Home({ searchParams }: Readonly<{
   console.log(`session -> ${session?.id}`);
 
 
-  const [searchForProjects, searchForProjectDetails, { select: homeHeroPost }] = await Promise.all([
+  const [searchForProjects, searchServices, { select: homeHeroPost }] = await Promise.all([
     client.fetch(PROJECTS_BY_QUERY, params),
-    client.fetch(PROJECT_DETAILS_BY_QUERY, params),
+    client.fetch(GET_SERVICES),
     client.fetch(CATEGORY_BY_SLUG_QUERY, { slug: "danh-muc-trang-chu" })
   ])
 
   return (
-    <BackgroundBeamsWithCollision className="flex flex-col pb-10 bg-white-100">
+    <>
       <MarkupSchema post={{}} path="" />
 
-      <section className="section_container !max-w-full !w-full mt-16 bg-black-200 justify-items-center !overflow-hidden">
+      <section className="section_container !max-w-full !w-full !p-0 mt-16 min-h-[32rem] md:min-h-screen bg-black-200 justify-items-center !overflow-hidden">
         <AppleCardsCarousel data={homeHeroPost} />
       </section>
 
-      <section className={"section_container "}>
+      <section className={"section_container !p-4"}>
         <div className="relative flex flex-col items-center justify-center">
-          <TypewriterEffectSmooth words={words_1} cursorClassName="bg-primary" />
+          <TypewriterEffectSmooth words={words_1} cursorClassName="bg-primary" className="my-0"/>
         </div>
-        <Experience className="px-0" />
+        <Experience className="px-0 mt-0" data={searchServices} />
       </section>
 
-      <section className={"section_container my-16 bg-white border border-neutral-100 rounded-xl"}>
+      <section className={"section_container my-0 !p-0 bg-white border border-neutral-100 rounded-xl"}>
         <div className="flex flex-col items-center justify-center ">
-          <TypewriterEffectSmooth words={words_2} cursorClassName="bg-primary" />
+          <TypewriterEffectSmooth words={words_2} cursorClassName="bg-primary" className="my-0"/>
         </div>
         <div className="z-0 gradient-02" />
-        <ParallaxScroll cards={searchForProjects} path={"du-an"} className="!px-4" />
+        <ParallaxScroll cards={searchForProjects} path={"du-an"} className="!px-0 h-[60rem] min-h-[40rem]" />
       </section>
-      <section className={"section_container bg-white border border-neutral-100 rounded-xl relative"}>
+      {/* <section className={"section_container bg-white border border-neutral-100 rounded-xl relative"}>
         <div className="flex flex-col items-center justify-center ">
           <TypewriterEffectSmooth words={words_3} cursorClassName="bg-primary" />
         </div>
-        <FocusCards cards={searchForProjectDetails} path="/chi-tiet-du-an" className="!px-14" />
-      </section>
+        <FocusCards cards={searchForProjectDetails} path="/bai-viet" className="!px-14" />
+      </section> */}
 
-    </BackgroundBeamsWithCollision>
+    </>
   );
 }
 
