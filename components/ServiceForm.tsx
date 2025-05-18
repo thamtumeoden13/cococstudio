@@ -5,26 +5,42 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
-import { formProjectSchema } from "@/lib/validation";
+import { formServiceSchema } from "@/lib/validation";
 import z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { createProject, updateProject } from "@/lib/actions";
+import { createService, updateService } from "@/lib/actions";
 import { Combobox, ComboboxDataType } from "./shared/ComboBox";
-import { clientNoCache } from "@/sanity/lib/client";
-import { CONSTRUCTIONS_BY_QUERY } from "@/sanity/lib/queries";
-import { Author, Construction, Project } from "@/sanity/types";
-import MDEditorComponent from "./shared/MDEditor";
+import { Author, Service } from "@/sanity/types";
 import { CloudinaryImage } from "./shared/CloudinaryImage";
+import Image from "next/image";
 
-type FormDataType = Omit<Project, "author" | "construction">;
-type ProjectFormType = Omit<Project, "author" | "construction"> & {
+type FormDataType = Omit<Service, "author">;
+type ServiceFormType = Omit<Service, "author"> & {
   author?: Author;
-} & { construction?: Construction };
+};
 
-const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
+const local_images: ComboboxDataType[] = [
+  {
+    _id: "1",
+    title: "/exp1.svg",
+  },
+  {
+    _id: "2",
+    title: "/exp2.svg",
+  },
+  {
+    _id: "3",
+    title: "/exp3.svg",
+  },
+  {
+    _id: "4",
+    title: "/exp4.svg",
+  },
+];
+
+const ServiceForm = ({ post }: { post?: ServiceFormType }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [pitch, setPitch] = useState<string>("");
   const [formData, setFormData] = useState<FormDataType | null>(null);
   const [selected, setSelected] = useState<ComboboxDataType | null>(null);
   const [initValue, setInitValue] = useState<string>("");
@@ -37,32 +53,28 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
     formDataSubmit: FormData
   ) => {
     try {
-      const constructionId = selected?._id ?? initValue;
+      const local_image = selected?.title ?? local_images[0].title;
 
       const formValues = {
         title: formDataSubmit.get("title") as string,
-        subtitle: formDataSubmit.get("subtitle") as string,
         description: formDataSubmit.get("description") as string,
-        thumbnail: formDataSubmit.get("thumbnail") as string,
         image: formDataSubmit.get("image") as string,
-        constructionId,
-        pitch,
+        local_image,
       };
 
       console.log("handleFormSubmit", formValues);
-      await formProjectSchema.parseAsync(formValues);
+      await formServiceSchema.parseAsync(formValues);
 
       console.log(formValues);
 
       const response = post
-        ? await updateProject(
+        ? await updateService(
             prevState,
             formDataSubmit,
-            pitch,
-            constructionId,
-            formData!._id!
+            formData!._id!,
+            local_image,
           )
-        : await createProject(prevState, formDataSubmit, pitch, constructionId);
+        : await createService(prevState, formDataSubmit, local_image);
 
       if (response.status === "SUCCESS") {
         toast({
@@ -72,7 +84,7 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
       }
 
       // router.push(`/du-an/${selected?.slug?.current}`)
-      router.push(`/admin/du-an`);
+      router.push(`/admin/dich-vu`);
 
       return response;
     } catch (error) {
@@ -119,46 +131,27 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
   };
 
   useEffect(() => {
-    const getConstructions = async () => {
-      const result = await clientNoCache.fetch(CONSTRUCTIONS_BY_QUERY, {
-        search: null,
-      });
-
-      setConstructions(result || []);
-    };
-
-    getConstructions();
+    setConstructions(local_images);
   }, []);
 
   useEffect(() => {
     if (post) {
-      const {
-        _id,
-        title,
-        subtitle,
-        description,
-        thumbnail,
-        image,
-        pitch,
-        construction,
-      } = post;
+      const { _id, title, description, local_image, image } = post;
 
       setFormData({
         ...formData!,
         _id,
         title,
-        subtitle,
         description,
-        thumbnail,
+        local_image,
         image,
       });
 
-      if (pitch) {
-        setPitch(pitch);
-      }
-
-      if (construction) {
-        setInitValue(construction._id);
+      if (local_image) {
+        const current_local_image = local_images.find(
+          (e) => e.title == local_image
+        );
+        setInitValue(current_local_image?._id || local_images[0]._id);
       }
     }
   }, [post]);
@@ -177,111 +170,13 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
             onChange={handleChangeForm}
             className={"startup-form_input"}
             required
-            placeholder={"Project Title"}
+            placeholder={"Nhập tiêu đề"}
           />
           {errors.title && (
             <p className={"startup-form_error"}>{errors.title}</p>
           )}
         </div>
-        <div>
-          <label htmlFor="subtitle" className={"startup-form_label"}>
-            {"Phụ Đề"}
-          </label>
-          <Input
-            id={"subtitle"}
-            name={"subtitle"}
-            value={formData?.subtitle}
-            className={"startup-form_input"}
-            required
-            placeholder={"Project Subtitle"}
-            onChange={handleChangeForm}
-          />
-          {errors.subtitle && (
-            <p className={"startup-form_error"}>{errors.subtitle}</p>
-          )}
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div>
-          <label htmlFor="thumbnail" className={"startup-form_label"}>
-            {"Ảnh Đại Diện(tỉ lệ 3:4)"}
-          </label>
-          <div>
-            <Input
-              id={"thumbnail"}
-              name={"thumbnail"}
-              value={formData?.thumbnail}
-              className={"startup-form_input"}
-              required
-              placeholder={"Project Ảnh Bìa"}
-              onChange={handleChangeForm}
-            />
 
-            {formData?.thumbnail && (
-              <div className="w-[280px] h-[200px] overflow-hidden mt-2 p-2 border border-black-100">
-                <CloudinaryImage
-                  src={formData.thumbnail}
-                  alt={""}
-                  width={280}
-                  height={200}
-                  className="object-cover w-full rounded-lg"
-                />
-              </div>
-            )}
-          </div>
-          {errors.thumbnail && (
-            <p className={"startup-form_error"}>{errors.thumbnail}</p>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="image" className={"startup-form_label"}>
-            {"Hình Ảnh(tỉ lệ 6:9)"}
-          </label>
-          <div>
-            <Input
-              id={"image"}
-              name={"image"}
-              value={formData?.image}
-              className={"startup-form_input"}
-              required
-              placeholder={"Project Image URL"}
-              onChange={handleChangeForm}
-            />
-            {formData?.image && (
-              <div className="w-[116px] h-[200px] overflow-hidden mt-2 p-2 border border-black-100">
-                <CloudinaryImage
-                  src={formData.image}
-                  alt={""}
-                  width={200}
-                  height={200}
-                  className="object-cover w-full rounded-lg"
-                />
-              </div>
-            )}
-          </div>
-          {errors.image && (
-            <p className={"startup-form_error"}>{errors.image}</p>
-          )}
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div>
-          <label htmlFor="image" className={"startup-form_label"}>
-            {"Sản Phẩm"}
-          </label>
-          <Combobox
-            data={constructions}
-            initValue={initValue}
-            className={"startup-form_input justify-between"}
-            onChange={(value: ComboboxDataType) => {
-              setSelected(value);
-            }}
-          />
-          {errors.image && (
-            <p className={"startup-form_error"}>{errors.image}</p>
-          )}
-        </div>
         <div>
           <label htmlFor="description" className={"startup-form_label"}>
             {"Mô Tả"}
@@ -300,16 +195,69 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
           )}
         </div>
       </div>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div>
+          <label htmlFor="local_image" className={"startup-form_label"}>
+            {"Ảnh Nội Bộ"}
+          </label>
+          <div>
+            <Combobox
+              data={constructions}
+              initValue={initValue}
+              className={"startup-form_input justify-between"}
+              onChange={(value: ComboboxDataType) => {
+                setSelected(value);
+              }}
+            />
 
-      <div data-color-mode={"light"}>
-        <label htmlFor="pitch" className={"startup-form_label"}>
-          {"Bài Viết"}
-        </label>
-        <MDEditorComponent
-          value={pitch}
-          onChange={(value) => setPitch(value as string)}
-        />
+            {selected?.title && (
+              <div className="w-[200px] h-[200px] overflow-hidden mt-2 p-2 border border-black-100">
+                <Image
+                  src={selected.title}
+                  alt={"Ảnh Nội Bộ"}
+                  width={128} // Adjust width as needed
+                  height={128} // Adjust height as needed
+                  className="object-cover w-full rounded-lg"
+                />
+              </div>
+            )}
+          </div>
+          {errors.local_image && (
+            <p className={"startup-form_error"}>{errors.local_image}</p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="image" className={"startup-form_label"}>
+            {"Ảnh Cloudinary"}
+          </label>
+          <div>
+            <Input
+              id={"image"}
+              name={"image"}
+              value={formData?.image}
+              className={"startup-form_input"}
+              placeholder={"Đường dẫn ảnh từ Cloudinary"}
+              onChange={handleChangeForm}
+            />
+            {formData?.image && (
+              <div className="w-[200px] h-[200px] overflow-hidden mt-2 p-2 border border-black-100">
+                <CloudinaryImage
+                  src={formData.image}
+                  alt={""}
+                  width={200}
+                  height={200}
+                  className="object-cover w-full rounded-lg"
+                />
+              </div>
+            )}
+          </div>
+          {errors.image && (
+            <p className={"startup-form_error"}>{errors.image}</p>
+          )}
+        </div>
       </div>
+
       <Button
         type={"submit"}
         className={"startup-form_btn text-white"}
@@ -321,4 +269,4 @@ const ProjectForm = ({ post }: { post?: ProjectFormType }) => {
     </form>
   );
 };
-export default ProjectForm;
+export default ServiceForm;

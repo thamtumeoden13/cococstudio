@@ -13,22 +13,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  Check,
-  EditIcon,
-  ExternalLink,
-  Trash2,
-} from "lucide-react";
+import { ArrowUpDown, EditIcon, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -38,21 +25,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
-import { Author, Project, ProjectDetail } from "@/sanity/types";
-import {
-  ApproveAccountDialog,
-  DenyAccountDialog,
-} from "@/components/ui/confirmation-dialogs";
+import { Author, Service } from "@/sanity/types";
+import { DenyAccountDialog } from "@/components/ui/confirmation-dialogs";
 import { clientNoCache } from "@/sanity/lib/client";
-import { PROJECT_DETAILS_BY_QUERY } from "@/sanity/lib/queries";
+import { GET_SERVICES } from "@/sanity/lib/queries";
 import Link from "next/link";
-import { deleteById, publishedProjectDetail } from "@/lib/actions";
+import { deleteById } from "@/lib/actions";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
-type Article = Omit<ProjectDetail, "author" | "project"> & {
+type ServiceProps = Omit<Service, "author"> & {
   author?: Author;
-} & { project?: Project } & { published?: "pending" | "approved" | "rejected" };
+};
 
 export default function UsersTable() {
   const router = useRouter();
@@ -62,94 +46,15 @@ export default function UsersTable() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const [requests, setRequests] = useState<Article[]>([]);
+  const [requests, setRequests] = useState<ServiceProps[]>([]);
 
-  const [denyDialogOpen, setDenyDialogOpen] = useState(false);
-  const [approveDialogOpen, setApproveDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState<string | null>(
     null
   );
-  const handlePublishedChange = (
-    request: Article,
-    newStatus: "approved" | "pending" | "rejected"
-  ) => {
-    if (newStatus === "approved") {
-      openApproveDialog(request);
-    } else if (newStatus === "rejected") {
-      openDenyDialog(request);
-    }
-  };
-
-  const openDeleteDialog = (request: Article) => {
+  const openDeleteDialog = (request: ServiceProps) => {
     setSelectedRequestId(request._id);
     setDeleteDialogOpen(true);
-  };
-
-  const openApproveDialog = (request: Article) => {
-    setSelectedRequestId(request._id);
-    setApproveDialogOpen(true);
-  };
-
-  const openDenyDialog = (request: Article) => {
-    setSelectedRequestId(request._id);
-    setDenyDialogOpen(true);
-  };
-
-  const handleApproveAccount = async () => {
-    setApproveDialogOpen(false);
-    setSelectedRequestId(null);
-    if (selectedRequestId) {
-      const { error, status } = await publishedProjectDetail(
-        selectedRequestId,
-        "approved"
-      );
-
-      if (status === "ERROR") {
-        toast({
-          title: "Error",
-          description: error,
-          variant: "destructive",
-        });
-        return;
-      }
-
-      toast({
-        title: "Success",
-        description: "Your article has been approved successfully",
-        // variant: "destructive",
-      });
-
-      getArticles();
-    }
-  };
-
-  const handleRejectAccount = async () => {
-    setDenyDialogOpen(false);
-    setSelectedRequestId(null);
-    if (selectedRequestId) {
-      const { error, status } = await publishedProjectDetail(
-        selectedRequestId,
-        "rejected"
-      );
-
-      if (status === "ERROR") {
-        toast({
-          title: "Error",
-          description: error,
-          variant: "destructive",
-        });
-        return;
-      }
-
-      toast({
-        title: "Success",
-        description: "Your article has been rejected successfully",
-        // variant: "destructive",
-      });
-
-      getArticles();
-    }
   };
 
   const handleDeleteRequest = async () => {
@@ -172,39 +77,40 @@ export default function UsersTable() {
         description: "Your item has been deleted successfully",
       });
 
-      getArticles();
+      getProjects();
     }
   };
 
-  const handleEdit = async (request: Article) => {
+  const handleEdit = async (request: ServiceProps) => {
     console.log("TableComponent -> path", request);
-    router.push(`/admin/articles/${request.slug?.current}`);
+    router.push(`/admin/dich-vu/${request.slug?.current}`);
   };
 
-  const getArticles = async () => {
-    const params = { search: null };
-    const searchForProjects = await clientNoCache.fetch(
-      PROJECT_DETAILS_BY_QUERY,
-      params
-    );
+  const getProjects = async () => {
+    const searchForProjects = await clientNoCache.fetch(GET_SERVICES);
     setRequests(searchForProjects);
-    console.log("getArticles -> searchForProjects", searchForProjects[0]);
   };
 
   useEffect(() => {
-    getArticles();
+    getProjects();
   }, []);
 
-  const columns: ColumnDef<Article>[] = [
+  const columns: ColumnDef<ServiceProps>[] = [
     {
       accessorKey: "title",
-      header: "Title",
+      header: "Tiêu Đề",
       cell: ({ row }) => {
         const request = row.original;
         return (
           <div className="flex items-center gap-3 max-w-80">
             <Image
-              src={request.thumbnail || "/gsap.svg"}
+              src={
+                request.image
+                  ? request.image
+                  : request.local_image
+                    ? request.local_image
+                    : "/gsap.svg"
+              }
               alt={request.title!}
               width={45}
               height={60}
@@ -213,7 +119,7 @@ export default function UsersTable() {
             <div className="flex flex-col">
               <span className="font-medium line-clamp-1">{request.title}</span>
               <span className="text-sm text-muted-foreground line-clamp-1">
-                {request.subtitle}
+                {request.title}
               </span>
             </div>
           </div>
@@ -221,14 +127,20 @@ export default function UsersTable() {
       },
     },
     {
-      accessorKey: "thumnail",
-      header: "Thumbnail",
+      accessorKey: "image",
+      header: "Ảnh Đại Diện",
       cell: ({ row }) => {
         const request = row.original;
         return (
           <div className="flex items-center gap-3">
             <Image
-              src={request.thumbnail || "/gsap.svg"}
+              src={
+                request.image
+                  ? request.image
+                  : request.local_image
+                    ? request.local_image
+                    : "/gsap.svg"
+              }
               alt={request.title!}
               width={100}
               height={100}
@@ -239,75 +151,8 @@ export default function UsersTable() {
       },
     },
     {
-      accessorKey: "published",
-      header: "Published",
-      cell: ({ row }) => {
-        const request = row.original;
-        const roleColor =
-          request.published === "approved"
-            ? "text-green-500"
-            : request.published === "rejected"
-              ? "text-pink-500"
-              : "text-gray-500";
-
-        return (
-          <div className="w-20">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={`px-4 py-1 h-auto font-medium ${roleColor}`}
-                >
-                  {request.published}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start">
-                <DropdownMenuRadioGroup
-                  value={request.published}
-                  onValueChange={(value: string) =>
-                    handlePublishedChange(
-                      request,
-                      value as "approved" | "pending" | "rejected"
-                    )
-                  }
-                >
-                  <DropdownMenuRadioItem
-                    value="pending"
-                    className="text-gray-500"
-                  >
-                    Pending
-                    {request.published === "pending" && (
-                      <Check className="w-4 h-4 ml-auto" />
-                    )}
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem
-                    value="approved"
-                    className="text-green-500"
-                  >
-                    Approved
-                    {request.published === "approved" && (
-                      <Check className="w-4 h-4 ml-auto" />
-                    )}
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem
-                    value="rejected"
-                    className="text-red-500"
-                  >
-                    Rejected
-                    {request.published === "rejected" && (
-                      <Check className="w-4 h-4 ml-auto" />
-                    )}
-                  </DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        );
-      },
-    },
-    {
       accessorKey: "description",
-      header: "Description",
+      header: "Mô Tả",
       cell: ({ row }) => {
         const request = row.original;
         return (
@@ -318,38 +163,8 @@ export default function UsersTable() {
       },
     },
     {
-      accessorKey: "views",
-      header: "Views",
-      cell: ({ row }) => {
-        const request = row.original;
-        return (
-          <div className="flex items-center justify-center gap-3">
-            <span className="font-medium">{request.views}</span>
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "view detail",
-      header: "View Detail",
-      cell: ({ row }) => {
-        const request = row.original;
-        return (
-          <Button variant="link" className="h-auto p-0 px-2 text-blue-500">
-            <Link
-              target="_blank"
-              href={`/bai-viet/${request?.slug?.current}`}
-            >
-              View Article
-            </Link>
-            <ExternalLink className="w-4 h-4 ml-1" />
-          </Button>
-        );
-      },
-    },
-    {
       id: "actions",
-      header: "Action",
+      header: "Hành Động",
       cell: ({ row }) => {
         const request = row.original;
 
@@ -401,7 +216,7 @@ export default function UsersTable() {
       <section className="w-full bg-white rounded-2xl p-7">
         <div className="w-full p-6 bg-white rounded-lg">
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-xl font-semibold">All Articles</h1>
+            <h1 className="text-xl font-semibold">Tất Cả Dịch Vụ</h1>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="sm">
@@ -412,12 +227,12 @@ export default function UsersTable() {
                 </Button>
               </div>
               <Button
-                className="text-white bg-indigo-600 hover:bg-indigo-700"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white"
                 asChild
               >
-                <Link href="/admin/articles/new">
+                <Link href="/admin/dich-vu/new">
                   <span className="flex items-center">
-                    <span className="mr-1">+</span> Create a new Article
+                    <span className="mr-1">+</span> Tạo mới dịch vụ
                   </span>
                 </Link>
               </Button>
@@ -476,17 +291,6 @@ export default function UsersTable() {
       </section>
 
       {/* Dialogs */}
-      <DenyAccountDialog
-        open={denyDialogOpen}
-        onOpenChange={setDenyDialogOpen}
-        onConfirm={handleRejectAccount}
-      />
-
-      <ApproveAccountDialog
-        open={approveDialogOpen}
-        onOpenChange={setApproveDialogOpen}
-        onConfirm={handleApproveAccount}
-      />
 
       <DenyAccountDialog
         open={deleteDialogOpen}

@@ -468,42 +468,47 @@ export const navigationLinks = [
     },
     {
       img: "/icons/admin/book.svg",
-      route: "/admin/products",
+      route: "/admin/san-pham",
       text: "Sản Phẩm",
     },
     {
       img: "/icons/admin/bookmark.svg",
-      route: "/admin/projects",
+      route: "/admin/du-an",
       text: "Dự Án",
     },
     {
+      img: "/icons/admin/calendar.svg",
+      route: "/admin/dich-vu",
+      text: "Dịch Vụ",
+    },
+    {
       img: "/icons/admin/receipt.svg",
-      route: "/admin/articles",
+      route: "/admin/bai-viet",
       text: "Bài Viết",
     },
     {
       img: "/icons/admin/calendar.svg",
-      route: "/admin/dashboard-categories",
+      route: "/admin/danh-muc-trang-chu",
       text: "Danh Mục Trang Chủ",
     },
     {
       img: "/icons/admin/calendar.svg",
-      route: "/admin/product-categories",
+      route: "/admin/danh-muc-san-pham",
       text: "Danh Mục Sản Phẩm",
     },
     {
       img: "/icons/admin/calendar.svg",
-      route: "/admin/project-categories",
+      route: "/admin/danh-muc-du-an",
       text: "Danh Mục Dự Án",
     },
     {
       img: "/icons/admin/calendar.svg",
-      route: "/admin/footer-categories",
+      route: "/admin/danh-muc-cuoi-trang",
       text: "Danh Mục Cuối Trang",
     },
     {
       img: "/icons/admin/user.svg",
-      route: "/admin/permissions",
+      route: "/admin/quyen-han",
       text: "Quyền Hạn",
     },
   ];

@@ -82,7 +82,7 @@ export default function UsersTable() {
 
   const handleEdit = async (request: ConstructionProps) => {
     console.log("TableComponent -> path", request);
-    router.push(`/admin/products/${request.slug?.current}`);
+    router.push(`/admin/san-pham/${request.slug?.current}`);
   };
 
   const getProducts = async () => {
@@ -238,7 +238,7 @@ export default function UsersTable() {
                 className="bg-indigo-600 hover:bg-indigo-700 text-white"
                 asChild
               >
-                <Link href="/admin/products/new">
+                <Link href="/admin/san-pham/new">
                   <span className="flex items-center">
                     <span className="mr-1">+</span> Create a new Product
                   </span>

@@ -57,7 +57,7 @@ const ConstructionForm = ({ post }: { post?: Construction }) => {
         });
       }
 
-      router.push(`/admin/products`);
+      router.push(`/admin/san-pham`);
       return response;
     } catch (error) {
       if (error instanceof z.ZodError) {

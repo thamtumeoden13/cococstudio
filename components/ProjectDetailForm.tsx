@@ -73,7 +73,7 @@ const ProjectDetailForm = ({ post }: { post?: ProjectDetailFormType }) => {
       }
 
       // router.push(`/bai-viet/${selected?.slug?.current}`)
-      router.push(`/admin/articles`);
+      router.push(`/admin/bai-viet`);
       return response;
     } catch (error) {
       console.error("ProjectDetailForm -> handleFormSubmit", error);

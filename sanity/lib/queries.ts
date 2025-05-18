@@ -401,6 +401,22 @@ export const GET_SERVICES =
   defineQuery(`*[_type == "service" ] | order(_createdAt desc) {
   _id, 
   title, 
+  slug,
+  description,
+  image,
+  local_image,
+}`);
+
+
+export const SERVICE_BY_SLUG_QUERY =
+  defineQuery(`*[_type == "service" && slug.current == $slug][0]{
+  _id, 
+  title,
+  slug,
+  _createdAt,
+  author->{
+    _id, name, username, image, bio
+  },
   description,
   image,
   local_image,

@@ -11,6 +11,7 @@ import {
   PROJECT_BY_SLUG_QUERY,
   PROJECT_DETAIL_BY_ID_QUERY,
   PROJECT_DETAIL_BY_SLUG_QUERY,
+  SERVICE_BY_SLUG_QUERY,
 } from "@/sanity/lib/queries";
 import { v4 as uuidv4 } from "uuid";
 import { Author } from "@/sanity/types";
@@ -670,6 +671,140 @@ export const publishedProjectDetail = async (
       status: "SUCCESS",
     });
   } catch (error) {
+    return parseServerActionResponse({
+      error: JSON.stringify(error),
+      status: "ERROR",
+    });
+  }
+};
+
+
+export const createService = async (
+  state: Record<string, unknown>,
+  form: FormData,
+  local_image?: string,
+): Promise<ReturnType<typeof parseServerActionResponse>> => {
+  const session = await auth();
+
+  if (!session)
+    return parseServerActionResponse({
+      error: "Not signed in",
+      status: "ERROR",
+    });
+
+  const { title, description, image } = Object.fromEntries(
+    Array.from(form).filter(([key]) => key !== "pitch")
+  );
+
+  const baseSlug = slugify(title as string, { lower: true, strict: true });
+  let uniqueSlug = baseSlug;
+
+  const resultQuery = await clientNoCache.fetch(SERVICE_BY_SLUG_QUERY, {
+    slug: baseSlug,
+  });
+
+  console.log(resultQuery);
+
+  if (resultQuery?.data) {
+    uniqueSlug = `${baseSlug}-${resultQuery.data.length}`;
+  }
+
+  try {
+    const serviceData = {
+      title,
+      description,
+      local_image,
+      image,
+      slug: {
+        _type: uniqueSlug,
+        current: uniqueSlug,
+      },
+      author: {
+        _type: "reference",
+        _ref: session?.id,
+      },
+    };
+
+    const result = await writeClient.create({
+      _type: "service",
+      ...serviceData,
+    });
+
+    return parseServerActionResponse({
+      result,
+      error: "",
+      status: "SUCCESS",
+    });
+  } catch (error) {
+    console.log(error);
+
+    return parseServerActionResponse({
+      error: JSON.stringify(error),
+      status: "ERROR",
+    });
+  }
+};
+
+export const updateService = async (
+  state: Record<string, unknown>,
+  form: FormData,
+  _id: string,
+  local_image?: string,
+): Promise<ReturnType<typeof parseServerActionResponse>> => {
+  const session = await auth();
+
+  if (!session)
+    return parseServerActionResponse({
+      error: "Not signed in",
+      status: "ERROR",
+    });
+
+  const { title, description, image } = Object.fromEntries(
+    Array.from(form).filter(([key]) => key !== "pitch")
+  );
+
+  const baseSlug = slugify(title as string, { lower: true, strict: true });
+  let uniqueSlug = baseSlug;
+
+  const resultQuery = await clientNoCache.fetch(SERVICE_BY_SLUG_QUERY, {
+    slug: baseSlug,
+  });
+
+  console.log(resultQuery);
+
+  if (resultQuery?.data) {
+    uniqueSlug = `${baseSlug}-${resultQuery.data.length}`;
+  }
+
+  try {
+    const serviceData = {
+      title,
+      description,
+      local_image,
+      image,
+      slug: {
+        _type: uniqueSlug,
+        current: uniqueSlug,
+      },
+      author: {
+        _type: "reference",
+        _ref: session?.id,
+      },
+    };
+
+    const result = await writeClient
+      .patch(_id)
+      .set({ ...serviceData })
+      .commit();
+
+    return parseServerActionResponse({
+      result,
+      error: "",
+      status: "SUCCESS",
+    });
+  } catch (error) {
+    console.log(error);
+
     return parseServerActionResponse({
       error: JSON.stringify(error),
       status: "ERROR",
